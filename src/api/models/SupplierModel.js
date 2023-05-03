@@ -27,6 +27,24 @@ module.exports = {
             })
 
         })
-    }
+    },
 
+    allSupplier: () => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL usp_get_all_supplier();',
+                    (error, results) => {
+
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        return resolve(results[0])
+                    }
+                )
+            })
+
+        })
+    }
 }

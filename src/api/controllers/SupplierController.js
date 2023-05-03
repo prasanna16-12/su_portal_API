@@ -11,16 +11,25 @@ module.exports = {
                 message: 'Success'
             })
         } catch (error) {
-            return res.status(500).res.status(200).json({
+            return res.status(500).json({
                 supplier_ID: -1,
                 message: error.message
             })
         }
     },
-    newOTP: (req, res) => {
-        return res.status(200).json({
-            newOTP: 0000,
-            message: 'Success'
-        })
+    allSupplier: async (req, res) => {
+        try {
+            const supplierList = await Supplier.allSupplier()
+            console.log(supplierList)
+            return res.status(200).json({
+                Data: supplierList,
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                supplier_ID: -1,
+                message: error.message
+            })
+        }
     }
 }

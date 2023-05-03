@@ -6,7 +6,7 @@ const validateSupplierBasicData = require('../middlewares/Validation')
 
 SupplierRouter
     .post('/', validateSupplierBasicData, SupplierController.addSupplier)
-    .get('/getNewOTP', SupplierController.newOTP)
+    .get('/AllSupplier', SupplierController.allSupplier)
 
 
 module.exports = SupplierRouter
