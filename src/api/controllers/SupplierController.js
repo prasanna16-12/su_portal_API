@@ -1,11 +1,11 @@
 
-const Supplier = require('../models/SupplierModel')
+const SupplierModel = require('../models/SupplierModel')
 
 module.exports = {
 
     addSupplier: async (req, res) => {
         try {
-            const ID = await Supplier.addSupplier(req.body)
+            const ID = await SupplierModel.addSupplier(req.body)
             return res.status(200).json({
                 supplier_ID: ID,
                 message: 'Success'
@@ -19,17 +19,53 @@ module.exports = {
     },
     allSupplier: async (req, res) => {
         try {
-            const supplierList = await Supplier.allSupplier()
+            const supplierList = await SupplierModel.allSupplier()
             console.log(supplierList)
             return res.status(200).json({
-                Data: supplierList,
+                supplier_data: supplierList,
                 message: 'Success'
             })
         } catch (error) {
             return res.status(500).json({
-                supplier_ID: -1,
+                supplier_data: -1,
+                message: error.message
+            })
+        }
+    },
+
+    authenticateSupplier: async (req, res) => {
+        try {
+            const authStatus = await SupplierModel.authenticateSupplier(req.body)
+            console.log(authStatus)
+            return res.status(200).json({
+                authentication: authStatus,
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                authentication: 0,
+                message: error.message
+            })
+        }
+    },
+
+    newOTP: async (req, res) => {
+        try {
+            const OTP = await SupplierModel.newOTP(req.body)
+            console.log(OTP)
+            return res.status(200).json({
+                OTP: {
+                    otp_value: OTP
+                },
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                OTP: -1,
                 message: error.message
             })
         }
     }
+
+
 }
