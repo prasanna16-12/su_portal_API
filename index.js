@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000
 app.use(bodyParser.json());
 
 //routes
-const SupplierRoutes = require('./api/routes/Supplier')
+const SupplierRoutes = require('./src/api/routes/Supplier')
 
 //supplier
 app.use('/supplier', SupplierRoutes)
