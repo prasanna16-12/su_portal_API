@@ -16,5 +16,11 @@ module.exports = {
                 message: error.message
             })
         }
+    },
+    newOTP: (req, res) => {
+        return res.status(200).json({
+            newOTP: 0000,
+            message: 'Success'
+        })
     }
 }
