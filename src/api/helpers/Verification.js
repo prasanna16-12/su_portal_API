@@ -1,4 +1,4 @@
-const NodeMailerConfig = require('c:/Users/prasa/Desktop/SU_PORTAL/SERVER/src/config/nodemailerConfig')
+const NodeMailerConfig = require('../../config/NodeMailerConfig')
 const client = require('twilio')(process.env.Account_SID, process.env.Auth_Token);
 const nodemailer = require('nodemailer')
 
