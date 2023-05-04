@@ -4,7 +4,7 @@ const SupplierController = require('../controllers/SupplierController')
 const validateSupplierBasicData = require('../middlewares/validation/SupplierBasicDataValidation')
 const optDataValidation = require('../middlewares/validation/NewOTPValidation')
 const authValidation = require('../middlewares/validation/SupplierAuthValidation')
-
+const supplierCompDetailValidation = require('../middlewares/validation/SupplierCompDetailsValidation')
 
 
 SupplierRouter
@@ -12,6 +12,7 @@ SupplierRouter
     .get('/AllSupplier', SupplierController.allSupplier)
     .get('/NewOTP', optDataValidation, SupplierController.newOTP)
     .get('/AuthenticateSupplier', authValidation, SupplierController.authenticateSupplier)
+    .post('/AddSupplierDetails', supplierCompDetailValidation, SupplierController.addSupplierCompDetails)
 
 
 module.exports = SupplierRouter
