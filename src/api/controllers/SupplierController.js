@@ -51,17 +51,12 @@ module.exports = {
 
     newOTP: async (req, res) => {
         try {
-            const OTP = await SupplierModel.newOTP(req.body)
-            console.log(OTP)
+            const status = await SupplierModel.newOTP(req.body)
             return res.status(200).json({
-                OTP: {
-                    otp_value: OTP
-                },
                 message: 'Success'
             })
         } catch (error) {
             return res.status(500).json({
-                OTP: -1,
                 message: error.message
             })
         }

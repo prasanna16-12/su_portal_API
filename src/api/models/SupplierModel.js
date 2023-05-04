@@ -65,7 +65,7 @@ module.exports = {
                         // otp verification
                         verification.sendOTP(OTP, results[0][0].supp_name, results[0][0].supp_mobile, results[0][0].OTP_validity_TS)
 
-                        return resolve(OTP)
+                        return resolve(true)
                     }
                 )
             })
