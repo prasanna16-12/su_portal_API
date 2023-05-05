@@ -243,6 +243,25 @@ module.exports = {
             })
 
         })
+    },
+
+    allPendingApproval: () => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL usp_get_all_pending_approval_supp_com_details();',
+                    (error, results) => {
+
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        return resolve(results[0])
+                    }
+                )
+            })
+
+        })
     }
 
 

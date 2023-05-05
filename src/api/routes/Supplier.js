@@ -13,6 +13,7 @@ SupplierRouter
     .get('/NewOTP', optDataValidation, SupplierController.newOTP)
     .get('/AuthenticateSupplier', authValidation, SupplierController.authenticateSupplier)
     .post('/AddSupplierDetails', supplierCompDetailValidation, SupplierController.addSupplierCompDetails)
+    .get('/AllPendingApprovals', SupplierController.allPendingApproval)
 
 
 module.exports = SupplierRouter

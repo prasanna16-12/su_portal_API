@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-//const pool = require('./src/api/models/DataBase')
+const pool = require('./src/api/models/DataBase')
 
 const bodyParser = require('body-parser');
 const express = require('express')
@@ -19,23 +19,23 @@ const SupplierRoutes = require('./src/api/routes/Supplier')
 app.use('/supplier', SupplierRoutes)
 
 //test
-// app.get('/test', (req, res) => {
-//     pool.getConnection((error, conn) => {
-//         if (error) return reject(error)
-//         conn.query(
-//             'select * from tbl_status_mapping;',
+app.get('/test', (req, res) => {
+    pool.getConnection((error, conn) => {
+        if (error) return reject(error)
+        conn.query(
+            'select * from tbl_status_mapping;',
 
-//             (error, results) => {
+            (error, results) => {
 
-//                 if (error) return res.status(500).json(error)
+                if (error) return res.status(500).json(error)
 
-//                 conn.destroy()
-//                 console.log(results);
-//                 return res.status(500).json(results)
-//             }
-//         )
-//     })
-// })
+                conn.destroy()
+                console.log(results);
+                return res.status(500).json(results)
+            }
+        )
+    })
+})
 
 app.all('*', (req, res) => {
     const err = new Error(`Requested url ${req.url} not found`)

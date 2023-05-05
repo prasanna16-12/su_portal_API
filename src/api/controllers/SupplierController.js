@@ -75,7 +75,23 @@ module.exports = {
                 message: error.message
             })
         }
-    }
+    },
 
+
+    allPendingApproval: async (req, res) => {
+        try {
+            const supplierList = await SupplierModel.allPendingApproval()
+            console.log(supplierList)
+            return res.status(200).json({
+                supplier_data: supplierList,
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                supplier_data: -1,
+                message: error.message
+            })
+        }
+    },
 
 }
