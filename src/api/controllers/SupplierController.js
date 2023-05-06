@@ -1,4 +1,5 @@
 
+const { string } = require('joi')
 const SupplierModel = require('../models/SupplierModel')
 
 module.exports = {
@@ -94,4 +95,47 @@ module.exports = {
         }
     },
 
+    changeStatus: async (req, res) => {
+        try {
+            let action = null
+            if (req.url.toUpperCase().match("AP1") != null) {
+                action = "AP1"
+
+            }
+            if (req.url.toUpperCase().match("AP2") != null) {
+                action = "AP2"
+
+            }
+            if (req.url.toUpperCase().match("AP3") != null) {
+                action = "AP3"
+
+            }
+            console.log(action);
+            const data = await SupplierModel.changeStatus(req.body, action)
+            return res.status(200).json({
+                result: data[0],
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                result: -1,
+                message: error.message
+            })
+        }
+    },
+
+    changeStatusID1: async (req, res) => {
+        try {
+            const data = await SupplierModel.changeStatusID1(req.body)
+            return res.status(200).json({
+                result: data[0],
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                result: -1,
+                message: error.message
+            })
+        }
+    },
 }

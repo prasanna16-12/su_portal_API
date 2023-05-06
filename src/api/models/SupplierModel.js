@@ -6,7 +6,7 @@ module.exports = {
     addSupplier: (data) => {
         return new Promise((resolve, reject) => {
             let { name, email, phone } = data
-            let OTP = Math.floor(Math.random() * 9000) + 1000
+            let OTP = Math.floor(Math.random() * 900000) + 100000
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
@@ -52,7 +52,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
-                let OTP = Math.floor(Math.random() * 9000) + 1000
+                let OTP = Math.floor(Math.random() * 900000) + 100000
                 conn.query(
                     'CALL usp_get_newOTP(?,?);',
                     [data.Supplier_ID, OTP],
@@ -96,7 +96,7 @@ module.exports = {
 
     addSupplierCompDetails: (data) => {
         return new Promise((resolve, reject) => {
-            let { 
+            let {
                 supp_company_name,
                 supp_company_name2,
                 supp_street,
@@ -260,9 +260,49 @@ module.exports = {
                     }
                 )
             })
+        })
+    },
+
+    changeStatus: (data, action) => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'call usp_change_status_AP1_AP2_AP3(?, ?);',
+                    [data.supp_reg_code, action],
+                    (error, results) => {
+
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        return resolve(results[0])
+                    }
+                )
+            })
+
+        })
+    },
+
+    changeStatusID1: (data) => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL `usp_change_status_ID1`(?, ?, ?, ?, ?);',
+                    [data.supp_reg_code, data.Purchaser, data.Previous_Vendor_Code, data.Diverse_Supplier, data.Search_Term],
+                    (error, results) => {
+
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        return resolve(results[0])
+                    }
+                )
+            })
 
         })
     }
+
 
 
 

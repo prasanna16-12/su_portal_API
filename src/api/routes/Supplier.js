@@ -5,6 +5,9 @@ const validateSupplierBasicData = require('../middlewares/validation/SupplierBas
 const optDataValidation = require('../middlewares/validation/NewOTPValidation')
 const authValidation = require('../middlewares/validation/SupplierAuthValidation')
 const supplierCompDetailValidation = require('../middlewares/validation/SupplierCompDetailsValidation')
+const StatusChangeValidation = require('../middlewares/validation/StatusChangeValidation')
+const SupplierInternalDataValidation = require('../middlewares/validation/SupplierInternalDataValidation')
+
 
 
 SupplierRouter
@@ -14,6 +17,11 @@ SupplierRouter
     .get('/AuthenticateSupplier', authValidation, SupplierController.authenticateSupplier)
     .post('/AddSupplierDetails', supplierCompDetailValidation, SupplierController.addSupplierCompDetails)
     .get('/AllPendingApprovals', SupplierController.allPendingApproval)
+    .post('/StatusChangeAP1', StatusChangeValidation, SupplierController.changeStatus)
+    .post('/StatusChangeAP2', StatusChangeValidation, SupplierController.changeStatus)
+    .post('/StatusChangeID1', SupplierInternalDataValidation, SupplierController.changeStatusID1)
+    .post('/StatusChangeAP3', StatusChangeValidation, SupplierController.changeStatus)
+
 
 
 module.exports = SupplierRouter
