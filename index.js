@@ -19,7 +19,7 @@ const SupplierRoutes = require('./src/api/routes/Supplier')
 app.use('/supplier', SupplierRoutes)
 
 //test
-app.get('/test', (req, res) => {
+/* app.get('/test', (req, res) => {
     pool.getConnection((error, conn) => {
         if (error) return reject(error)
         conn.query(
@@ -36,7 +36,7 @@ app.get('/test', (req, res) => {
         )
     })
 })
-
+ */
 app.all('*', (req, res) => {
     const err = new Error(`Requested url ${req.url} not found`)
     res.status(404).json({
