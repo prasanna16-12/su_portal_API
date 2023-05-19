@@ -82,9 +82,11 @@ module.exports = {
     allPendingApproval: async (req, res) => {
         try {
             const supplierList = await SupplierModel.allPendingApproval()
-            console.log(supplierList)
+            //console.log(supplierList)
+            const data = await SupplierModel.allPendingApprovalWithPrevStatus(supplierList)
+
             return res.status(200).json({
-                supplier_data: supplierList,
+                supplier_data: data,
                 message: 'Success'
             })
         } catch (error) {

@@ -1,3 +1,4 @@
+const async = require('async')
 const pool = require('./DataBase')
 const verification = require('../helpers/Verification')
 
@@ -231,11 +232,7 @@ module.exports = {
                     (error, results) => {
 
                         if (error) return reject(error)
-                        // otp verification
-                        //verification.sendOTP(OTP, results[0][0].supp_name, results[0][0].supp_mobile, results[0][0].OTP_validity_TS)
-
-                        // email
-                        //verification.sendMAIL(results[0][0].supp_name, results[0][0].supp_email, results[0][0].supp_ID)
+                        
                         conn.destroy()
                         return resolve(results)
                     }
@@ -259,6 +256,39 @@ module.exports = {
                         return resolve(results[0])
                     }
                 )
+            })
+        })
+    },
+
+    allPendingApprovalWithPrevStatus: (data) => {
+
+        return new Promise((resolve, reject) => {
+            async.forEachOf(data, function (_data, i, inner_callback) {
+                pool.getConnection((error, conn) => {
+                    if (error) return reject(error)
+                    conn.query(
+                        'call usp_get_previous_status(?, ?);',
+                        [_data.supp_vendor_reg_code, _data.current_status],
+                        (error, results) => {
+
+                            if (error) return reject(error)
+
+                            conn.destroy()
+
+                            data[i].previous_status = results[0]
+                            inner_callback(null)
+
+                        }
+                    )
+                })
+
+            }, function (err) {
+                if (err) {
+                    return reject(err)
+                } else {
+
+                    return resolve(data)
+                }
             })
         })
     },
