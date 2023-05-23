@@ -260,6 +260,25 @@ module.exports = {
         })
     },
 
+    SupplierCompanyDetails: (data) => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL usp_get_supplier_com_details(?);',
+                    [data.supp_reg_code],
+                    (error, results) => {
+
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        return resolve(results[0])
+                    }
+                )
+            })
+        })
+    },
+
     allPendingApprovalWithPrevStatus: (data) => {
 
         return new Promise((resolve, reject) => {

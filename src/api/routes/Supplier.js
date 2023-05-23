@@ -7,6 +7,8 @@ const authValidation = require('../middlewares/validation/SupplierAuthValidation
 const supplierCompDetailValidation = require('../middlewares/validation/SupplierCompDetailsValidation')
 const StatusChangeValidation = require('../middlewares/validation/StatusChangeValidation')
 const SupplierInternalDataValidation = require('../middlewares/validation/SupplierInternalDataValidation')
+const VendorRegCodeDataValidation = require('../middlewares/validation/VendorRegCodeDataValidation')
+
 
 
 
@@ -21,6 +23,7 @@ SupplierRouter
     .post('/StatusChangeAP2', StatusChangeValidation, SupplierController.changeStatus)
     .post('/StatusChangeID1', SupplierInternalDataValidation, SupplierController.changeStatusID1)
     .post('/StatusChangeAP3', StatusChangeValidation, SupplierController.changeStatus)
+    .get('/SupplierCompanyDetails', VendorRegCodeDataValidation, SupplierController.SupplierCompanyDetails)
 
 
 

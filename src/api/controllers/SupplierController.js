@@ -97,6 +97,24 @@ module.exports = {
         }
     },
 
+    SupplierCompanyDetails: async (req, res) => {
+        try {
+            const supplierdetails = await SupplierModel.SupplierCompanyDetails(req.body)
+            //console.log(supplierList)
+            const data = await SupplierModel.allPendingApprovalWithPrevStatus(supplierdetails)
+
+            return res.status(200).json({
+                supplier_data: data,
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                supplier_data: -1,
+                message: error.message
+            })
+        }
+    },
+
     changeStatus: async (req, res) => {
         try {
             let action = null
