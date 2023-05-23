@@ -104,7 +104,7 @@ module.exports = {
             const data = await SupplierModel.allPendingApprovalWithPrevStatus(supplierdetails)
 
             return res.status(200).json({
-                supplier_data: data,
+                supplier_data: data[0],
                 message: 'Success'
             })
         } catch (error) {
