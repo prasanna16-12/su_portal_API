@@ -164,7 +164,7 @@ module.exports = {
         try {
             //store file path in database
             const filePath = path.resolve(__dirname, '../../../', req.file.path)
-
+            console.log(filePath);
             await SupplierModel.addNDAfile(req.params.id, filePath, req.file)
 
 
