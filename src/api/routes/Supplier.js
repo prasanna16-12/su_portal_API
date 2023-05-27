@@ -8,9 +8,7 @@ const supplierCompDetailValidation = require('../middlewares/validation/Supplier
 const StatusChangeValidation = require('../middlewares/validation/StatusChangeValidation')
 const SupplierInternalDataValidation = require('../middlewares/validation/SupplierInternalDataValidation')
 const VendorRegCodeDataValidation = require('../middlewares/validation/VendorRegCodeDataValidation')
-
-
-
+const NDA_Upload = require('../middlewares/fileUpload/NDA_Upload')
 
 SupplierRouter
     .post('/', validateSupplierBasicData, SupplierController.addSupplier)
@@ -24,6 +22,8 @@ SupplierRouter
     .post('/StatusChangeID1', SupplierInternalDataValidation, SupplierController.changeStatusID1)
     .post('/StatusChangeAP3', StatusChangeValidation, SupplierController.changeStatus)
     .get('/SupplierCompanyDetails', VendorRegCodeDataValidation, SupplierController.SupplierCompanyDetails)
+    .post('/NDA_Upload/:id',NDA_Upload.single('uploadedFile') ,SupplierController.fileUpload_NDA)
+    .get('/NDA_Download/:id', SupplierController.fileDownload_NDA)
 
 
 

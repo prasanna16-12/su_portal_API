@@ -232,7 +232,7 @@ module.exports = {
                     (error, results) => {
 
                         if (error) return reject(error)
-                        
+
                         conn.destroy()
                         return resolve(results)
                     }
@@ -350,9 +350,45 @@ module.exports = {
             })
 
         })
-    }
+    },
 
 
+    addNDAfile: (suppRegCode, filePath, fileObj) => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'call usp_file_Upload(?, ?, ?, ?);',
+                    [suppRegCode, 'NDA', filePath, fileObj.mimetype],
+                    (error, results) => {
 
+                        if (error) return reject(error)
+                        conn.destroy()
+                        return resolve(results[0])
+                    }
+                )
+            })
+
+        })
+    },
+
+    getNDAfile: (suppRegCode) => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'call usp_get_file(?,?);',
+                    [suppRegCode, 'NDA'],
+                    (error, results) => {
+
+                        if (error) return reject(error)
+                        conn.destroy()
+                        return resolve(results[0])
+                    }
+                )
+            })
+
+        })
+    },
 
 }

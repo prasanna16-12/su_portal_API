@@ -1,5 +1,6 @@
 
 const { string } = require('joi')
+const path = require('path');
 const SupplierModel = require('../models/SupplierModel')
 
 module.exports = {
@@ -151,6 +152,64 @@ module.exports = {
                 result: data[0],
                 message: 'Success'
             })
+        } catch (error) {
+            return res.status(500).json({
+                result: -1,
+                message: error.message
+            })
+        }
+    },
+
+    fileUpload_NDA: async (req, res) => {
+        try {
+            //store file path in database
+            const filePath = path.resolve(__dirname, '../../../', req.file.path)
+
+            await SupplierModel.addNDAfile(req.params.id, filePath, req.file)
+
+
+            return res.status(200).json({
+                //result: filePath,
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                result: -1,
+                message: error.message
+            })
+        }
+    },
+
+    fileDownload_NDA: async (req, res) => {
+        try {
+            //path.resolve(__dirname, '..', '..', '..', 'NDA_Uploads', "")
+            var options = {
+                root: '',
+                dotfiles: 'deny',
+                headers: {
+                    'x-timestamp': Date.now(),
+                    'x-sent': true
+                }
+            }
+            const file = await SupplierModel.getNDAfile(req.params.id)
+            console.log(file);
+            if (file.length > 0) {
+                res.sendFile(file[0].file_path, options, function (err) {
+                    console.log(err);
+                    if (err) {
+                        res.status(err.statusCode).json({
+                            result: -1,
+                            message: 'File Not Found'
+                        })
+                    }
+                })
+            }
+            else {
+                res.status(404).json({
+                    result: -1,
+                    message: 'File Not Exist'
+                })
+            }
         } catch (error) {
             return res.status(500).json({
                 result: -1,

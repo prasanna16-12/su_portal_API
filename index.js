@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const pool = require('./src/api/models/DataBase')
+//const pool = require('./src/api/models/DataBase')
 
 const bodyParser = require('body-parser');
 const express = require('express')
