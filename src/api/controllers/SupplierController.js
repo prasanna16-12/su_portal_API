@@ -98,7 +98,7 @@ module.exports = {
         }
     },
 
-    SupplierCompanyDetails: async (req, res) => {
+    supplierCompanyDetails: async (req, res) => {
         try {
             const supplierdetails = await SupplierModel.SupplierCompanyDetails(req.body)
             //console.log(supplierList)
@@ -165,6 +165,7 @@ module.exports = {
             //store file path in database
             const filePath = path.resolve(__dirname, '../../../', req.file.path)
             console.log(filePath);
+            console.log(req.file);
             await SupplierModel.addNDAfile(req.params.id, filePath, req.file)
 
 
@@ -193,6 +194,7 @@ module.exports = {
             }
             const file = await SupplierModel.getNDAfile(req.params.id)
             console.log(file);
+            const filePath = file[0].file_path
             if (file.length > 0) {
                 res.sendFile(file[0].file_path, options, function (err) {
                     console.log(err);
@@ -210,6 +212,35 @@ module.exports = {
                     message: 'File Not Exist'
                 })
             }
+        } catch (error) {
+            return res.status(500).json({
+                result: -1,
+                message: error.message
+            })
+        }
+    },
+
+    addUpdateDetails: async (req, res) => {
+        try {
+            const data = await SupplierModel.addUpdateDetailsstaggingTable(req.body)
+            return res.status(200).json({
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                result: -1,
+                message: error.message
+            })
+        }
+    },
+
+    getUpdateDetails: async (req, res) => {
+        try {
+            const data = await SupplierModel.getUpdateDetailsstaggingTable(req.params.id)
+            return res.status(200).json({
+                result: data,
+                message: 'Success'
+            })
         } catch (error) {
             return res.status(500).json({
                 result: -1,
