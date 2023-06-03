@@ -10,7 +10,7 @@ const supplierCompDetailValidation = require('../middlewares/validation/supplier
 const StatusChangeValidation = require('../middlewares/validation/supplier/StatusChangeValidation')
 const SupplierInternalDataValidation = require('../middlewares/validation/supplier/SupplierInternalDataValidation')
 const vendorRegCodeDataValidation = require('../middlewares/validation/supplier/VendorRegCodeDataValidation')
-const supplierUpdatedDetails = require('../middlewares/validation/supplier/UpdateDetailsValidation')
+const supplierUpdatedDetailsValidation = require('../middlewares/validation/supplier/UpdateDetailsValidation')
 
 const NDA_Upload = require('../middlewares/fileUpload/NDA_Upload')
 
@@ -19,19 +19,10 @@ SupplierRouter
     /* Add supplier with basic details */
     .post('/', validateSupplierBasicData, SupplierController.addSupplier)
 
-    /* return all supplier with basic data
-    {
-        "supp_name": "prasanna kale",
-        "supp_email": "prasanna@yopmail.com",
-        "supp_mobile": "+917028811590"
-    }*/
+    /* return all supplier with basic data */
     .get('/AllSupplier', SupplierController.allSupplier)
 
-    /* Generate new otp
-    {
-        "Supplier_ID" : 1000000009
-    }
-    */
+    /* Generate new otp */
     .get('/NewOTP', optDataValidation, SupplierController.newOTP)
 
     
@@ -47,8 +38,6 @@ SupplierRouter
     .get('/NDA_Download/:id', SupplierController.fileDownload_NDA)
 
     /* get details to be updated and insert it into -> tbl_supplier_details_update */
-    .post('/UpdatedSupplierDetails/', supplierUpdatedDetails, SupplierController.addUpdateDetails)
-    .get('/UpdatedSupplierDetails/:id', SupplierController.getUpdateDetails)
-
+    .post('/UpdatedSupplierDetails/', supplierUpdatedDetailsValidation, SupplierController.addUpdateDetails)
 
 module.exports = SupplierRouter

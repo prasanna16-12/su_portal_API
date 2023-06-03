@@ -233,19 +233,4 @@ module.exports = {
             })
         }
     },
-
-    getUpdateDetails: async (req, res) => {
-        try {
-            const data = await SupplierModel.getUpdateDetailsstaggingTable(req.params.id)
-            return res.status(200).json({
-                result: data,
-                message: 'Success'
-            })
-        } catch (error) {
-            return res.status(500).json({
-                result: -1,
-                message: error.message
-            })
-        }
-    },
 }

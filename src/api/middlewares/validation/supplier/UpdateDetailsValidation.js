@@ -7,7 +7,8 @@ const validateUpdateDetails = (req, res, next) => {
         supp_reg_code: Joi.number().min(1000000000).max(9999999999).required(),
         update_details: Joi.array().items({
             field_name: Joi.string().max(100).required(),
-            field_value: Joi.string().max(100).required()
+            field_value: Joi.string().max(100).required(),
+            field_old_value: Joi.string().max(100).required()
         })
     });
 
