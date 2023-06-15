@@ -1,4 +1,4 @@
-const {varify, verify} = require('jsonwebtoken');
+const { varify, verify } = require('jsonwebtoken');
 
 // Define middleware for validation
 const validateToken = (req, res, next) => {
@@ -6,19 +6,19 @@ const validateToken = (req, res, next) => {
     if (token) {
         //console.log(token);
         token = token.slice(7) //removing bearer from front
-        verify(token, process.env.Key,(error, decoded)=>{
+        verify(token, process.env.KEY, (error, decoded) => {
             if (error) {
                 // If validation fails, send an error response
                 return res.status(400).json({
                     message: error,
                     stack: error.stack
                 });
-            }else{
+            } else {
                 next();
             }
         })
     }
-    else{
+    else {
         return res.status(401).json({
             message: 'Access denied! unauthorized'
         });
