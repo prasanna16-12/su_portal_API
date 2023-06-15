@@ -14,12 +14,16 @@ app.use(bodyParser.urlencoded({ extended: true }))
 //routes
 const SupplierRoutes = require('./src/api/routes/Supplier')
 const BuyerRoutes = require('./src/api/routes/Buyer')
+const UserRoutes = require('./src/api/routes/User')
+
 //supplier
 app.use('/supplier', SupplierRoutes)
 
 //Buyer
 app.use('/Buyer', BuyerRoutes)
 
+//login
+app.use('/User', UserRoutes)
 
 app.all('*', (req, res) => {
     const err = new Error(`Requested url ${req.url} not found`)

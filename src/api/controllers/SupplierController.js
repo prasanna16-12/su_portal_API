@@ -67,8 +67,9 @@ module.exports = {
     addSupplierCompDetails: async (req, res) => {
         try {
             const data = await SupplierModel.addSupplierCompDetails(req.body)
+            console.log(data);
             return res.status(200).json({
-                SupplierData: data[0][0],
+                SuplierID: data[0][0],
                 message: 'Success'
             })
         } catch (error) {

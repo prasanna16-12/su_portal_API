@@ -1,6 +1,6 @@
 const async = require('async')
 const pool = require('./DataBase')
-const verification = require('../helpers/Verification')
+const verification = require('../helpers/NotifyUtils')
 
 module.exports = {
 
@@ -17,7 +17,7 @@ module.exports = {
 
                         if (error) return reject(error)
                         // otp verification
-                        verification.sendOTP(OTP, results[0][0].supp_name, results[0][0].supp_mobile, results[0][0].OTP_validity_TS)
+                        //verification.sendOTP(OTP, results[0][0].supp_name, results[0][0].supp_mobile, results[0][0].OTP_validity_TS)
 
                         // email
                         //verification.sendMAIL(results[0][0].supp_name, results[0][0].supp_email, results[0][0].supp_ID)
@@ -64,7 +64,7 @@ module.exports = {
                         conn.destroy()
 
                         // otp verification
-                        verification.sendOTP(OTP, results[0][0].supp_name, results[0][0].supp_mobile, results[0][0].OTP_validity_TS)
+                        // verification.sendOTP(OTP, results[0][0].supp_name, results[0][0].supp_mobile, results[0][0].OTP_validity_TS)
 
                         return resolve(true)
                     }
