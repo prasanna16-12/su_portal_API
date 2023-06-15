@@ -21,9 +21,9 @@ module.exports = {
 
                         conn.destroy()
                         if (results[0][0].ID != -1) {
-                            notify.sendOTP(req.mobile, password)
+                            notify.sendOTP(req.mobile, `Password is ${password}, Username is ${req.email}`)
                         }
-                        
+
                         console.log(results[0]);
                         return resolve(results[0])
                     }
