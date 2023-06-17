@@ -24,7 +24,7 @@ module.exports = {
                             notify.sendOTP(req.mobile, `Password is ${password}, Username is ${req.email}`)
                         }
 
-                        console.log(results[0]);
+                        //console.log(results[0]);
                         return resolve(results[0])
                     }
                 )
@@ -53,7 +53,7 @@ module.exports = {
                                 message: 'Invalid username'
                             })
                         }
-                        console.log(results[0], req);
+                        //console.log(results[0], req);
                         const isPassWordCorrect = passwordUtils.comparePassword(req.password, results[0][0].user_password)
                         if (isPassWordCorrect) {
                             let obj = results[0][0]

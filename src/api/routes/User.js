@@ -11,7 +11,7 @@ const verifyAdminToken = require('../middlewares/authorization/adminTokenValidat
 UserRouter
     /* add new user */
     .post('/addUser', validateUserBasicData, verifyAdminToken, UserController.createNewUser)
-    .get('/login', validateUserLoginData, UserController.loginUser)
+    .post('/login', validateUserLoginData, UserController.loginUser)
     .post('/changePassword', validatePasswordResetData, UserController.changePassword)
 
 

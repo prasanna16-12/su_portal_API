@@ -6,7 +6,7 @@ const BuyerController = require('../controllers/BuyerController')
 
 BuyerRouter
     /* get supplier details (pending for approval) */
-    .get('/getUpdatedSupplierDetails/:id', BuyerController.getUpdateDetails)
+    .post('/getUpdatedSupplierDetails/:id', BuyerController.getUpdateDetails)
 
     /* add approved fields */
     .post('/approveUpdateField/:id', BuyerController.approveUpdateDetails)
