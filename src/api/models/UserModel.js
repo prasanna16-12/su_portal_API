@@ -14,7 +14,7 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'CALL usp_create_user(?,?,?,?,?,?,?,?);',
-                    [req.first_name, req.email, req.mobile, req.role, passwordUtils.hashPassword(password), req.last_name, req.vendor_reg_code, req.manager_ID],
+                    [req.first_name, req.email.toLowerCase(), req.mobile, req.role, passwordUtils.hashPassword(password), req.last_name, req.vendor_reg_code, req.manager_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
@@ -40,7 +40,7 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'CALL usp_get_user_details(?);',
-                    [req.email],
+                    [req.email.toLowerCase()],
                     (error, results) => {
 
                         if (error) return reject(error)
@@ -58,16 +58,18 @@ module.exports = {
                         if (isPassWordCorrect) {
                             let obj = results[0][0]
                             obj.user_password = undefined
-                            const jwt = sign({ result: obj }, process.env.KEY, {
-                                expiresIn: "1h"
+
+                            const user_jwt = sign({ result: obj }, process.env.ACCESS_TOKEN_KEY, {
+                                expiresIn: "30m"
                             })
+
                             return resolve({
                                 data: {
                                     name: obj.user_first_name + ' ' + obj.user_last_name,
                                     email: obj.user_email,
                                     mobile: obj.user_mobile,
                                     role: obj.user_role,
-                                    user_token: jwt
+                                    user_token: user_jwt
                                 },
                                 message: 'User authenticated successfully'
                             })
@@ -82,4 +84,69 @@ module.exports = {
 
         })
     },
+
+
+    getUserData: (req) => {
+        return new Promise((resolve, reject) => {
+
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL usp_get_user_details(?);',
+                    [req.email.toLowerCase()],
+                    (error, results) => {
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        if (results[0].length <= 0) {
+                            // user dosenot exist
+                            return resolve({
+                                data: -1,
+                                message: 'Invalid username'
+                            })
+
+                        }
+                        return resolve({
+                            data: 1,
+                            message: results[0][0]
+                        })
+                    }
+                )
+            })
+
+        })
+    },
+    changePassword: (user, body) => {
+        return new Promise((resolve, reject) => {
+            const isPassWordCorrect = passwordUtils.comparePassword(body.old_password, user.user_password)
+            //console.log(body.old_password, user.user_password, isPassWordCorrect);
+
+            if (isPassWordCorrect) {
+                // change password
+                pool.getConnection((error, conn) => {
+                    if (error) return reject(error)
+                    conn.query(
+                        'CALL usp_change_user_password(?,?);',
+                        [user.user_ID, passwordUtils.hashPassword(body.new_password)],
+                        (error, uselessCB) => {
+                            if (error) return reject(error)
+
+                            conn.destroy()
+                            return resolve({
+                                data: 1,
+                                message: 'Password changes successfully'
+                            })
+                        }
+                    )
+                })
+            }
+            else {
+                return resolve({
+                    data: -1,
+                    message: 'Password mismatched'
+                })
+            }
+        })
+    },
+
 }

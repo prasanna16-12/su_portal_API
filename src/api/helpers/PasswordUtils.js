@@ -11,8 +11,8 @@ module.exports = {
         return Math.random().toString(36).slice(2)
     },
 
-    comparePassword: (userEnteredPassWord, ActualPassWord) => {
-        console.log(userEnteredPassWord, ActualPassWord);
-        return compareSync(userEnteredPassWord, ActualPassWord)
+    comparePassword: (userEnteredPassWord, hasedPassWord) => {
+        //console.log(userEnteredPassWord, ActualPassWord);
+        return compareSync(userEnteredPassWord, hasedPassWord)
     },
 }
