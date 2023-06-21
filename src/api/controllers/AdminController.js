@@ -1,15 +1,12 @@
-
-const { string } = require('joi')
-const path = require('path');
-const SupplierModel = require('../models/SupplierModel')
-
+const AdminModel = require('../models/AdminModel')
 
 module.exports = {
 
-    addUpdateDetails: async (req, res) => {
+    createNewUser: async (req, res) => {
         try {
-            const data = await SupplierModel.addUpdateDetailsstaggingTable(req.body)
+            const data = await AdminModel.createNewUser(req.body)
             return res.status(200).json({
+                result: data,
                 message: 'Success'
             })
         } catch (error) {

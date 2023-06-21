@@ -3,16 +3,16 @@ const UserRouter = express.Router()
 const UserController = require('../controllers/UserController')
 
 /* validation */
-const validateUserBasicData = require('../middlewares/validation/User/addUserValidation')
-const validateUserLoginData = require('../middlewares/validation/User/loginUserValidation')
-const validatePasswordResetData = require('../middlewares/validation/User/changePasswordValidation')
-const verifyAdminToken = require('../middlewares/authorization/adminTokenValidation')
+const validateUserLoginData = require('../middlewares/validation/loginUserValidation')
+const validatePasswordResetData = require('../middlewares/validation/changePasswordValidation')
 
 UserRouter
-    /* add new user */
-    .post('/addUser', validateUserBasicData, verifyAdminToken, UserController.createNewUser)
-    .post('/login', validateUserLoginData, UserController.loginUser)
-    .post('/changePassword', validatePasswordResetData, UserController.changePassword)
+
+    /* login */
+    .post('/Login', validateUserLoginData, UserController.loginUser)
+    
+    /* change password */
+    .put('/ChangePassword', validatePasswordResetData, UserController.changePassword)
 
 
 module.exports = UserRouter

@@ -59,9 +59,14 @@ module.exports = {
                             let obj = results[0][0]
                             obj.user_password = undefined
 
-                            const user_jwt = sign({ result: obj }, process.env.ACCESS_TOKEN_KEY, {
-                                expiresIn: "30m"
-                            })
+                            const user_jwt = sign({ result: obj }, process.env.ACCESS_TOKEN_KEY
+                                ,
+                                {
+                                    expiresIn: "1d"
+                                }
+                            )
+
+                            //notify.sendMAIL('prasanna89kale@gmail.com', 'prasanna89kale@gmail.com', '', '');
 
                             return resolve({
                                 data: {
@@ -134,7 +139,7 @@ module.exports = {
                             conn.destroy()
                             return resolve({
                                 data: 1,
-                                message: 'Password changes successfully'
+                                message: 'Password changed successfully'
                             })
                         }
                     )

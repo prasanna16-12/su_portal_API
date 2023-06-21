@@ -14,23 +14,21 @@ module.exports = {
             .catch()
     },
 
-    sendMAIL: (emailTo, subject) => {
+    sendMAIL: (from, to, subject, text) => {
 
 
         let transporter = nodemailer.createTransport({
             NodeMailerConfig
         });
 
-        let message = {
-            from: NodeMailerConfig.auth.user,
-            to: emailTo,
-            subject: subject
-            /*html: `<h1>Hi ${name} </h1>
-            <p>click on below link</p>
-            <a>www.Suportal.com?userID=${ID}</a>`*/
+        const mailOptions = {
+            from: 'prasanna89kale@gmail.com',
+            to: 'prasanna89kale@gmail.com',
+            subject: 'Subject of your email',
+            text: 'Content of your email'
         };
 
-        transporter.sendMail(message, (error, info) => {
+        transporter.sendMail(mailOptions, (error, info) => {
             if (error) { throw error }
             console.log(info.messageId);
         });

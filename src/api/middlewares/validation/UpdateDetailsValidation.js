@@ -1,15 +1,15 @@
 const Joi = require('joi');
 
 // Define middleware for validation
-const validateInternalData = (req, res, next) => {
+const validateUpdateDetails = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
-
         supp_reg_code: Joi.number().min(1000000000).max(9999999999).required(),
-        Purchaser: Joi.string().max(50).required(),
-        Previous_Vendor_Code: Joi.string().max(50).required(),
-        Diverse_Supplier: Joi.string().max(50).required(),
-        Search_Term: Joi.string().max(50).required(),
+        update_details: Joi.array().items({
+            field_name: Joi.string().max(100).required(),
+            field_value: Joi.string().max(100).required(),
+            field_old_value: Joi.string().max(100).required()
+        })
     });
 
     const { error } = schema.validate(req.body); // Validate request data
@@ -17,8 +17,7 @@ const validateInternalData = (req, res, next) => {
     if (error) {
         // If validation fails, send an error response
         return res.status(400).json({
-            message: error.details[0].message,
-            stack: error.stack
+            message: error.details[0].message
         });
     }
 
@@ -26,4 +25,4 @@ const validateInternalData = (req, res, next) => {
     next();
 };
 
-module.exports = validateInternalData
+module.exports = validateUpdateDetails

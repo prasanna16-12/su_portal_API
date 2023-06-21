@@ -1,10 +1,8 @@
 const NodeMailerConfig = {
-    host: 'smtp.gamil.com',
-    port: 456,
-    secure: true,
+    
     auth: {
-        user: String(process.env.EMAIL),
-        pass: String(process.env.PASS)
+        user: 'prasanna89kale@gmail.com',
+        pass: 'IITspectrum@89'
     },
     service: 'gmail'
 }

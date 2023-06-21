@@ -75,8 +75,7 @@ const validateSupplierBasicData = (req, res, next) => {
     if (error) {
         // If validation fails, send an error response
         return res.status(400).json({
-            message: error.details[0].message,
-            stack: error.stack
+            message: error.details[0].message
         });
     }
 

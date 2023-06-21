@@ -3,41 +3,13 @@ const SupplierRouter = express.Router()
 const SupplierController = require('../controllers/SupplierController')
 
 /* validation */
-const validateSupplierBasicData = require('../middlewares/validation/supplier/SupplierBasicDataValidation')
-const optDataValidation = require('../middlewares/validation/supplier/NewOTPValidation')
-const authValidation = require('../middlewares/validation/supplier/SupplierAuthValidation')
-const supplierCompDetailValidation = require('../middlewares/validation/supplier/SupplierCompDetailsValidation')
-const StatusChangeValidation = require('../middlewares/validation/supplier/StatusChangeValidation')
-const SupplierInternalDataValidation = require('../middlewares/validation/supplier/SupplierInternalDataValidation')
-const vendorRegCodeDataValidation = require('../middlewares/validation/supplier/VendorRegCodeDataValidation')
-const supplierUpdatedDetailsValidation = require('../middlewares/validation/supplier/UpdateDetailsValidation')
+const supplierUpdatedDetailsValidation = require('../middlewares/validation/UpdateDetailsValidation')
 
-const NDA_Upload = require('../middlewares/fileUpload/NDA_Upload')
+
 
 SupplierRouter
 
-    /* Add supplier with basic details */
-    .post('/', validateSupplierBasicData, SupplierController.addSupplier)
-
-    /* return all supplier with basic data */
-    .post('/AllSupplier', SupplierController.allSupplier)
-
-    /* Generate new otp */
-    .post('/NewOTP', optDataValidation, SupplierController.newOTP)
-
-    
-    .post('/AuthenticateSupplier', authValidation, SupplierController.authenticateSupplier)
-    .post('/AddSupplierDetails', supplierCompDetailValidation, SupplierController.addSupplierCompDetails)
-    .post('/AllPendingApprovals', SupplierController.allPendingApproval)
-    .post('/StatusChangeAP1', StatusChangeValidation, SupplierController.changeStatus)
-    .post('/StatusChangeAP2', StatusChangeValidation, SupplierController.changeStatus)
-    .post('/StatusChangeID1', SupplierInternalDataValidation, SupplierController.changeStatusID1)
-    .post('/StatusChangeAP3', StatusChangeValidation, SupplierController.changeStatus)
-    .post('/SupplierCompanyDetails', vendorRegCodeDataValidation, SupplierController.supplierCompanyDetails)
-    .post('/NDA_Upload/:id',NDA_Upload.single('uploadedFile') ,SupplierController.fileUpload_NDA)
-    .post('/NDA_Download/:id', SupplierController.fileDownload_NDA)
-
-    /* get details to be updated and insert it into -> tbl_supplier_details_update */
-    .post('/UpdatedSupplierDetails/', supplierUpdatedDetailsValidation, SupplierController.addUpdateDetails)
+    /* updated and insert details into -> tbl_supplier_details_update */
+    .put('/Update', supplierUpdatedDetailsValidation, SupplierController.addUpdateDetails)
 
 module.exports = SupplierRouter
