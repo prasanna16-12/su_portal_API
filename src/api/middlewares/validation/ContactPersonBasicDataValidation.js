@@ -5,6 +5,7 @@ const validateContactPersonBasicData = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
         name: Joi.string().min(3).max(50).required(),
+        company_name: Joi.string().min(3).max(50).required(),
         email: Joi.string().email().required(),
         phone: Joi.string().pattern(/^(\+?\d{1,3})?[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/).required()
     });

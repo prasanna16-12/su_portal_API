@@ -16,6 +16,7 @@ const verifyBuyerToken = require('./src/api/middlewares/authorization/buyerToken
 const verifyAdminToken = require('./src/api/middlewares/authorization/adminTokenValidation')
 const verifySupplierToken = require('./src/api/middlewares/authorization/supplierTokenValidation')
 const verifyManagerToken = require('./src/api/middlewares/authorization/managerTokenValidation')
+const verifyToken = require('./src/api/middlewares/authorization/TokenValidation')
 
 //routes
 const SupplierRoutes = require('./src/api/routes/Supplier')
@@ -24,6 +25,7 @@ const UserRoutes = require('./src/api/routes/User')
 const ContactPersonRoutes = require('./src/api/routes/ContactPerson')
 const AdminRoutes = require('./src/api/routes/Admin')
 const ManagerRoutes = require('./src/api/routes/Manager')
+const GenericRoutes = require('./src/api/routes/Generic')
 
 //supplier
 app.use('/Supplier', verifySupplierToken, SupplierRoutes)
@@ -38,11 +40,14 @@ app.use('/User', UserRoutes)
 app.use('/ContactPerson', ContactPersonRoutes)
 
 //admin
-app.use('/Admin', verifyAdminToken,AdminRoutes)
+app.use('/Admin', verifyAdminToken, AdminRoutes)
 
 //manager
 app.use('/Manager', verifyManagerToken, ManagerRoutes)
 
+
+//generic (admin-manager-supplier)
+app.use('/', verifyToken, GenericRoutes)
 
 
 app.all('*', (req, res) => {

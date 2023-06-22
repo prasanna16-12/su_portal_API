@@ -20,9 +20,6 @@ BuyerRouter
     /* Add contact person with basic details */
     .post('/ContactPerson', validateContactPersonBasicData, BuyerController.addContactPerson)
 
-    /* get pending approvals */
-    .get('/Approve', BuyerController.allPendingApproval)
-
     /* approve status to AP1 */
     .put('/Approve/AP1', StatusChangeValidation, BuyerController.changeStatus)
 

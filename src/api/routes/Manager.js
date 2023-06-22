@@ -7,9 +7,6 @@ const BuyerController = require('../controllers/BuyerController')
 const StatusChangeValidation = require('../middlewares/validation/StatusChangeValidation')
 
 ManagerRouter
-    /* get pending approvals */
-    .get('/Approve', BuyerController.allPendingApproval)
-    
     /* approve status to AP1 */
     .put('/Approve/AP2', StatusChangeValidation, ManagerController.changeStatus_AP2)
 

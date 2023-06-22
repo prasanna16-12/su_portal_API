@@ -45,13 +45,13 @@ module.exports = {
 
     addContactPerson: (data) => {
         return new Promise((resolve, reject) => {
-            let { name, email, phone } = data
+            let { name, email, phone, company_name } = data
             let OTP = Math.floor(Math.random() * 900000) + 100000
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_create_supplier(?,?,?,?)',
-                    [name, email, phone, OTP],
+                    'CALL usp_create_supplier(?,?,?,?,?)',
+                    [name, email, phone, company_name, OTP],
                     (error, results) => {
 
                         if (error) return reject(error)
