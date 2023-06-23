@@ -68,6 +68,7 @@ const validateSupplierBasicData = (req, res, next) => {
         supp_l1designation: Joi.string().max(100),
         supp_l1mobile: Joi.string().max(100),
         supp_l1email: Joi.string().max(100),
+        supp_upi_id: Joi.string().max(100)
     });
 
     const { error } = schema.validate(req.body); // Validate request data

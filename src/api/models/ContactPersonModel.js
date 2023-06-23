@@ -69,12 +69,13 @@ module.exports = {
                 supp_l1name,
                 supp_l1designation,
                 supp_l1mobile,
-                supp_l1email } = data
-
+                supp_l1email,
+                supp_upi_id } = data
+                console.log(data);
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_add_supplier_comp_details(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+                    'CALL usp_add_supplier_comp_details(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
                     [supp_company_name,
                         supp_company_name2,
                         supp_street,
@@ -137,7 +138,8 @@ module.exports = {
                         supp_l1name,
                         supp_l1designation,
                         supp_l1mobile,
-                        supp_l1email],
+                        supp_l1email,
+                        supp_upi_id],
                     (error, results) => {
 
                         if (error) return reject(error)
@@ -147,7 +149,6 @@ module.exports = {
                     }
                 )
             })
-
         })
     },
 

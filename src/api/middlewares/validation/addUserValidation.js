@@ -10,8 +10,8 @@ const validateNewUserBasicData = (req, res, next) => {
         mobile: Joi.string().max(50).required(),
         role: Joi.string().valid('MANAGER', 'SUPPLIER', 'ADMIN', 'BUYER').required(),
         last_name: Joi.string().max(50).required(),
-        vendor_reg_code: Joi.number().min(-1).max(9999999999),
-        manager_ID: Joi.number().min(-1).max(9999999999)
+        vendor_reg_code: Joi.number(),
+        manager_ID: Joi.number()
     });
 
     const { error } = schema.validate(req.body); // Validate request data

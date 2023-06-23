@@ -8,7 +8,7 @@ const validateNewUserBasicData = require('../middlewares/validation/addUserValid
 
 AdminRouter
     /* add new user */
-    .post('/user', validateNewUserBasicData, verifyAdminToken, AdminController.createNewUser)
+    .post('/user', verifyAdminToken, validateNewUserBasicData, AdminController.createNewUser)
     
     /* get all users */ // pending
     .get('/user', verifyAdminToken ,AdminController.createNewUser)
