@@ -5,11 +5,11 @@ const validateUpdateUserBasicData = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
 
-        first_name: Joi.string().max(50).required(),
-        email: Joi.string().max(50).required(),
-        mobile: Joi.string().max(50).required(),
-        role: Joi.string().valid('MANAGER', 'SUPPLIER', 'ADMIN', 'BUYER').required(),
-        last_name: Joi.string().max(50).required(),
+        user_first_name: Joi.string().max(50).required(),
+        user_email: Joi.string().max(50).required(),
+        user_mobile: Joi.string().max(50).required(),
+        user_role: Joi.string().valid('MANAGER', 'SUPPLIER', 'ADMIN', 'BUYER').required(),
+        user_last_name: Joi.string().max(50).required(),
         vendor_reg_code: Joi.number(),
         manager_ID: Joi.number(),
         user_ID: Joi.number().required(),

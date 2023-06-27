@@ -13,14 +13,14 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'CALL usp_create_user(?,?,?,?,?,?,?,?);',
-                    [req.first_name, req.email.toLowerCase(), req.mobile, req.role, passwordUtils.hashPassword(password), req.last_name, req.vendor_reg_code, req.manager_ID],
+                    [req.user_first_name, req.user_email.toLowerCase(), req.user_mobile, req.user_role, passwordUtils.hashPassword(password), req.user_last_name, req.vendor_reg_code, req.manager_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
 
                         conn.destroy()
                         if (results[0][0].ID != -1) {
-                            notify.sendOTP(req.mobile, `Password is ${password}, Username is ${req.email}`)
+                            notify.sendOTP(req.user_mobile, `Password is ${password}, Username is ${req.user_email}`)
                         }
 
                         //console.log(results[0]);
@@ -61,7 +61,7 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'call usp_update_user(?,?,?,?,?,?,?,?,?,?);',
-                    [data.first_name, data.email, data.mobile, data.user_ID, data.role, data.last_name, data.vendor_reg_code, data.manager_ID, data.is_active, data.is_deleted,],
+                    [data.user_first_name, data.user_email, data.user_mobile, data.user_ID, data.user_role, data.user_last_name, data.vendor_reg_code, data.manager_ID, data.is_active, data.is_deleted,],
                     (error, results) => {
 
                         if (error) return reject(error)
