@@ -45,13 +45,27 @@ module.exports = {
 
                         conn.destroy()
 
-                        //console.log(results[0]);
-                        return resolve(results[0])
+
+                        // change supp_vendor_reg_code -> vendor_reg_code
+                        let newObj = results[0]
+                        newObj.map(renameTOvendor_reg_code)
+
+                        
+                        return resolve(newObj)
                     }
                 )
             })
 
         })
+
+        // change supp_vendor_reg_code -> vendor_reg_code
+        function renameTOvendor_reg_code(obj) {
+
+            obj["vendor_reg_code"] = obj["supp_vendor_reg_code"]
+            delete obj["supp_vendor_reg_code"]
+
+        }
+
     },
 
     updateUser: (data) => {
@@ -97,17 +111,17 @@ module.exports = {
 
         })
 
-        function seperateManagerVendor(data){
+        function seperateManagerVendor(data) {
             let newObjArr = {
-                VENDOR : [],
-                MANAGER : []
-            } 
+                VENDOR: [],
+                MANAGER: []
+            }
 
             data.forEach(element => {
-                if (element.type === "Vendor"){
+                if (element.type === "Vendor") {
                     newObjArr.VENDOR.push({ code: element.supp_vendor_reg_code, name: element.supp_company_name })
                 }
-                else{
+                else {
                     newObjArr.MANAGER.push({ code: element.supp_vendor_reg_code, name: element.supp_company_name })
                 }
             });
@@ -116,7 +130,7 @@ module.exports = {
         }
     },
 
-    
+
 
 
 }
