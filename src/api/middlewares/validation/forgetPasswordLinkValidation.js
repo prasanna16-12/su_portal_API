@@ -1,13 +1,13 @@
 const Joi = require('joi');
 
 // Define middleware for validation
-const optDataValidation = (req, res, next) => {
+const validatePasswordForgetLinkData = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
-        Supplier_ID: Joi.number().min(1000000000).max(9999999999).required(),
+        email: Joi.string().email().required(),
     });
-
-    const { error } = schema.validate(req.body); // Validate request data
+    //console.log(req.params);
+    const { error } = schema.validate(req.params); // Validate request data
 
     if (error) {
         // If validation fails, send an error response
@@ -20,4 +20,4 @@ const optDataValidation = (req, res, next) => {
     next();
 };
 
-module.exports = optDataValidation
+module.exports = validatePasswordForgetLinkData

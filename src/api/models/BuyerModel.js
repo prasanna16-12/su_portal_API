@@ -1,5 +1,7 @@
 const pool = require('./DataBase')
 const async = require('async')
+const contactPersonEmailTemplate = require('../emailTemplate/ContactPerson/Welcome')
+const notify = require('../helpers/NotifyUtils')
 
 module.exports = {
 
@@ -55,12 +57,17 @@ module.exports = {
                     (error, results) => {
 
                         if (error) return reject(error)
-                        // otp verification
-                        //verification.sendOTP(OTP, results[0][0].supp_name, results[0][0].supp_mobile, results[0][0].OTP_validity_TS)
 
                         // email
-                        //verification.sendMAIL(results[0][0].supp_name, results[0][0].supp_email, results[0][0].supp_ID)
+                        
                         conn.destroy()
+                        let {supp_ID} = results[0][0] // obj destructuring
+                        notify.sendMAIL(
+                            [email],
+                            contactPersonEmailTemplate.getSubject(name),
+                            contactPersonEmailTemplate.getHTMLMailTemplate(name, company_name, OTP, supp_ID),
+                            contactPersonEmailTemplate.getTEXTMailTemplate(name, company_name, OTP, supp_ID)
+                        )
                         return resolve(results[0][0].supp_ID)
                     }
                 )
@@ -68,7 +75,7 @@ module.exports = {
 
         })
     },
-    
+
 
     addSupplierCompDetails: (data) => {
         return new Promise((resolve, reject) => {
@@ -366,5 +373,5 @@ module.exports = {
         })
     },
 
-    
+
 }

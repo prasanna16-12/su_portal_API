@@ -28,32 +28,31 @@ const ManagerRoutes = require('./src/api/routes/Manager')
 const GenericRoutes = require('./src/api/routes/Generic')
 
 //supplier
-app.use('/Supplier', verifySupplierToken, SupplierRoutes)
+app.use('/api/Supplier', verifySupplierToken, SupplierRoutes)
 
 //Buyer
-app.use('/Buyer', verifyBuyerToken, BuyerRoutes)
+app.use('/api/Buyer', verifyBuyerToken, BuyerRoutes)
 
-//login
-app.use('/User', UserRoutes)
+//user
+app.use('/api/User', UserRoutes)
 
 //contact person
-app.use('/ContactPerson', ContactPersonRoutes)
+app.use('/api/ContactPerson', ContactPersonRoutes)
 
 //admin
-app.use('/Admin', verifyAdminToken, AdminRoutes)
+app.use('/api/Admin', verifyAdminToken, AdminRoutes)
 
 //manager
-app.use('/Manager', verifyManagerToken, ManagerRoutes)
+app.use('/api/Manager', verifyManagerToken, ManagerRoutes)
 
 
 //generic (admin-manager-supplier)
-app.use('/', verifyToken, GenericRoutes)
+app.use('/api/Generic', verifyToken, GenericRoutes)
 
 
 app.all('*', (req, res) => {
     const err = new Error(`Requested url ${req.url} not found`)
     res.status(404).json({
-        success: 0,
         message: err.message
     })
 })

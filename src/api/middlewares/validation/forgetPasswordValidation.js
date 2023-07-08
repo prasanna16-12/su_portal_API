@@ -1,17 +1,11 @@
 const Joi = require('joi');
 
 // Define middleware for validation
-const validateNewUserBasicData = (req, res, next) => {
+const validatePasswordForgetData = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
-
-        user_first_name: Joi.string().max(50).required(),
-        user_email: Joi.string().email().required(),
-        user_mobile: Joi.string().max(50).required(),
-        user_role: Joi.string().valid('MANAGER', 'SUPPLIER', 'ADMIN', 'BUYER').required(),
-        user_last_name: Joi.string().max(50).required(),
-        vendor_reg_code: Joi.number(),
-        manager_ID: Joi.number()
+        token: Joi.string().max(255).required(),
+        new_password: Joi.string().max(50).required(),
     });
 
     const { error } = schema.validate(req.body); // Validate request data
@@ -27,4 +21,4 @@ const validateNewUserBasicData = (req, res, next) => {
     next();
 };
 
-module.exports = validateNewUserBasicData
+module.exports = validatePasswordForgetData

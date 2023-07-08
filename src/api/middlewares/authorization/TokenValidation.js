@@ -17,7 +17,7 @@ const validateToken = (req, res, next) => {
                     next();
                 }
                 else {
-                    return res.status(401).json({
+                    return res.status(403).json({
                         message: 'Access denied!'
                     });
                 }

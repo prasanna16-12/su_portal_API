@@ -4,11 +4,11 @@ const Joi = require('joi');
 const validatePasswordResetData = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
-        email: Joi.string().max(50).required(),
+        email: Joi.string().email().required(),
         old_password: Joi.string().max(50).required(),
         new_password: Joi.string().max(50).required(),
     });
-
+    //console.log(req.body);
     const { error } = schema.validate(req.body); // Validate request data
 
     if (error) {

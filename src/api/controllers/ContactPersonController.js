@@ -7,13 +7,12 @@ module.exports = {
         try {
             const data = await ContactPersonModel.addSupplierCompanyDetails(req.body)
             //console.log(data);
-            return res.status(200).json({
-                SuplierID: data[0][0],
+            return res.status(201).json({
+                result: data[0][0],
                 message: 'Success'
             })
         } catch (error) {
             return res.status(500).json({
-                SupplierData: -1,
                 message: error.message
             })
         }
@@ -21,15 +20,17 @@ module.exports = {
 
     authenticateContactPerson: async (req, res) => {
         try {
-            const authStatus = await ContactPersonModel.authenticateContactPerson(req.body)
-            console.log(authStatus)
+            const obj = await ContactPersonModel.authenticateContactPerson(req.body)
+            
+            
+
+            const authStatus = ContactPersonModel.verifyContactPerson(obj, req.body.OTP)
+
             return res.status(200).json({
-                authentication: authStatus,
-                message: 'Success'
+                message: authStatus
             })
         } catch (error) {
             return res.status(500).json({
-                authentication: 0,
                 message: error.message
             })
         }

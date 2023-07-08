@@ -1,38 +1,16 @@
 const pool = require('./DataBase')
+const crypto = require('crypto')
 const passwordUtils = require('../helpers/PasswordUtils')
 const notify = require('../helpers/NotifyUtils')
 const { sign } = require('jsonwebtoken')
 
+
+
+const forgetPasswordLinkTemplate = require('../emailTemplate/User/ForgotPasswordLink')
+
+
+
 module.exports = {
-
-
-    createNewUser: (req) => {
-        const password = passwordUtils.randomPassword()
-
-        return new Promise((resolve, reject) => {
-            pool.getConnection((error, conn) => {
-                if (error) return reject(error)
-                conn.query(
-                    'CALL usp_create_user(?,?,?,?,?,?,?,?);',
-                    [req.first_name, req.email.toLowerCase(), req.mobile, req.role, passwordUtils.hashPassword(password), req.last_name, req.vendor_reg_code, req.manager_ID],
-                    (error, results) => {
-
-                        if (error) return reject(error)
-
-                        conn.destroy()
-                        if (results[0][0].ID != -1) {
-                            notify.sendOTP(req.mobile, `Password is ${password}, Username is ${req.email}`)
-                        }
-
-                        //console.log(results[0]);
-                        return resolve(results[0])
-                    }
-                )
-            })
-
-        })
-    },
-
 
     loginUser: (req) => {
         return new Promise((resolve, reject) => {
@@ -69,7 +47,7 @@ module.exports = {
                             //notify.sendMAIL('prasanna89kale@gmail.com', 'prasanna89kale@gmail.com', '', '');
 
                             return resolve({
-                                data: {
+                                result: {
                                     name: obj.user_first_name + ' ' + obj.user_last_name,
                                     email: obj.user_email,
                                     mobile: obj.user_mobile,
@@ -80,7 +58,7 @@ module.exports = {
                             })
                         }
                         return resolve({
-                            data: -1,
+                            result: -1,
                             message: 'Invalid password'
                         })
                     }
@@ -106,14 +84,14 @@ module.exports = {
                         if (results[0].length <= 0) {
                             // user dosenot exist
                             return resolve({
-                                data: -1,
+                                result: -1,
                                 message: 'Invalid username'
                             })
 
                         }
                         return resolve({
-                            data: 1,
-                            message: results[0][0]
+                            result: results[0][0],
+                            message: 'User found'
                         })
                     }
                 )
@@ -138,7 +116,6 @@ module.exports = {
 
                             conn.destroy()
                             return resolve({
-                                data: 1,
                                 message: 'Password changed successfully'
                             })
                         }
@@ -147,11 +124,92 @@ module.exports = {
             }
             else {
                 return resolve({
-                    data: -1,
                     message: 'Password mismatched'
                 })
             }
         })
     },
 
+    sendForgetPasswordLink: (data) => {
+
+        var token = crypto.randomBytes(125).toString('hex');
+        //console.log(token,data);
+        return new Promise((resolve, reject) => {
+
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL usp_set_reset_password_token(?, ?);',
+                    [data.user_email.toLowerCase(), token],
+                    (error, results) => {
+                        if (error) return reject(error)
+
+                        conn.destroy()
+
+                        notify.sendMAIL(
+                            [{ name: data.user_first_name, address: data.user_email }],
+                            forgetPasswordLinkTemplate.getSubject(data.user_first_name),
+                            null,
+                            forgetPasswordLinkTemplate.getTEXTMailTemplate(data.user_first_name, token)
+                        )
+                        return resolve({
+                            message: 'Password reset link sent'
+                        })
+                    }
+                )
+            })
+        })
+    },
+
+    getDataFromToken: (token) => {
+        return new Promise((resolve, reject) => {
+
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL usp_get_reset_password_token(?);',
+                    [token],
+                    (error, results) => {
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        if (results[0].length <= 0) {
+                            // user dosenot exist
+                            return resolve({
+                                result: -1,
+                                message: 'Token invalid or expired'
+                            })
+
+                        }
+                        return resolve({
+                            result: results[0][0],
+                            message: 'User found'
+                        })
+                    }
+                )
+            })
+
+        })
+    },
+
+    forgotPassword: (newPWD, user_id) => {
+        return new Promise((resolve, reject) => {
+
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL usp_change_user_password(?,?);',
+                    [user_id, passwordUtils.hashPassword(newPWD)],
+                    (error, uselessCB) => {
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        return resolve({
+                            message: 'Password changed successfully'
+                        })
+                    }
+                )
+            })
+        })
+    },
 }

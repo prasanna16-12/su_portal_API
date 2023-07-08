@@ -4,7 +4,7 @@ const Joi = require('joi');
 const validateUserLoginData = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
-        email: Joi.string().max(50).required(),
+        email: Joi.string().email().required(),
         password: Joi.string().max(50).required(),
     });
 

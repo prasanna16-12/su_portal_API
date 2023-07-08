@@ -5,6 +5,7 @@ const validateSupplierBasicData = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
 
+        // to disable link get contact person id also TODO
         supp_company_name: Joi.string().max(100).required(),
         supp_company_name2: Joi.string().max(100).required(),
         supp_street: Joi.string().max(100).required(),
@@ -19,7 +20,7 @@ const validateSupplierBasicData = (req, res, next) => {
         supp_langkey: Joi.string().max(100).required(),
         supp_contact: Joi.string().max(100).required(),
         supp_landline: Joi.string().max(100),
-        supp_email: Joi.string().max(100).required(),
+        supp_email: Joi.string().email().max(100).required(),
         supp_website: Joi.string().max(100),
         supp_namecheque: Joi.string().max(100).required(),
         supp_industry: Joi.string().max(100).required(),
@@ -55,19 +56,19 @@ const validateSupplierBasicData = (req, res, next) => {
         supp_l0name: Joi.string().max(100),
         supp_l0designation: Joi.string().max(100),
         supp_l0mobile: Joi.string().max(100),
-        supp_l0email: Joi.string().max(100),
+        supp_l0email: Joi.string().email().max(100),
         supp_l3name: Joi.string().max(100),
         supp_l3designation: Joi.string().max(100),
         supp_l3mobile: Joi.string().max(100),
-        supp_l3email: Joi.string().max(100),
+        supp_l3email: Joi.string().email().max(100),
         supp_l2name: Joi.string().max(100),
         supp_l2designation: Joi.string().max(100),
         supp_l2mobile: Joi.string().max(100),
-        supp_l2email: Joi.string().max(100),
+        supp_l2email: Joi.string().email().max(100),
         supp_l1name: Joi.string().max(100),
         supp_l1designation: Joi.string().max(100),
         supp_l1mobile: Joi.string().max(100),
-        supp_l1email: Joi.string().max(100),
+        supp_l1email: Joi.string().email().max(100),
         supp_upi_id: Joi.string().max(100)
     });
 

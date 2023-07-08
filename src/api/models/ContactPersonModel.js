@@ -1,3 +1,5 @@
+const notify = require('../helpers/NotifyUtils')
+const newOTPTemplate = require('../emailTemplate/ContactPerson/NewOTP')
 const pool = require('./DataBase')
 
 module.exports = {
@@ -71,7 +73,7 @@ module.exports = {
                 supp_l1mobile,
                 supp_l1email,
                 supp_upi_id } = data
-                console.log(data);
+            console.log(data);
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
@@ -157,15 +159,14 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_authenticate_supplier(?, ?);',
-                    [data.Supplier_ID, data.OTP],
+                    'CALL usp_supplier_details(?);',
+                    [data.Supplier_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
 
                         conn.destroy()
-                        console.log(results);
-                        return resolve(results[0].length > 0)
+                        return resolve(results[0][0])
                     }
                 )
             })
@@ -177,24 +178,68 @@ module.exports = {
         return new Promise((resolve, reject) => {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
-                let OTP = Math.floor(Math.random() * 900000) + 100000
+                let _OTP = Math.floor(Math.random() * 900000) + 100000
                 conn.query(
                     'CALL usp_get_newOTP(?,?);',
-                    [data.Supplier_ID, OTP],
+                    [data.Supplier_ID, _OTP],
                     (error, results) => {
 
                         if (error) return reject(error)
 
                         conn.destroy()
-
-                        // otp verification
-                        // verification.sendOTP(OTP, results[0][0].supp_name, results[0][0].supp_mobile, results[0][0].OTP_validity_TS)
-
+                        let {
+                            supp_ID,
+                            supp_name,
+                            supp_email,
+                            OTP,
+                            link_status,
+                            supp_company_name,
+                        } = results[0][0]
+                        
+                        notify.sendMAIL(
+                            [supp_email],
+                            newOTPTemplate.getSubject(supp_name),
+                            null,
+                            //newOTPTemplate.getHTMLMailTemplate(name, company_name, OTP, supp_ID),  // Future implementation
+                            newOTPTemplate.getTEXTMailTemplate(supp_name, supp_company_name, OTP, supp_ID)
+                        )
                         return resolve(true)
                     }
                 )
             })
 
         })
+    },
+
+    verifyContactPerson: (obj, OTP) => {
+
+        let authStatus = 'Success'
+
+
+        if (obj === undefined) { //no such supplier present
+            authStatus = 'No such a user present'
+        }
+        else {
+            let validDateTime = new Date(obj.OTP_validity_TS); // Valid Date
+
+            if (obj.link_status === 0) {
+                authStatus = 'link expired'
+            }
+            else {
+                if (validDateTime.getTime() > new Date().getTime()) { // valid TS
+                    if (obj.OTP === OTP) { //valid OTP
+                        authStatus = 'Success'
+                    }
+                    else {
+                        authStatus = 'Incorrect OTP'
+                    }
+
+                } else { // Invalid TS
+                    authStatus = 'OTP expired'
+                }
+            }
+        }
+        return authStatus
+
     },
 }

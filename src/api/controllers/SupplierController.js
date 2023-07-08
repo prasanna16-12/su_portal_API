@@ -14,7 +14,6 @@ module.exports = {
             })
         } catch (error) {
             return res.status(500).json({
-                result: -1,
                 message: error.message
             })
         }

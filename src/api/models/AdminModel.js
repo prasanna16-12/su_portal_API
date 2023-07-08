@@ -2,6 +2,8 @@ const pool = require('./DataBase')
 const passwordUtils = require('../helpers/PasswordUtils')
 const notify = require('../helpers/NotifyUtils')
 
+const userEmailTemplate = require('../emailTemplate/User/Welcome')
+
 module.exports = {
 
 
@@ -20,7 +22,7 @@ module.exports = {
 
                         conn.destroy()
                         if (results[0][0].ID != -1) {
-                            notify.sendOTP(req.user_mobile, `Password is ${password}, Username is ${req.user_email}`)
+                            notify.sendMAIL([{ name: req.user_first_name, address: req.user_email.toLowerCase() }], userEmailTemplate.getSubject(req.user_first_name), null, userEmailTemplate.getTEXTMailTemplate(req.user_first_name, password))
                         }
 
                         //console.log(results[0]);
@@ -50,7 +52,7 @@ module.exports = {
                         let newObj = results[0]
                         newObj.map(renameTOvendor_reg_code)
 
-                        
+
                         return resolve(newObj)
                     }
                 )

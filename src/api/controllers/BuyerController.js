@@ -11,7 +11,6 @@ module.exports = {
             })
         } catch (error) {
             return res.status(500).json({
-                result: -1,
                 message: error.message
             })
         }
@@ -25,7 +24,6 @@ module.exports = {
             })
         } catch (error) {
             return res.status(500).json({
-                result: -1,
                 message: error.message
             })
         }
@@ -34,13 +32,12 @@ module.exports = {
     addContactPerson: async (req, res) => {
         try {
             const ID = await BuyerModel.addContactPerson(req.body)
-            return res.status(200).json({
-                supplier_ID: ID,
+            return res.status(201).json({
+                result: {'supplier_ID':ID},
                 message: 'Success'
             })
         } catch (error) {
             return res.status(500).json({
-                supplier_ID: -1,
                 message: error.message
             })
         }
@@ -53,12 +50,11 @@ module.exports = {
             const data = await BuyerModel.allPendingApprovalWithPrevStatus(ompanyDetails)
 
             return res.status(200).json({
-                supplier_data: data[0],
+                result: data[0],
                 message: 'Success'
             })
         } catch (error) {
             return res.status(500).json({
-                supplier_data: -1,
                 message: error.message
             })
         }
@@ -72,12 +68,11 @@ module.exports = {
             const data = await BuyerModel.allPendingApprovalWithPrevStatus(supplierList)
 
             return res.status(200).json({
-                supplier_data: data,
+                result: data,
                 message: 'Success'
             })
         } catch (error) {
             return res.status(500).json({
-                supplier_data: -1,
                 message: error.message
             })
         }
@@ -95,7 +90,6 @@ module.exports = {
             })
         } catch (error) {
             return res.status(500).json({
-                result: -1,
                 message: error.message
             })
         }
@@ -110,7 +104,6 @@ module.exports = {
             })
         } catch (error) {
             return res.status(500).json({
-                result: -1,
                 message: error.message
             })
         }

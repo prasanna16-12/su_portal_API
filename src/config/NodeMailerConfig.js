@@ -1,10 +1,14 @@
+require('dotenv').config();
+
 const NodeMailerConfig = {
     
+    service: process.env.SERVICE,
     auth: {
-        user: 'prasanna89kale@gmail.com',
-        pass: 'IITspectrum@89'
-    },
-    service: 'gmail'
+        user: process.env.EMAIL,
+        pass: process.env.PWD
+    }
+    
 }
+
 
 module.exports = NodeMailerConfig
