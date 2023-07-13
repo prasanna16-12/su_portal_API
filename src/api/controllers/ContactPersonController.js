@@ -21,13 +21,19 @@ module.exports = {
     authenticateContactPerson: async (req, res) => {
         try {
             const obj = await ContactPersonModel.authenticateContactPerson(req.body)
-            
-            
 
             const authStatus = ContactPersonModel.verifyContactPerson(obj, req.body.OTP)
 
+            if (obj !== undefined) {
+                delete obj.OTP
+                delete obj.link_status
+                delete obj.OTP_validity_TS
+                delete obj.supp_created_on
+            }
+
             return res.status(200).json({
-                message: authStatus
+                message: authStatus,
+                result: authStatus === 'Success' ? obj : null
             })
         } catch (error) {
             return res.status(500).json({

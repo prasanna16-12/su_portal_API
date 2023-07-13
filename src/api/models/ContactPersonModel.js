@@ -213,7 +213,7 @@ module.exports = {
 
     verifyContactPerson: (obj, OTP) => {
 
-        let authStatus = 'Success'
+        let authStatus =  'Success'
 
 
         if (obj === undefined) { //no such supplier present
@@ -229,6 +229,7 @@ module.exports = {
                 if (validDateTime.getTime() > new Date().getTime()) { // valid TS
                     if (obj.OTP === OTP) { //valid OTP
                         authStatus = 'Success'
+                        
                     }
                     else {
                         authStatus = 'Incorrect OTP'
