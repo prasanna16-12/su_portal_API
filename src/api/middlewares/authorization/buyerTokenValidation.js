@@ -13,7 +13,9 @@ const validateToken = (req, res, next) => {
                     message: error,
                 });
             } else {
+
                 if (decoded.result.user_role === 'BUYER') {
+                    req.user_info = decoded.result
                     next();
                 }
                 else {

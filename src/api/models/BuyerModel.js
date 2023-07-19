@@ -269,13 +269,13 @@ module.exports = {
                     if (error) return reject(error)
                     conn.query(
                         'call usp_get_previous_status(?, ?);',
-                        [_data.supp_vendor_reg_code, _data.current_status],
+                        [_data.vendor_reg_code, _data.current_status],
                         (error, results) => {
 
                             if (error) return reject(error)
 
                             conn.destroy()
-
+                            console.log(results[0]);
                             data[i].previous_status = results[0]
                             inner_callback(null)
 
@@ -300,7 +300,7 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'call usp_change_status_AP1_AP2_AP3(?, ?, ?);',
-                    [data.supp_reg_code, action],
+                    [data.body.supp_reg_code, action, data.user_info.user_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
@@ -320,7 +320,7 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'CALL `usp_change_status_ID1`(?, ?, ?, ?, ?, ?);',
-                    [data.supp_reg_code, data.Purchaser, data.Previous_Vendor_Code, data.Diverse_Supplier, data.Search_Term],
+                    [data.body.supp_reg_code, data.body.Purchaser, data.body.Previous_Vendor_Code, data.body.Diverse_Supplier, data.body.Search_Term, data.user_info.user_ID],
                     (error, results) => {
 
                         if (error) return reject(error)

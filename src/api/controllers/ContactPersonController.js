@@ -6,7 +6,7 @@ module.exports = {
     addSupplierCompanyDetails: async (req, res) => {
         try {
             const data = await ContactPersonModel.addSupplierCompanyDetails(req.body)
-            console.log(data);
+            //console.log(data);
             return res.status(201).json({
                 result: data[0][0],
                 message: 'Success'

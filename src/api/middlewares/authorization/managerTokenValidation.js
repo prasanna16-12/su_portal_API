@@ -14,6 +14,7 @@ const validateToken = (req, res, next) => {
                 });
             } else {
                 if (decoded.result.user_role === 'MANAGER') {
+                    req.user_info = decoded.result
                     next();
                 }
                 else {

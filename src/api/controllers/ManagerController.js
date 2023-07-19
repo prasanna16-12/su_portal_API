@@ -7,7 +7,7 @@ module.exports = {
         try {
             let action = "AP2"
             console.log(action);
-            const data = await ManagerModel.changeStatus(req.body, action)
+            const data = await ManagerModel.changeStatus(req, action)
             return res.status(200).json({
                 result: data[0],
                 message: 'Success'

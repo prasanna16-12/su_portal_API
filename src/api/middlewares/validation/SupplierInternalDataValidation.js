@@ -5,8 +5,8 @@ const validateInternalData = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
 
-        supp_reg_code: Joi.number().min(1000000000).max(9999999999).required(),
-        Purchaser: Joi.string().max(50).required(),
+        supp_reg_code: Joi.number().min(100000).max(999999).required(),
+        Purchaser: Joi.number().required(),
         Previous_Vendor_Code: Joi.string().max(50).required(),
         Diverse_Supplier: Joi.string().max(50).required(),
         Search_Term: Joi.string().max(50).required(),

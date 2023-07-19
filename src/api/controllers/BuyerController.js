@@ -64,9 +64,9 @@ module.exports = {
     allPendingApproval: async (req, res) => {
         try {
             const supplierList = await BuyerModel.allPendingApproval()
-            //console.log(supplierList)
+            console.log(supplierList)
             const data = await BuyerModel.allPendingApprovalWithPrevStatus(supplierList)
-
+            
             return res.status(200).json({
                 result: data,
                 message: 'Success'
@@ -83,7 +83,7 @@ module.exports = {
         try {
             let action = "AP1"
             console.log(action);
-            const data = await BuyerModel.changeStatus(req.body, action)
+            const data = await BuyerModel.changeStatus(req, action)
             return res.status(200).json({
                 result: data[0],
                 message: 'Success'
@@ -97,7 +97,8 @@ module.exports = {
 
     changeStatusID1: async (req, res) => {
         try {
-            const data = await BuyerModel.changeStatusID1(req.body)
+            //console.log(req.user_info);
+            const data = await BuyerModel.changeStatusID1(req)
             return res.status(200).json({
                 result: data[0],
                 message: 'Success'
