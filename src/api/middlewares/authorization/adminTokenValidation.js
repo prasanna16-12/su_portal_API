@@ -13,7 +13,9 @@ const validateToken = (req, res, next) => {
                     message: error,
                 });
             } else {
+                //decoded.result
                 if (decoded.result.user_role === 'ADMIN') {
+                    req.userData = decoded.result
                     next();
                 }
                 else {

@@ -7,7 +7,7 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'call usp_change_status_AP1_AP2_AP3(?, ?);',
+                    'call usp_change_status_AP1_AP2_AP3(?, ?, ?);',
                     [data.supp_reg_code, action],
                     (error, results) => {
 

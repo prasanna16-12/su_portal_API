@@ -34,9 +34,10 @@ module.exports = {
                         //console.log(results[0], req);
                         const isPassWordCorrect = passwordUtils.comparePassword(req.password, results[0][0].user_password)
                         if (isPassWordCorrect) {
+
                             let obj = results[0][0]
                             obj.user_password = undefined
-
+                            //console.log(obj);
                             const user_jwt = sign({ result: obj }, process.env.ACCESS_TOKEN_KEY
                                 ,
                                 {
@@ -52,6 +53,7 @@ module.exports = {
                                     email: obj.user_email,
                                     mobile: obj.user_mobile,
                                     role: obj.user_role,
+                                    ID: obj.user_ID,
                                     user_token: user_jwt
                                 },
                                 message: 'User authenticated successfully'

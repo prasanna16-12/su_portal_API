@@ -7,7 +7,8 @@ const validateContactPersonBasicData = (req, res, next) => {
         name: Joi.string().min(3).max(50).required(),
         company_name: Joi.string().min(3).max(50).required(),
         email: Joi.string().email().required(),
-        phone: Joi.string().required()
+        phone: Joi.string().required(),
+        buyer_ID: Joi.number().required()
     });
 
     const { error } = schema.validate(req.body); // Validate request data

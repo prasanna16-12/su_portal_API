@@ -15,7 +15,7 @@ const validateToken = (req, res, next) => {
             } else {
                 if (decoded.result.user_email === req.params.email.toLowerCase()) {
                     console.log(decoded.result.user_email, req.params.email.toLowerCase());
-                    return res.status(403).json({
+                    return res.status(200).json({
                         message: 'Success'
                     });
                 }

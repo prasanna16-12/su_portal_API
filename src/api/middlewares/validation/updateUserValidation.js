@@ -14,7 +14,8 @@ const validateUpdateUserBasicData = (req, res, next) => {
         manager_ID: Joi.number(),
         user_ID: Joi.number().required(),
         is_active: Joi.number().required(),
-        is_deleted: Joi.number().required()
+        is_deleted: Joi.number().required(),
+        Permission_ID: Joi.array().items(Joi.string().max(10)).min(1)
     });
 
     const { error } = schema.validate(req.body); // Validate request data

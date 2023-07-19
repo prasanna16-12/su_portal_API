@@ -47,21 +47,21 @@ module.exports = {
 
     addContactPerson: (data) => {
         return new Promise((resolve, reject) => {
-            let { name, email, phone, company_name } = data
+            let { name, email, phone, company_name, buyer_ID } = data
             let OTP = Math.floor(Math.random() * 900000) + 100000
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_create_supplier(?,?,?,?,?)',
-                    [name, email, phone, company_name, OTP],
+                    'CALL usp_buyer_add_contact_person(?,?,?,?,?,?)',
+                    [name, email, phone, company_name, OTP, buyer_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
 
                         // email
-                        
+
                         conn.destroy()
-                        let {supp_ID} = results[0][0] // obj destructuring
+                        let { supp_ID } = results[0][0] // obj destructuring
                         notify.sendMAIL(
                             [email],
                             contactPersonEmailTemplate.getSubject(name),
@@ -147,7 +147,7 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_add_supplier_comp_details(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+                    'CALL usp_contact_person_add_supplier_comp_details(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
                     [supp_company_name,
                         supp_company_name2,
                         supp_street,
@@ -229,7 +229,7 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_get_all_pending_approval_supp_com_details();',
+                    'CALL usp_get_all_pending_approval_vendor_details();',
                     (error, results) => {
 
                         if (error) return reject(error)
@@ -247,7 +247,7 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_get_supplier_com_details(?);',
+                    'CALL usp_get_vendor_details(?);',
                     [id],
                     (error, results) => {
 
@@ -299,7 +299,7 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'call usp_change_status_AP1_AP2_AP3(?, ?);',
+                    'call usp_change_status_AP1_AP2_AP3(?, ?, ?);',
                     [data.supp_reg_code, action],
                     (error, results) => {
 
@@ -319,7 +319,7 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL `usp_change_status_ID1`(?, ?, ?, ?, ?);',
+                    'CALL `usp_change_status_ID1`(?, ?, ?, ?, ?, ?);',
                     [data.supp_reg_code, data.Purchaser, data.Previous_Vendor_Code, data.Diverse_Supplier, data.Search_Term],
                     (error, results) => {
 

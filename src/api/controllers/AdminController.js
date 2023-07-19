@@ -4,6 +4,9 @@ module.exports = {
 
     createNewUser: async (req, res) => {
         try {
+
+            //console.log(req.userData); can be further used for permisson
+
             const data = await AdminModel.createNewUser(req.body)
             return res.status(201).json({
                 result: data,

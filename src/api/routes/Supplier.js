@@ -9,6 +9,7 @@ const supplierUpdatedDetailsValidation = require('../middlewares/validation/Upda
 
 SupplierRouter
 
+    
     /* updated and insert details into -> tbl_supplier_details_update */
     .put('/Update', supplierUpdatedDetailsValidation, SupplierController.addUpdateDetails)
 
