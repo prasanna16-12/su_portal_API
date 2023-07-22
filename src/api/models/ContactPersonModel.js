@@ -75,7 +75,7 @@ module.exports = {
                 buyer_ID,
                 vendor_dnb_code,
                 contact_person_id } = data
-            console.log(data);
+            //console.log(data);
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(

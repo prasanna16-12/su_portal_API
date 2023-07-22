@@ -37,7 +37,28 @@ module.exports = {
                         if (error) return reject(error)
 
                         conn.destroy()
-                        console.log(results[0]);
+                        //console.log(results[0]);
+                        return resolve(results[0])
+                    }
+                )
+            })
+
+        })
+    },
+
+    rejectUpdateDetailsMasterTable: (id) => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'CALL usp_update_reject_vendor_details_change(?);',
+                    [id],
+                    (error, results) => {
+
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        //console.log(results[0]);
                         return resolve(results[0])
                     }
                 )

@@ -15,7 +15,10 @@ BuyerRouter
     .get('/Update/:id', BuyerController.getUpdateDetails)
 
     /* add approved update fields */
-    .post('/Update/:id', BuyerController.approveUpdateDetails)
+    .post('/Update/approve/:id', BuyerController.approveUpdateDetails)
+
+    /* add reject update fields */
+    .post('/Update/reject/:id', BuyerController.rejectUpdateDetails)
 
     /* Add contact person with basic details */
     .post('/ContactPerson', validateContactPersonBasicData, BuyerController.addContactPerson)
