@@ -165,7 +165,7 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'CALL usp_supplier_details(?);',
-                    [data.Supplier_ID],
+                    [data.contactPerson_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
@@ -186,7 +186,7 @@ module.exports = {
                 let _OTP = Math.floor(Math.random() * 900000) + 100000
                 conn.query(
                     'CALL usp_get_newOTP(?,?);',
-                    [data.Supplier_ID, _OTP],
+                    [data.contactPerson_ID, _OTP],
                     (error, results) => {
 
                         if (error) return reject(error)
