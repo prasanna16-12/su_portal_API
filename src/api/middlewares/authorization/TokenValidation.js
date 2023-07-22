@@ -15,6 +15,7 @@ const validateToken = (req, res, next) => {
             } else {
                 //console.log(decoded.result)
                 if (decoded.result.user_role === 'ADMIN' || decoded.result.user_role === 'BUYER' || decoded.result.user_role === 'MANAGER' || decoded.result.user_role === 'SUPPLIER') {
+                    req.user_info = decoded.result
                     next();
                 }
                 else {

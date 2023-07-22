@@ -10,7 +10,7 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_get_update_details_from_stagging(?);',
+                    'CALL usp_get_update_details_from_staging(?);',
                     [id],
                     (error, results) => {
 
@@ -37,6 +37,7 @@ module.exports = {
                         if (error) return reject(error)
 
                         conn.destroy()
+                        console.log(results[0]);
                         return resolve(results[0])
                     }
                 )

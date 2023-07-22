@@ -45,8 +45,6 @@ module.exports = {
                                 }
                             )
 
-                            //notify.sendMAIL('prasanna89kale@gmail.com', 'prasanna89kale@gmail.com', '', '');
-
                             return resolve({
                                 result: {
                                     name: obj.user_first_name + ' ' + obj.user_last_name,
@@ -54,6 +52,9 @@ module.exports = {
                                     mobile: obj.user_mobile,
                                     role: obj.user_role,
                                     ID: obj.user_ID,
+                                    vendorID: obj.supp_vendor_reg_code,
+                                    managerID: obj.manager_ID,
+                                    permission: JSON.parse(obj.Permission_ID),
                                     user_token: user_jwt
                                 },
                                 message: 'User authenticated successfully'
