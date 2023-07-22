@@ -300,7 +300,7 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'call usp_change_status_AP1_AP2_AP3(?, ?, ?);',
-                    [data.body.supp_reg_code, action, data.user_info.user_ID],
+                    [data.body.vendor_reg_code, action, data.user_info.user_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
