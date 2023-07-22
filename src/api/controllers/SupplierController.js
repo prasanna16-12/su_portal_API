@@ -8,7 +8,7 @@ module.exports = {
 
     addUpdateDetails: async (req, res) => {
         try {
-            const data = await SupplierModel.addUpdateDetailsstaggingTable(req.body)
+            const data = await SupplierModel.addUpdateDetailsStaggingTable(req.body)
             return res.status(200).json({
                 message: 'Success'
             })

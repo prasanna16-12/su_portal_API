@@ -45,9 +45,9 @@ module.exports = {
     
     CompanyDetails: async (req, res) => {
         try {
-            const ompanyDetails = await BuyerModel.CompanyDetails(req.params.id)
+            const companyDetails = await BuyerModel.CompanyDetails(req.params.id)
             //console.log(supplierList)
-            const data = await BuyerModel.allPendingApprovalWithPrevStatus(ompanyDetails)
+            const data = await BuyerModel.allPendingApprovalWithPrevStatus(companyDetails)
 
             return res.status(200).json({
                 result: data[0],
@@ -66,7 +66,7 @@ module.exports = {
             const supplierList = await BuyerModel.allPendingApproval()
             console.log(supplierList)
             const data = await BuyerModel.allPendingApprovalWithPrevStatus(supplierList)
-            
+
             return res.status(200).json({
                 result: data,
                 message: 'Success'

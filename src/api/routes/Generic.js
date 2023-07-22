@@ -13,5 +13,8 @@ GenericRouter
     /* check token validation */
     .get('/checkToken/:email',tokenCheckAuth)
 
+    /* get company details */
+    .get('/SupplierCompany/:id', BuyerController.CompanyDetails)
+
     
 module.exports = GenericRouter

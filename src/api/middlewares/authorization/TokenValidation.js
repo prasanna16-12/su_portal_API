@@ -13,7 +13,8 @@ const validateToken = (req, res, next) => {
                     message: error,
                 });
             } else {
-                if (decoded.result.user_role === 'ADMIN' || decoded.result.user_role === 'BUYER' || decoded.result.user_role === 'MANAGER') {
+                //console.log(decoded.result)
+                if (decoded.result.user_role === 'ADMIN' || decoded.result.user_role === 'BUYER' || decoded.result.user_role === 'MANAGER' || decoded.result.user_role === 'SUPPLIER') {
                     next();
                 }
                 else {

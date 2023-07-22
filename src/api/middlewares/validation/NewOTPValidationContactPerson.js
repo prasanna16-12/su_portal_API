@@ -4,7 +4,7 @@ const Joi = require('joi');
 const optDataValidation = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
-        Supplier_ID: Joi.number().required(),
+        contactPerson_ID: Joi.number().required(),
     });
 
     const { error } = schema.validate(req.body); // Validate request data

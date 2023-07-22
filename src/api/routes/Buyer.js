@@ -27,7 +27,7 @@ BuyerRouter
     .put('/Approve/ID1', SupplierInternalDataValidation, BuyerController.changeStatusID1)
 
     /* get company details */
-    .get('/SupplierCompany/:id', BuyerController.CompanyDetails)
+    // .get('/SupplierCompany/:id', BuyerController.CompanyDetails)   -> moved to generic
 
     /* upload NDA */
     .post('/NDA_document/:id', NDA_Upload.single('uploadedFile'), BuyerController.fileUpload_NDA)

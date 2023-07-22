@@ -4,7 +4,7 @@ const Joi = require('joi');
 const SupplierAuthValidation = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
-        Supplier_ID: Joi.number().required(),
+        contactPerson_ID: Joi.number().required(),
         OTP: Joi.number().min(100000).max(999999).required(),
     });
 

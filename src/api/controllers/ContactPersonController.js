@@ -24,11 +24,22 @@ module.exports = {
 
             const authStatus = ContactPersonModel.verifyContactPerson(obj, req.body.OTP)
 
+            
+
             if (obj !== undefined) {
+
+                obj['ID'] = obj['supp_ID']
+                obj['mobile'] = obj['supp_mobile']
+                obj['email'] = obj['supp_email']
+                obj['name'] = obj['supp_name']
                 delete obj.OTP
                 delete obj.link_status
                 delete obj.OTP_validity_TS
                 delete obj.supp_created_on
+                delete obj.supp_ID
+                delete obj.supp_mobile
+                delete obj.supp_email
+                delete obj.supp_name
             }
 
             return res.status(200).json({

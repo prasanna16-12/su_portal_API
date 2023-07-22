@@ -320,7 +320,7 @@ module.exports = {
                 if (error) return reject(error)
                 conn.query(
                     'CALL `usp_change_status_ID1`(?, ?, ?, ?, ?, ?);',
-                    [data.body.supp_reg_code, data.body.Purchaser, data.body.Previous_Vendor_Code, data.body.Diverse_Supplier, data.body.Search_Term, data.user_info.user_ID],
+                    [data.body.vendor_reg_code, data.body.Purchaser, data.body.Previous_Vendor_Code, data.body.Search_Term, data.body.Diverse_Supplier, data.user_info.user_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
