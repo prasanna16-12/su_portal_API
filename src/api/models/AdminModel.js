@@ -105,7 +105,7 @@ module.exports = {
                         if (error) return reject(error)
 
                         conn.destroy()
-                        console.log(results[0])
+                        //console.log(results[0])
                         return resolve(seperateManagerVendor(results[0]))
                     }
                 )

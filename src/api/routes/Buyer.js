@@ -17,6 +17,9 @@ BuyerRouter
     /* add approved update fields */
     .post('/Update/approve/:id', BuyerController.approveUpdateDetails)
 
+    /* update internal data fields */
+    .post('/Update/InternalData/:id', BuyerController.approveUpdateDetails)
+
     /* add reject update fields */
     .post('/Update/reject/:id', BuyerController.rejectUpdateDetails)
 

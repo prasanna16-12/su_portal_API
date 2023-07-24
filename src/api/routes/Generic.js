@@ -1,6 +1,8 @@
 const express = require('express')
 const GenericRouter = express.Router()
 const BuyerController = require('../controllers/BuyerController')
+const GenericController = require('../controllers/GenericController')
+
 
 /* validation */
 
@@ -16,5 +18,7 @@ GenericRouter
     /* get company details */
     .get('/SupplierCompany/:id', BuyerController.CompanyDetails)
 
+    /* get company details */
+    .get('/vendormetadata/', GenericController.VendorInfo)
     
 module.exports = GenericRouter
