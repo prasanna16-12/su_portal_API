@@ -30,14 +30,14 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_update_aprroved_details_master(?);',
+                    'CALL usp_update_approved_details_master(?);',
                     [id],
                     (error, results) => {
 
                         if (error) return reject(error)
 
                         conn.destroy()
-                        //console.log(results[0]);
+                        console.log(results);
                         return resolve(results[0])
                     }
                 )

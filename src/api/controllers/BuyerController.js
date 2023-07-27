@@ -6,7 +6,7 @@ module.exports = {
         try {
             const data = await BuyerModel.getUpdateDetailsStaggingTable(req.params.id)
 
-            console.log(data);
+            //console.log(data);
             for (let i = 0; i < data.length; i++) {
                 delete data[i]['approvedOn']
             }

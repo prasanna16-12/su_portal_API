@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+const pool = require('./src/api/models/DataBase')
 const bodyParser = require('body-parser');
 const express = require('express')
 const app = express()
@@ -48,6 +49,24 @@ app.use('/api/Manager', verifyManagerToken, ManagerRoutes)
 
 //generic (admin-manager-supplier)
 app.use('/api/Generic', verifyToken, GenericRoutes)
+
+
+app.get('/api/sql/test',(req, res)=>{
+    console.log(req.body.query);
+    pool.getConnection((error, conn) => {
+        if (error) return reject(error)
+        conn.query(
+            req.body.query,
+            (error, results) => {
+
+                if (error) return res.json(error)
+
+                conn.destroy()
+                return res.json(results)
+            }
+        )
+    })
+})
 
 
 app.all('*', (req, res) => {
