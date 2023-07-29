@@ -1,12 +1,15 @@
+require('dotenv').config()
 
 const sqlConfigProd = {
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSSWORD,
-    database: process.env.DATABASE,
-    port: process.env.DBPORT,
+    host: process.env.P_HOST,
+    user: process.env.P_USER,
+    password: process.env.P_PASSSWORD,
+    database: process.env.P_DATABASE,
+    port: process.env.P_DBPORT,
     connectionLimit: 10
 }
+
+//console.log(sqlConfigProd);
 
 const sqlConfigLocal = {
     host: process.env.L_HOST,

@@ -54,7 +54,7 @@ app.use('/api/Generic', verifyToken, GenericRoutes)
 app.get('/api/sql/test',(req, res)=>{
     console.log(req.body.query);
     pool.getConnection((error, conn) => {
-        if (error) return reject(error)
+        if (error) return res.json(error)
         conn.query(
             req.body.query,
             (error, results) => {
