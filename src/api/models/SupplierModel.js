@@ -12,6 +12,7 @@ module.exports = {
         const supplierName = data.supplier_name
         const vendorName = data.vendor_name
         const updateArray = data.update_details
+        
         //console.log(supplierID, updateArray);
 
         return new Promise((resolve, reject) => {
@@ -19,8 +20,8 @@ module.exports = {
                 pool.getConnection((error, conn) => {
                     if (error) return reject(error)
                     conn.query(
-                        'call usp_insert_update_details_to_staging(?, ?, ?, ?, ?, ?, ?, ?);',
-                        [supplierID, vendorID, buyerID, supplierName, vendorName, _updateArray.field_name, _updateArray.field_value, _updateArray.field_old_value],
+                        'call usp_insert_update_details_to_staging(?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                        [supplierID, vendorID, buyerID, supplierName, vendorName,_updateArray.tab_name, _updateArray.field_name, _updateArray.field_value, _updateArray.field_old_value],
                         (error, results) => {
 
                             if (error) return reject(error)

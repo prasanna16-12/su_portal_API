@@ -1,6 +1,8 @@
 const express = require('express')
 const BuyerRouter = express.Router()
 const BuyerController = require('../controllers/BuyerController')
+const SupplierController = require('../controllers/SupplierController')
+
 
 /* validation */
 const validateContactPersonBasicData = require('../middlewares/validation/ContactPersonBasicDataValidation')
@@ -8,6 +10,8 @@ const validateContactPersonBasicData = require('../middlewares/validation/Contac
 const StatusChangeValidation = require('../middlewares/validation/StatusChangeValidation')
 const SupplierInternalDataValidation = require('../middlewares/validation/SupplierInternalDataValidation')
 const vendorRegCodeDataValidation = require('../middlewares/validation/VendorRegCodeDataValidation')
+const supplierUpdatedDetailsValidation = require('../middlewares/validation/UpdateDetailsValidation')
+
 const NDA_Upload = require('../middlewares/fileUpload/NDA_Upload')
 
 BuyerRouter
@@ -41,5 +45,6 @@ BuyerRouter
     /* download NDA */
     .get('/NDA_document/:id', BuyerController.fileDownload_NDA)
 
-
+    /* updated and insert details into -> tbl_supplier_details_update (Buyers internal data)  */
+    .put('/Update',supplierUpdatedDetailsValidation, SupplierController.addUpdateDetails)
 module.exports = BuyerRouter

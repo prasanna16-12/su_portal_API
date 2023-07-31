@@ -24,6 +24,7 @@ module.exports = {
         transporter.sendMail(mailOptions, (error, response) => {
             error ? console.log(error) : console.log(response.messageId);
             transporter.close();
+            
         });
     }
 }
