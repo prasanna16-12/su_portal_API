@@ -13,4 +13,13 @@ ManagerRouter
     /* approve status to ID1 */
     .put('/Approve/AP3', StatusChangeValidation, ManagerController.changeStatus_AP3)
 
+    /* get supplier update details (pending for approval) */
+    .get('/Update/:id', ManagerController.getUpdateDetails)
+
+    /* add approved update fields */
+    .post('/Update/approve/:id', BuyerController.approveUpdateDetails)
+
+    /* add reject update fields */
+    .post('/Update/reject/:id', BuyerController.rejectUpdateDetails)
+
 module.exports = ManagerRouter

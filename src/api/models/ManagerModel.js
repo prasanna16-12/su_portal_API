@@ -21,4 +21,25 @@ module.exports = {
 
         })
     },
+
+    getPendingUpdateForManager: (managerID) => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'call usp_get_update_details_from_staging_manager(?);',
+                    [managerID],
+                    (error, results) => {
+
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        //console.log(results);
+                        return resolve(results[0])
+                    }
+                )
+            })
+
+        })
+    },
 }
