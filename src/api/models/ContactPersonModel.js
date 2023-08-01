@@ -202,8 +202,9 @@ module.exports = {
                         } = results[0][0]
                         
                         notify.sendMAIL(
+                            'Verification',
                             [supp_email],
-                            newOTPTemplate.getSubject(supp_name),
+                            newOTPTemplate.getSubject(),
                             null,
                             //newOTPTemplate.getHTMLMailTemplate(name, company_name, OTP, supp_ID),  // Future implementation
                             newOTPTemplate.getTEXTMailTemplate(supp_name, supp_company_name, OTP, supp_ID)

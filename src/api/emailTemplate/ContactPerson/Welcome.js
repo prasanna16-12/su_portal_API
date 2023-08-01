@@ -242,32 +242,34 @@ module.exports = {
 	},
 
 	getTEXTMailTemplate: (name, compName, OTP, supp_ID) => {
-		const str = name;
-		name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-		name = name.split(' ')[0]
 
 		const link = encodeURI(`${process.env.CONTACT_PERSON_COMPANY_DETAILS_ADDITION}?company_temp_id=${supp_ID}&company_name=${compName}`)
 
 		return `
 
-Hello ${name} from ${compName},
-You received this email because we invited you to use our services.
+			Hi ${name},
 
-Your OTP is ${OTP},  Please use verification code to sign in.
-${link}
+			This mail has come from OVTPL to you to enter your company’s details. Please follow the following steps.
+			1) For verification, please note the following security code (OTP) 
+				Security Code : ${OTP}
+				
+			2) Enter the above code in the link below  and submit.
+				${link}
 
-The link is valid for you, for next 24 hrs.
-If you didn't request this, you can ignore this email.
+			3) Upon successful verification of the OTP, Supplier Registration form will open. Fill up all mandatory details and submit the form.
 
-Have a nice day,
-OVTPL`
+			4) Please note the registration code which will be displayed on successful registration.
+
+			5) You will also receive a mail on the above id, showing the details that you submitted.
+
+			Thanks
+
+			Supplier Onboarding Team.
+			Other View Technologies (OPC) Pvt. Ltd.`
 	},
 
-	getSubject: (name) => {
-		const str = name;
-		name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-		name = name.split(' ')[0]
-		return `Hi ${name}, Welcome to OVTPL`
+	getSubject: () => {
+		return `Details for Supplier Registration at OVTPL`
 	}
 
 }

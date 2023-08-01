@@ -8,7 +8,7 @@ module.exports = {
 
 
     createNewUser: (req) => {
-        const password = "Pass@123"//passwordUtils.randomPassword()
+        const password = passwordUtils.randomPassword()
 
         return new Promise((resolve, reject) => {
             pool.getConnection((error, conn) => {
@@ -22,7 +22,7 @@ module.exports = {
 
                         conn.destroy()
                         if (results[0][0].ID != -1) {
-                            notify.sendMAIL([{ name: req.user_first_name, address: req.user_email.toLowerCase() }], userEmailTemplate.getSubject(req.user_first_name), null, userEmailTemplate.getTEXTMailTemplate(req.user_first_name, password))
+                            notify.sendMAIL('User Registration',[{ name: req.user_first_name, address: req.user_email.toLowerCase() }], userEmailTemplate.getSubject(), null, userEmailTemplate.getTEXTMailTemplate(req.user_first_name, password))
                         }
 
                         //console.log(results[0]);

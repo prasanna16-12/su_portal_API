@@ -85,9 +85,10 @@ module.exports = {
                         conn.destroy()
                         let { supp_ID } = results[0][0] // obj destructuring
                         notify.sendMAIL(
+                            'Supplier Registration',
                             [email],
-                            contactPersonEmailTemplate.getSubject(name),
-                            contactPersonEmailTemplate.getHTMLMailTemplate(name, company_name, OTP, supp_ID),
+                            contactPersonEmailTemplate.getSubject(),
+                            null,//contactPersonEmailTemplate.getHTMLMailTemplate(name, company_name, OTP, supp_ID),
                             contactPersonEmailTemplate.getTEXTMailTemplate(name, company_name, OTP, supp_ID)
                         )
                         return resolve(results[0][0].supp_ID)

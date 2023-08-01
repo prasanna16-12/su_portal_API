@@ -242,31 +242,27 @@ module.exports = {
 //     },
 
     getTEXTMailTemplate: (name, PWD) => {
-        const str = name;
-        name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         
-
         const link = encodeURI(`${process.env.OVTPL_LOGIN}`)
 
         return `
 
-Hello ${name},
-You received this email because we invited you to use our services.
+            Hello ${name},
 
-Your password is ${PWD},  Please change your password once you sign in.
-${link}
+            You received this email because we invited you to use our services.
+            Your password is ${PWD},  Please change your password once you sign in.
+            ${link}
 
-If you didn't request this, you can ignore this email.
+            If you didn't request this, you can ignore this email.
 
-Have a nice day,
-OVTPL`
+            Thanks
+
+            User Onboarding Team.
+            Other View Technologies (OPC) Pvt. Ltd.`
     },
 
-    getSubject: (name) => {
-        const str = name;
-        name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        name = name.split(' ')[0]
-        return `Hi ${name}, Welcome to OVTPL`
+    getSubject: () => {
+        return `Welcome to OVTPL`
     }
 
 }

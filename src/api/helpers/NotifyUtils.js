@@ -6,14 +6,14 @@ const NodeMailerConfig = require('../../config/NodeMailerConfig')
 
 module.exports = {
 
-    sendMAIL: (_to, _subject, _HTML=null, _text =null) => {
+    sendMAIL: (_from_name, _to, _subject, _HTML=null, _text =null) => {
 
         let transporter = nodemailer.createTransport(
             NodeMailerConfig()
         );
 
         const mailOptions = {
-            from: { name: 'Supplier Registration', address: process.env.EMAIL },
+            from: { name: _from_name, address: process.env.EMAIL },
             to: _to,
             subject: _subject,
             text: _text,

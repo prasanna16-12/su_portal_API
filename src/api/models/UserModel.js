@@ -150,8 +150,9 @@ module.exports = {
                         conn.destroy()
 
                         notify.sendMAIL(
+                            'Verification',
                             [{ name: data.user_first_name, address: data.user_email }],
-                            forgetPasswordLinkTemplate.getSubject(data.user_first_name),
+                            forgetPasswordLinkTemplate.getSubject(),
                             null,
                             forgetPasswordLinkTemplate.getTEXTMailTemplate(data.user_first_name, token)
                         )

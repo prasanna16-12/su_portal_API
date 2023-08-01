@@ -242,30 +242,27 @@ module.exports = {
 // 	},
 
 	getTEXTMailTemplate: (name, compName, OTP, supp_ID) => {
-		const str = name;
-		name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-		name = name.split(' ')[0]
+
 		const link = encodeURI(`${process.env.CONTACT_PERSON_COMPANY_DETAILS_ADDITION}?company_temp_id=${supp_ID}&company_name=${compName}`)
 	
 		return `
-		
-Hello ${name} from ${compName},
+					
+			Hello ${name} from ${compName},
 
-Your new OTP is ${OTP},  Please use verification code to sign in.
-${link}
+			Your new OTP is ${OTP},  Please use verification code to sign in.
+			${link}
 
-The link is valid for you, for next 24 hrs.
-If you didn't request this, you can ignore this email.
+			The link is valid for you, for next 24 hrs.
+			If you didn't request this, you can ignore this email.
 
-Have a nice day,
-OVTPL`
+			Thanks
+
+			Verification Team.
+			Other View Technologies (OPC) Pvt. Ltd.`
 	},
 
-	getSubject: (name) => {
-		const str = name;
-		name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-		name = name.split(' ')[0]
-		return `Hi ${name}, Your new OTP is here`
+	getSubject: () => {
+		return `New OTP for registration`
 	}
 
 }

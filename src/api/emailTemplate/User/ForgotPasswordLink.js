@@ -242,30 +242,25 @@ module.exports = {
     //     },
 
     getTEXTMailTemplate: (name, token) => {
-        const str = name;
-        name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-
 
         const link = encodeURI(`${process.env.OVTPL_LOGIN}?token=${token}`)
 
         return `
 
-Hello ${name},
-You received this email because you requested to change password.
+            Hello ${name},
+            You received this email because you requested to change password.
 
-Please change your password using below link.
-${link}
+            Please change your password using below link.
+            ${link}
 
-If you didn't request this, you can ignore this email.
+            If you didn't request this, you can ignore this email.
 
-Have a nice day,
-OVTPL`
+            Verification Team
+            Other View Technologies (OPC) Pvt. Ltd.`
     },
 
-    getSubject: (name) => {
-        const str = name;
-        name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        return `Hi ${name}, forgot password?`
+    getSubject: () => {
+        return `Forgot password?`
     }
 
 }
