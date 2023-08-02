@@ -14,7 +14,7 @@ ManagerRouter
     .put('/Approve/AP3', StatusChangeValidation, ManagerController.changeStatus_AP3)
 
     /* get supplier update details (pending for approval) */
-    .get('/Update/:id', ManagerController.getUpdateDetails)
+    .get('/Update/:id', BuyerController.getUpdateDetails)
 
     /* add approved update fields */
     .post('/Update/approve/:id', BuyerController.approveUpdateDetails)

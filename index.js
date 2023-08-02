@@ -50,7 +50,7 @@ app.use('/api/Manager', verifyManagerToken, ManagerRoutes)
 //generic (admin-manager-supplier)
 app.use('/api/Generic', verifyToken, GenericRoutes)
 
-
+/*
 app.get('/api/sql/test',(req, res)=>{
     console.log(req.body.query);
     pool.getConnection((error, conn) => {
@@ -67,7 +67,7 @@ app.get('/api/sql/test',(req, res)=>{
         )
     })
 })
-
+*/
 
 app.all('*', (req, res) => {
     const err = new Error(`Requested url ${req.url} not found`)

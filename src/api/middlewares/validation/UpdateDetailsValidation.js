@@ -4,16 +4,13 @@ const Joi = require('joi');
 const validateUpdateDetails = (req, res, next) => {
     const schema = Joi.object({
         // Define validation schema for request data
-        supplier_ID: Joi.number().required(),
-        vendor_ID: Joi.number().required(),
-        buyer_ID: Joi.number().required(),
-        vendor_name: Joi.string().max(100).required(),
-        supplier_name: Joi.string().max(100).required(),
-        
+        modifierID: Joi.number().required(),
+        approverID: Joi.number().required(),
+        vendorID:Joi.number().required(),
         update_details: Joi.array().items({
             field_name: Joi.string().max(100).required(),
             field_value: Joi.string().max(100).required(),
-            field_old_value: Joi.string().max(100).required(),
+            field_old_value: Joi.string().max(100).required().allow(null),
             tab_name:Joi.string().max(100).required(),
         })
     });

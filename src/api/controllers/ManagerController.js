@@ -35,26 +35,4 @@ module.exports = {
         }
     },
 
-    getUpdateDetails: async (req, res) => {
-        try {
-            const data = await ManagerModel.getPendingUpdateForManager(req.params.id)
-
-            //console.log(data);
-            for (let i = 0; i < data.length; i++) {
-                delete data[i]['approvedOn']
-            }
-
-
-            return res.status(200).json({
-                result: data,
-                message: 'Success'
-            })
-        } catch (error) {
-            return res.status(500).json({
-                message: error.message
-            })
-        }
-    },
-
-    
 }

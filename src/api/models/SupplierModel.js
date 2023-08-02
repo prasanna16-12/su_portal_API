@@ -6,11 +6,9 @@ module.exports = {
 
     addUpdateDetailsStaggingTable: (data) => {
 
-        const supplierID = data.supplier_ID
-        const vendorID = data.vendor_ID
-        const buyerID = data.buyer_ID
-        const supplierName = data.supplier_name
-        const vendorName = data.vendor_name
+        const modifierID = data.modifierID
+        const approverID = data.approverID
+        const vendorID = data.vendorID
         const updateArray = data.update_details
         
         //console.log(supplierID, updateArray);
@@ -20,8 +18,8 @@ module.exports = {
                 pool.getConnection((error, conn) => {
                     if (error) return reject(error)
                     conn.query(
-                        'call usp_insert_update_details_to_staging(?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                        [supplierID, vendorID, buyerID, supplierName, vendorName,_updateArray.tab_name, _updateArray.field_name, _updateArray.field_value, _updateArray.field_old_value],
+                        'call usp_insert_update_details_to_staging(?, ?, ?, ?, ?, ?, ?);',
+                        [modifierID, approverID, vendorID,_updateArray.tab_name, _updateArray.field_name, _updateArray.field_value, _updateArray.field_old_value],
                         (error, results) => {
 
                             if (error) return reject(error)

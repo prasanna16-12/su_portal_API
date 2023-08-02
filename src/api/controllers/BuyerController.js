@@ -6,12 +6,6 @@ module.exports = {
         try {
             const data = await BuyerModel.getUpdateDetailsStaggingTable(req.params.id)
 
-            //console.log(data);
-            for (let i = 0; i < data.length; i++) {
-                delete data[i]['approvedOn']
-            }
-
-
             return res.status(200).json({
                 result: data,
                 message: 'Success'
@@ -25,7 +19,7 @@ module.exports = {
 
     approveUpdateDetails: async (req, res) => {
         try {
-            const data = await BuyerModel.approveUpdateDetailsMasterTable(req.params.id)
+            const data = await BuyerModel.approveUpdateDetailsMasterTable(req.params.id, req.user_info.user_ID)
             return res.status(200).json({
                 result: data,
                 message: 'Success'
@@ -40,7 +34,7 @@ module.exports = {
 
     rejectUpdateDetails: async (req, res) => {
         try {
-            const data = await BuyerModel.rejectUpdateDetailsMasterTable(req.params.id)
+            const data = await BuyerModel.rejectUpdateDetailsMasterTable(req.params.id,req.user_info.user_ID)
             return res.status(200).json({
                 result: data,
                 message: 'Success'

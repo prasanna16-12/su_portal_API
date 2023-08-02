@@ -25,13 +25,14 @@ module.exports = {
         })
     },
 
-    approveUpdateDetailsMasterTable: (id) => {
+    approveUpdateDetailsMasterTable: (update_id, approver_ID) => {
+        //console.log(update_id, approver_ID);
         return new Promise((resolve, reject) => {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_update_approved_details_master(?);',
-                    [id],
+                    'CALL usp_update_approved_details_to_vendor_master(?, ?);',
+                    [update_id, approver_ID],
                     (error, results) => {
 
                         if (error) return reject(error)
@@ -46,13 +47,13 @@ module.exports = {
         })
     },
 
-    rejectUpdateDetailsMasterTable: (id) => {
+    rejectUpdateDetailsMasterTable: (update_id, approver_ID) => {
         return new Promise((resolve, reject) => {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_update_reject_vendor_details_change(?);',
-                    [id],
+                    'CALL usp_update_reject_vendor_details(?, ?);',
+                    [update_id, approver_ID],
                     (error, results) => {
 
                         if (error) return reject(error)

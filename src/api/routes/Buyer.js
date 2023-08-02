@@ -44,4 +44,5 @@ BuyerRouter
 
     /* updated and insert details into -> tbl_supplier_details_update (Buyers internal data)  */
     .put('/Update',supplierUpdatedDetailsValidation, SupplierController.addUpdateDetails)
+    
 module.exports = BuyerRouter
