@@ -45,9 +45,9 @@ module.exports = {
         }
     },
 
-    managerVendorInfo: async (req, res) => {
+    userMetaData: async (req, res) => {
         try {
-            const data = await AdminModel.managerVendorInfo()
+            const data = await AdminModel.userMetaData()
             return res.status(200).json({
                 result: data,
                 message: 'Success'

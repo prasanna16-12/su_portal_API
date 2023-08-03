@@ -6,10 +6,11 @@ module.exports = {
 
     VendorInfo: async (req, res) => {
         try {
-            const data = await AdminModel.managerVendorInfo()
+            
+            const data = await GenericModel.VendorMetaData()
             return res.status(200).json({
-                result: data.VENDOR,
-                count: data.VENDOR.length,
+                result: data,
+                count: data.length,
                 message: 'Success'
             })
         } catch (error) {

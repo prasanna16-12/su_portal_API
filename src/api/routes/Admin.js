@@ -19,7 +19,7 @@ AdminRouter
     .put('/user', validateUpdateUserBasicData, AdminController.updateUser)
 
     /* get all manager and vendor meta data */
-    .get('/managervendorinfo', AdminController.managerVendorInfo)
+    .get('/usermetadata', AdminController.userMetaData)
 
 
 module.exports = AdminRouter

@@ -93,13 +93,13 @@ module.exports = {
         })
     },
 
-    managerVendorInfo: () => {
+    userMetaData: () => {
 
         return new Promise((resolve, reject) => {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'call usp_get_user_vendor_metadata();',
+                    'call usp_get_user_metadata();',
                     (error, results) => {
 
                         if (error) return reject(error)
@@ -115,23 +115,19 @@ module.exports = {
 
         function seperateManagerVendor(data) {
             let newObjArr = {
-                VENDOR: [],
                 MANAGER: [],
                 BUYER: [],
                 SUPPLIER: []
             }
             data.forEach(element => {
-                if (element.type === "Vendor") {
-                    newObjArr.VENDOR.push({ code: element.vendor_reg_code, name: element.vendor_company_name })
+                if (element.Role === "Manager") {
+                    newObjArr.MANAGER.push({ ID: element.ID, Name: element.Name })
                 }
-                else if (element.type === "Manager") {
-                    newObjArr.MANAGER.push({ code: element.vendor_reg_code, name: element.vendor_company_name })
+                else if (element.Role === "Buyer") {
+                    newObjArr.BUYER.push({ ID: element.ID, Name: element.Name })
                 }
-                else if (element.type === "Buyer") {
-                    newObjArr.BUYER.push({ code: element.vendor_reg_code, name: element.vendor_company_name })
-                }
-                else if (element.type === "Supplier") {
-                    newObjArr.SUPPLIER.push({ code: element.vendor_reg_code, name: element.vendor_company_name })
+                else if (element.Role === "Supplier") {
+                    newObjArr.SUPPLIER.push({ ID: element.ID, Name: element.Name })
                 }
             });
             //console.log(newObjArr);
