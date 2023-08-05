@@ -74,12 +74,15 @@ module.exports = {
                 vendor_upi_id,
                 buyer_ID,
                 vendor_dnb_code,
-                contact_person_id } = data
+                contact_person_id,
+                vendor_segmentaion,
+                vendor_company_size
+            } = data
             //console.log(data);
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL usp_contact_person_add_company_details(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+                    'CALL usp_contact_person_add_company_details(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
                     [vendor_company_name,
                         vendor_company_name2,
                         vendor_street,
@@ -145,7 +148,9 @@ module.exports = {
                         vendor_upi_id,
                         buyer_ID,
                         vendor_dnb_code,
-                        contact_person_id
+                        contact_person_id,
+                        vendor_segmentaion,
+                        vendor_company_size
                     ],
                     (error, results) => {
 

@@ -15,10 +15,22 @@ GenericRouter
     /* check token validation */
     .get('/checkToken/:email',tokenCheckAuth)
 
-    /* get company details */
+    /* get company details by ID */
     .get('/SupplierCompany/:id', BuyerController.CompanyDetails)
 
     /* get company details */
     .get('/vendormetadata/', GenericController.VendorInfo)
+
+    /* get company details by ID*/
+    .get('/vendormetadata/:id', GenericController.VendorInfoByID)
+    
+    /* get company details by ID*/
+    .get('/buyermetadata/:id', GenericController.BuyerInfoByID)
+
+    /* get company details by ID*/
+    .get('/managermetadata/:id', GenericController.ManagerInfoByID)
+    
+    /* get company details by ID*/
+    .get('/suppliermetadata/:id', GenericController.SupplierInfoByID)
     
 module.exports = GenericRouter

@@ -72,7 +72,8 @@ const validateVendorBasicData = (req, res, next) => {
         vendor_upi_id: Joi.string().max(100),
         vendor_dnb_code: Joi.string().max(100),
         contact_person_id: Joi.number().required(),
-
+        vendor_segmentation:Joi.string().max(100),
+        vendor_company_size:Joi.string().max(100)
     });
 
     const { error } = schema.validate(req.body); // Validate request data

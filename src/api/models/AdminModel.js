@@ -62,10 +62,8 @@ module.exports = {
 
         // change supp_vendor_reg_code -> vendor_reg_code
         function renameTOvendor_reg_code(obj) {
-
             obj["vendor_reg_code"] = obj["supp_vendor_reg_code"]
             delete obj["supp_vendor_reg_code"]
-
         }
 
     },
@@ -134,8 +132,4 @@ module.exports = {
             return newObjArr;
         }
     },
-
-
-
-
 }
