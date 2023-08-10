@@ -35,4 +35,17 @@ module.exports = {
         }
     },
 
+    updateVendorData: async (req, res) => {
+        try {
+            const data = await ManagerModel.updateVendorData(req)
+            return res.status(200).json({
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            }) 
+        }
+    },
+
 }

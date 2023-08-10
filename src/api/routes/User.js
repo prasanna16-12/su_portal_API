@@ -24,9 +24,4 @@ UserRouter
     /* forgot password  create new  */ 
     .post('/Password', validatePasswordForgotData, UserController.forgetPassword)
     
-   
-
-    
-
-
 module.exports = UserRouter

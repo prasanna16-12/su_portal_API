@@ -15,13 +15,13 @@ const supplierUpdatedDetailsValidation = require('../middlewares/validation/Upda
 const NDA_Upload = require('../middlewares/fileUpload/NDA_Upload')
 
 BuyerRouter
-    /* get supplier update details (pending for approval) */
+    /* get supplier update details (pending for approval) using buyer ID */
     .get('/Update/:id', BuyerController.getUpdateDetails)
 
-    /* add approved update fields */
+    /* add approved update fields using update ID*/
     .post('/Update/approve/:id', BuyerController.approveUpdateDetails)
 
-    /* add reject update fields */
+    /* add reject update fields update ID*/
     .post('/Update/reject/:id', BuyerController.rejectUpdateDetails)
 
     /* Add contact person with basic details */

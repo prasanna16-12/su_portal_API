@@ -9,7 +9,7 @@ const GenericController = require('../controllers/GenericController')
 const tokenCheckAuth = require('../middlewares/authorization/checkToken')
 
 GenericRouter
-    /* get pending approvals */
+    /* get pending approvals for onboarding */
     .get('/Approve', BuyerController.allPendingApproval)
 
     /* check token validation */

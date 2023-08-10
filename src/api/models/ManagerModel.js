@@ -21,4 +21,25 @@ module.exports = {
 
         })
     },
+
+    updateVendorData : (data) =>{
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'call usp_vendor_details_direct_update_by_manager(?, ?, ?, ?, ?, ?);',
+                    [data.body.modifiedByID, data.body.vendorID,data.body.field_name,data.body.field_value,data.body.field_old_value,data.body.tab_name],
+                    (error, results) => {
+
+                        if (error) return reject(error)
+
+                        conn.destroy()
+                        return resolve(results[0])
+                    }
+                )
+            })
+
+
+        })
+    },
 }

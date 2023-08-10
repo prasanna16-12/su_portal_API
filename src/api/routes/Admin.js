@@ -18,7 +18,7 @@ AdminRouter
     /* update */
     .put('/user', validateUpdateUserBasicData, AdminController.updateUser)
 
-    /* get all manager and vendor meta data */
+    /* get all user meta data */
     .get('/usermetadata', AdminController.userMetaData)
 
 
