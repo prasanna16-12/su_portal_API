@@ -8,10 +8,10 @@ const validateUpdateDetails = (req, res, next) => {
         approverID: Joi.number().required(),
         vendorID:Joi.number().required(),
         update_details: Joi.array().items({
-            field_name: Joi.string().max(100).required(),
-            field_value: Joi.string().max(100).required(),
-            field_old_value: Joi.string().max(100).required().allow(null),
-            tab_name:Joi.string().max(100).required(),
+            field_name: Joi.string().max(200).required(),
+            field_value: Joi.string().max(200).required(),
+            field_old_value: Joi.string().max(200).required().allow(null),
+            tab_name:Joi.string().max(200).required(),
         })
     });
 

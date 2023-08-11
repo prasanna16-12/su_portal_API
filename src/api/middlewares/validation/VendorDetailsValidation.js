@@ -6,10 +6,10 @@ const vendorUpdateDetails = (req, res, next) => {
         // Define validation schema for request data
         modifiedByID: Joi.number().required(),
         vendorID:Joi.number().required(),
-        field_name: Joi.string().max(100).required(),
-        field_value: Joi.string().max(100).required(),
-        field_old_value: Joi.string().max(100).required().allow(null),
-        tab_name:Joi.string().max(100).required()
+        field_name: Joi.string().max(200).required(),
+        field_value: Joi.string().max(200).required(),
+        field_old_value: Joi.string().max(200).required().allow(null),
+        tab_name:Joi.string().max(200).required()
 
     });
 
