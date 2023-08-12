@@ -1,4 +1,5 @@
 const BuyerModel = require('../models/BuyerModel')
+const MaterialModel = require('../models/MaterialModel')
 
 module.exports = {
 
@@ -51,6 +52,20 @@ module.exports = {
             const ID = await BuyerModel.addContactPerson(req.body)
             return res.status(201).json({
                 result: {'supplier_ID':ID},
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+    },
+
+    addMaterialMasterData: async (req, res) => {
+        try {
+            const data = await MaterialModel.insertMatrialMasterData(req.body, req.user_info.user_ID)
+            return res.status(201).json({
+                result: data[0],
                 message: 'Success'
             })
         } catch (error) {

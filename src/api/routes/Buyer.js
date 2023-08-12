@@ -9,7 +9,7 @@ const validateContactPersonBasicData = require('../middlewares/validation/Contac
 
 const StatusChangeValidation = require('../middlewares/validation/StatusChangeValidation')
 const SupplierInternalDataValidation = require('../middlewares/validation/SupplierInternalDataValidation')
-const vendorRegCodeDataValidation = require('../middlewares/validation/VendorRegCodeDataValidation')
+const MaterialMasterDetailsValidation = require('../middlewares/validation/MaterialMasterDetailsValidation')
 const supplierUpdatedDetailsValidation = require('../middlewares/validation/UpdateDetailsValidation')
 
 const NDA_Upload = require('../middlewares/fileUpload/NDA_Upload')
@@ -43,6 +43,9 @@ BuyerRouter
     .get('/NDA_document/:id', BuyerController.fileDownload_NDA)
 
     /* updated and insert details into -> tbl_supplier_details_update (Buyers internal data)  */
-    .put('/Update',supplierUpdatedDetailsValidation, SupplierController.addUpdateDetails)
-    
+    .put('/Update',supplierUpdatedDetailsValidation, SupplierController.addUpdateDetails)    
+
+    /* add material master data */
+    .post('/material',MaterialMasterDetailsValidation, BuyerController.addMaterialMasterData)
+
 module.exports = BuyerRouter

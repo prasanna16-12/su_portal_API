@@ -26,6 +26,12 @@ GenericRouter
     
     /* get company details by ID*/
     .get('/buyermetadata/:id', GenericController.BuyerInfoByID)
+    
+    /* get all company details by BUYER ID*/
+    .get('/buyer/:id/vendor', GenericController.BuyerVendorInfoByID)
+
+    /* get all company details by BUYER ID*/
+    .get('/manager/:id/buyer', GenericController.ManagerBuyerVendorInfoByManagerID)
 
     /* get company details by ID*/
     .get('/managermetadata/:id', GenericController.ManagerInfoByID)

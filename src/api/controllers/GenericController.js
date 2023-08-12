@@ -52,6 +52,38 @@ module.exports = {
         }
     },
 
+    BuyerVendorInfoByID: async (req, res) => {
+        try {
+            
+            const data = await GenericModel.BuyerVendorDataByID(req.params.id)
+            //console.log(data);
+            return res.status(200).json({
+                result: data,
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+    },
+
+    ManagerBuyerVendorInfoByManagerID: async (req, res) => {
+        try {
+            
+            const data = await GenericModel.ManagerBuyerVendorInfoByManagerID(req.params.id)
+            //console.log(data);
+            return res.status(200).json({
+                result: data,
+                message: 'Success'
+            })
+        } catch (error) {
+            return res.status(500).json({
+                message: error.message
+            })
+        }
+    },
+
     ManagerInfoByID: async (req, res) => {
         try {
             
