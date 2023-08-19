@@ -343,8 +343,8 @@ module.exports = {
             pool.getConnection((error, conn) => {
                 if (error) return reject(error)
                 conn.query(
-                    'CALL `usp_change_status_ID1`(?, ?, ?, ?, ?, ?);',
-                    [data.body.vendor_reg_code, data.body.Purchaser, data.body.Previous_Vendor_Code, data.body.Search_Term, data.body.Diverse_Supplier, data.user_info.user_ID],
+                    'CALL `usp_change_status_ID1`(?, ?, ?, ?, ?, ?, ?);',
+                    [data.body.vendor_reg_code, data.body.Purchaser, data.body.Previous_Vendor_Code, data.body.Search_Term, data.body.Diverse_Supplier, data.user_info.user_ID, data.body.Vendor_Segment],
                     (error, results) => {
 
                         if (error) return reject(error)

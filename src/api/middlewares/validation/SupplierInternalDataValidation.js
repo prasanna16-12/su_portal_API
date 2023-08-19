@@ -7,9 +7,10 @@ const validateInternalData = (req, res, next) => {
 
         vendor_reg_code: Joi.number().min(100000).max(999999).required(),
         Purchaser: Joi.number().required(),
-        Previous_Vendor_Code: Joi.string().max(50).required(),
-        Diverse_Supplier: Joi.string().max(50).required(),
-        Search_Term: Joi.string().max(50).required(),
+        Previous_Vendor_Code: Joi.string().max(100).required(),
+        Diverse_Supplier: Joi.string().max(100).required(),
+        Search_Term: Joi.string().max(100).required(),
+        Vendor_Segment : Joi.string().max(100).required(),
     });
 
     const { error } = schema.validate(req.body); // Validate request data
