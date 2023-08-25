@@ -6,12 +6,12 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
     // Define validation schema for request data
 
     // to disable link get contact person id also TODO
-    description: Joi.string().max(100).required(),
-    UoM: Joi.string().max(100).required(),
+    description: Joi.string().max(1000).required(),
+    unit_of_measure: Joi.string().max(100).required(),
     material_group: Joi.string().max(100).required(),
     material_type: Joi.string().max(100).required(),
     conversion_factor: Joi.string().max(100).required(),
-    WH_location: Joi.string().max(100).required(),
+    warehouse_location: Joi.string().max(100).required(),
     rate: Joi.string().max(100).required(),
     batch: Joi.string().max(100).required(),
     ERP_no: Joi.string().max(100).required().allow(null),
@@ -19,7 +19,10 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
     HSN_code: Joi.string().max(100).required(),
     specification: Joi.string().max(1000).required(),
     assembly: Joi.string().length(1).required().valid('Y', 'N'),
+    batch_managed:Joi.string().length(1).required().valid('Y', 'N'),
     base_material: Joi.string().max(100).required(),
+    currency:Joi.string().max(100).required(),
+    serialised:Joi.string().length(1).required().valid('Y', 'N'),
   });
 
   const { error } = schema.validate(req.body); // Validate request data

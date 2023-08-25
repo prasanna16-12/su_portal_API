@@ -6,14 +6,14 @@ module.exports = {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "CALL usp_insert_material_master_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "CALL usp_insert_material_master_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             data.description,
-            data.UoM,
+            data.unit_of_measure,
             data.material_group,
             data.material_type,
             data.conversion_factor,
-            data.WH_location,
+            data.warehouse_location,
             data.rate,
             data.batch,
             data.ERP_no,
@@ -23,6 +23,9 @@ module.exports = {
             data.assembly,
             data.base_material,
             createdBy,
+            data.batch_managed,
+            data.currency,
+            data.serialised,
           ],
           (error, result) => {
             console.log();
@@ -30,7 +33,7 @@ module.exports = {
               return reject(error);
             }
             conn.destroy();
-            //console.log(result);
+            console.log(result);
             return resolve(result[0]);
           }
         );

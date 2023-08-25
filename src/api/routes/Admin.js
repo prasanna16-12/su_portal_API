@@ -21,5 +21,7 @@ AdminRouter
     /* get all user meta data */
     .get('/usermetadata', AdminController.userMetaData)
 
+    /* get all user meta data */
+    .get('/rolemetadata', AdminController.roleMetaData)
 
 module.exports = AdminRouter

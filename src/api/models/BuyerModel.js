@@ -397,5 +397,25 @@ module.exports = {
         })
     },
 
+    MaterialMasterBulkDataDuplicateCheck: (obj) => {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, conn) => {
+                if (error) return reject(error)
+                conn.query(
+                    'call validate_material_master(?);',
+                    [obj.ERP_no],
+                    (error, results) => {
+
+                        if (error) return reject(error)
+                        conn.destroy()
+                        return resolve(results[0][0])
+                    }
+                )
+            })
+
+        })
+    },
+
+
 
 }
