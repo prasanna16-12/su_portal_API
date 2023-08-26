@@ -405,4 +405,42 @@ module.exports = {
       });
     });
   },
+
+  MaterialMasterBulkDataInsert: (path) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          `LOAD DATA INFILE ?
+          INTO TABLE your_table_name
+          FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+          LINES TERMINATED BY '\n'
+          IGNORE 1 ROWS; -- Use this if your CSV has a header row`,
+          [path],
+          (error, results) => {
+            if (error) return reject(error);
+            conn.destroy();
+            return resolve(results[0][0]);
+          }
+        );
+      });
+    });
+  },
+
+  getAllMaterialMasterDetails: () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "CALL usp_get_all_material_master_details();",
+          (error, results) => {
+            if (error) return reject(error);
+
+            conn.destroy();
+            return resolve(results[0]);
+          }
+        );
+      });
+    });
+  },
 };

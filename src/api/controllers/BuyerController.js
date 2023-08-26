@@ -1,7 +1,10 @@
 const fs = require("fs");
+const path = require("path");
 const BuyerModel = require("../models/BuyerModel");
 const MaterialModel = require("../models/MaterialModel");
 const XLSX = require("xlsx");
+const createCsvWriter = require("csv-writer").createObjectCsvWriter;
+
 const validateMaterialMaster = require("../middlewares/validation/BulkMaterialMasterDataValidation");
 
 module.exports = {
@@ -179,7 +182,7 @@ module.exports = {
   fileDownload_NDA: async (req, res) => {
     try {
       //path.resolve(__dirname, '..', '..', '..', 'NDA_Uploads', "")
-      var options = {
+      let options = {
         root: "",
         dotfiles: "deny",
         headers: {
@@ -220,10 +223,10 @@ module.exports = {
         throw new Error("Error While processing file");
 
       let sheetProcessingLog = [];
-      var workbook = XLSX.readFile(req.file.path);
-      var sheet_name_list = workbook.SheetNames;
+      let workbook = XLSX.readFile(req.file.path);
+      let sheet_name_list = workbook.SheetNames;
 
-      var xlData = XLSX.utils.sheet_to_json(
+      let xlData = XLSX.utils.sheet_to_json(
         workbook.Sheets[sheet_name_list[0]]
       );
 
@@ -255,6 +258,109 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({
         result: -1,
+        message: error.message,
+      });
+    }
+  },
+
+  fileUpload_Bulk_Material_Master: async (req, res) => {
+    try {
+      if (req.file === undefined)
+        throw new Error("Error While processing file");
+
+      let validSheetCount = 0;
+      let workbook = XLSX.readFile(req.file.path);
+      let sheet_name_list = workbook.SheetNames;
+
+      let xlData = XLSX.utils.sheet_to_json(
+        workbook.Sheets[sheet_name_list[0]]
+      );
+
+      for (let index = 0; index < xlData.length; index++) {
+        const row = xlData[index];
+        let validation = await validateMaterialMaster(row);
+        console.log(validation);
+        validation.status ? (validSheetCount = validSheetCount + 1) : null;
+      }
+
+      let currentDate = new Date();
+      console.log(currentDate);
+
+      if (xlData.length !== validSheetCount) {
+        throw new Error("File containing invalid data");
+      }
+
+      // upload in mysql
+      const header = Object.keys(xlData[0]);
+      // Set up CSV writer
+      const csvWriter = createCsvWriter({
+        path: path.join(
+          process.cwd(),
+          "/UploadedFiles/" + req.file.filename.split(".")[0] + ".csv"
+        ), // Change this to your desired output file path
+        header: header.map((field) => ({ id: field, title: field })), // Define field IDs
+      });
+
+      // Write data to CSV
+      csvWriter
+        .writeRecords(xlData)
+        .then(() => {
+          console.log("CSV file written successfully");
+        })
+        .catch((error) => {
+          console.error("Error writing CSV file:", error);
+        });
+      //console.log(sheetProcessingLog);
+
+      // BuyerModel.MaterialMasterBulkDataInsert(
+      //   path.join(
+      //     process.cwd(),
+      //     "/UploadedFiles/" + req.file.filename.split(".")[0] + ".csv"
+      //   )
+      // );
+
+      return res.status(200).json({
+        result: validSheetCount,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        result: -1,
+        message: error.message,
+      });
+    } finally {
+      if (req.file !== undefined) {
+        //delete excel file
+        fs.unlink(req.file.path, function (err) {
+          if (err) {
+            //console.error(err);
+            throw new err();
+          }
+          console.log("File has been Deleted");
+        });
+
+        //delete csv file
+        // fs.unlink(req.file.path.split(".")[0] + ".csv", function (err) {
+        //   if (err) {
+        //     //console.error(err);
+        //     throw new err();
+        //   }
+        //   console.log("File has been Deleted");
+        // });
+      }
+    }
+  },
+
+  getAllMaterialMasterDetails: async (req, res) => {
+    try {
+      const data = await BuyerModel.getAllMaterialMasterDetails();
+
+      return res.status(200).json({
+        result: data,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
         message: error.message,
       });
     }

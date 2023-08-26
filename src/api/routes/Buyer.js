@@ -73,10 +73,22 @@ BuyerRouter
     BuyerController.addMaterialMasterData
   )
 
-  /* upload NDA */
+  .get(
+    "/material",
+    BuyerController.getAllMaterialMasterDetails
+  )
+
+  /* upload material validation before upload*/
   .post(
     "/material/bulk/validate",
     Material_Master_bulk_Upload.single("uploadedFile"),
     BuyerController.validate_FileUpload_Bulk_Material_Master
+  )
+
+  /* upload material */
+  .post(
+    "/material/bulk/upload",
+    Material_Master_bulk_Upload.single("uploadedFile"),
+    BuyerController.fileUpload_Bulk_Material_Master
   );
 module.exports = BuyerRouter;
