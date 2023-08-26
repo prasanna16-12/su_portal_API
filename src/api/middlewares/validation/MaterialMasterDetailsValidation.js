@@ -18,16 +18,19 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
     manufacturer_no: Joi.string().max(100).required(),
     HSN_code: Joi.string().max(100).required(),
     specification: Joi.string().max(1000).required(),
-    assembly: Joi.string().length(1).required().valid('Y', 'N'),
-    batch_managed:Joi.string().length(1).required().valid('Y', 'N'),
+    assembly: Joi.string().length(1).required().valid("Y", "N"),
+    batch_managed: Joi.string().length(1).required().valid("Y", "N"),
     base_material: Joi.string().max(100).required(),
-    currency:Joi.string().max(100).required(),
-    serialised:Joi.string().length(1).required().valid('Y', 'N'),
+    currency: Joi.string().max(100).required(),
+    serialised: Joi.string().length(1).required().valid("Y", "N"),
+    conversion_factor_to: Joi.string().max(100).required(),
+    conversion_factor_from_value: Joi.number().max(99).precision(2).required(),
+    conversion_factor_to_value: Joi.number().max(99).precision(2).required(),
   });
 
-  const { error } = schema.validate(req.body); // Validate request data
+  const { error, value } = schema.validate(req.body, { convert: false }); // Validate request data
 
-  //console.log(req.body);
+  //console.log(value);
 
   if (error) {
     // If validation fails, send an error response

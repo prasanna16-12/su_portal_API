@@ -243,7 +243,7 @@ module.exports = {
       fs.unlink(req.file.path, function (err) {
         if (err) {
           //console.error(err);
-          throw new err;
+          throw new err();
         }
         console.log("File has been Deleted");
       });

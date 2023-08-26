@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const buyerModel = require('../../models/BuyerModel')
+const buyerModel = require("../../models/BuyerModel");
 
 const materialMasterDataValidation = async (obj) => {
   const schema = Joi.object({
@@ -36,14 +36,17 @@ const materialMasterDataValidation = async (obj) => {
   }
 
   if (obj.ERP_no !== null) {
-    
     // check if already present or not
-    let {is_exist}  = await buyerModel.MaterialMasterBulkDataDuplicateCheck(obj)
+    let { is_exist } = await buyerModel.MaterialMasterBulkDataDuplicateCheck(
+      obj
+    );
     //console.log(is_exist);
     if (is_exist) {
-      return { details: `Material master data already exist with ERP No - ${obj.ERP_no}`, status: false };
+      return {
+        details: `Material master data already exist with ERP No - ${obj.ERP_no}`,
+        status: false,
+      };
     }
-
   }
 
   return { details: "valid row", status: true };

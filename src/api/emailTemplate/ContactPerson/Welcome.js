@@ -1,11 +1,13 @@
 module.exports = {
-	getHTMLMailTemplate: (name, compName, OTP, supp_ID) => {
-		const str = name;
-		name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-		name = name.split(' ')[0]
-		const link = encodeURI(`${process.env.CONTACT_PERSON_COMPANY_DETAILS_ADDITION}?company_temp_id=${supp_ID}&company_name=${compName}`)
+  getHTMLMailTemplate: (name, compName, OTP, supp_ID) => {
+    const str = name;
+    name = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    name = name.split(" ")[0];
+    const link = encodeURI(
+      `${process.env.CONTACT_PERSON_COMPANY_DETAILS_ADDITION}?company_temp_id=${supp_ID}&company_name=${compName}`
+    );
 
-		return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
 <head>
@@ -238,14 +240,15 @@ module.exports = {
 	</table><!-- End -->
 </body>
 
-</html>`
-	},
+</html>`;
+  },
 
-	getTEXTMailTemplate: (name, compName, OTP, supp_ID) => {
+  getTEXTMailTemplate: (name, compName, OTP, supp_ID) => {
+    const link = encodeURI(
+      `${process.env.CONTACT_PERSON_COMPANY_DETAILS_ADDITION}?company_temp_id=${supp_ID}&company_name=${compName}`
+    );
 
-		const link = encodeURI(`${process.env.CONTACT_PERSON_COMPANY_DETAILS_ADDITION}?company_temp_id=${supp_ID}&company_name=${compName}`)
-
-		return `
+    return `
 
 			Hi ${name},
 
@@ -265,11 +268,10 @@ module.exports = {
 			Thanks
 
 			Supplier Onboarding Team.
-			Other View Technologies (OPC) Pvt. Ltd.`
-	},
+			Other View Technologies (OPC) Pvt. Ltd.`;
+  },
 
-	getSubject: () => {
-		return `Details for Supplier Registration at OVTPL`
-	}
-
-}
+  getSubject: () => {
+    return `Details for Supplier Registration at OVTPL`;
+  },
+};

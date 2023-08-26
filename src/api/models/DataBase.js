@@ -1,6 +1,6 @@
-const connectionConfig = require('../../config/MySqlConfig')
-const MYSQL = require('mysql2')
+const connectionConfig = require("../../config/MySqlConfig");
+const MYSQL = require("mysql2");
 
-const con = MYSQL.createPool(connectionConfig)
+const con = MYSQL.createPool(connectionConfig);
 
-module.exports = con
+module.exports = con;

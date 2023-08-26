@@ -1,27 +1,29 @@
-const express = require('express')
-const UserRouter = express.Router()
-const UserController = require('../controllers/UserController')
-
+const express = require("express");
+const UserRouter = express.Router();
+const UserController = require("../controllers/UserController");
 
 /* validation */
-const validateUserLoginData = require('../middlewares/validation/loginUserValidation')
-const validatePasswordResetData = require('../middlewares/validation/changePasswordValidation')
-const validatePasswordForgotData = require('../middlewares/validation/forgetPasswordValidation')
-const validatePasswordForgotLinkData = require('../middlewares/validation/forgetPasswordLinkValidation')
-
+const validateUserLoginData = require("../middlewares/validation/loginUserValidation");
+const validatePasswordResetData = require("../middlewares/validation/changePasswordValidation");
+const validatePasswordForgotData = require("../middlewares/validation/forgetPasswordValidation");
+const validatePasswordForgotLinkData = require("../middlewares/validation/forgetPasswordLinkValidation");
 
 UserRouter
 
-    /* login */
-    .post('/Login', validateUserLoginData, UserController.loginUser)
-    
-    /* forgot password  link */
-    .get('/Password/:email', validatePasswordForgotLinkData , UserController.sendForgetPasswordLink) 
+  /* login */
+  .post("/Login", validateUserLoginData, UserController.loginUser)
 
-    /* change password update previous*/
-    .put('/Password', validatePasswordResetData, UserController.changePassword) 
+  /* forgot password  link */
+  .get(
+    "/Password/:email",
+    validatePasswordForgotLinkData,
+    UserController.sendForgetPasswordLink
+  )
 
-    /* forgot password  create new  */ 
-    .post('/Password', validatePasswordForgotData, UserController.forgetPassword)
-    
-module.exports = UserRouter
+  /* change password update previous*/
+  .put("/Password", validatePasswordResetData, UserController.changePassword)
+
+  /* forgot password  create new  */
+  .post("/Password", validatePasswordForgotData, UserController.forgetPassword);
+
+module.exports = UserRouter;

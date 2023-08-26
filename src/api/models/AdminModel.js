@@ -76,6 +76,10 @@ module.exports = {
     function renameTOvendor_reg_code(obj) {
       obj["vendor_reg_code"] = obj["supp_vendor_reg_code"];
       delete obj["supp_vendor_reg_code"];
+
+      // permission json string to array
+      obj["permission"] = JSON.parse(obj["Permission_ID"]);
+      //console.log(obj);
     }
   },
 

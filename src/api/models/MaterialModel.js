@@ -6,7 +6,7 @@ module.exports = {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "CALL usp_insert_material_master_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "CALL usp_insert_material_master_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             data.description,
             data.unit_of_measure,
@@ -26,14 +26,15 @@ module.exports = {
             data.batch_managed,
             data.currency,
             data.serialised,
+            data.conversion_factor_to,
+            data.conversion_factor_from_value,
+            data.conversion_factor_to_value,
           ],
           (error, result) => {
-            console.log();
             if (error) {
               return reject(error);
             }
             conn.destroy();
-            console.log(result);
             return resolve(result[0]);
           }
         );

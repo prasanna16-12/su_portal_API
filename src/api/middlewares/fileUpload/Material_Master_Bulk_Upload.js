@@ -3,7 +3,7 @@ const path = require("path");
 // Define middleware for file upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(path.join(process.cwd(), '/UploadedFiles/'));
+    console.log(path.join(process.cwd(), "/UploadedFiles/"));
     cb(null, path.join(process.cwd(), "/UploadedFiles/"));
   },
   filename: function (req, file, cb) {
@@ -23,8 +23,8 @@ const storage = multer.diskStorage({
 const multerFilter = (req, file, cb) => {
   // The function should call `cb` with a boolean
   // to indicate if the file should be accepted
-  let fileTypes = ['.xlsx', '.numbers']
-  let fileExt = path.extname(file.originalname)
+  let fileTypes = [".xlsx", ".numbers"];
+  let fileExt = path.extname(file.originalname);
   //console.log(fileExt, fileTypes);
 
   if (fileTypes.includes(fileExt)) {

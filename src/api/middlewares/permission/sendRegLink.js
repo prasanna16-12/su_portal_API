@@ -1,6 +1,5 @@
-
 const sendRegLink = (req, res, next) => {
-let permissions = JSON.parse(req.user_info.Permission_ID)
+  let permissions = JSON.parse(req.user_info.Permission_ID);
   if (permissions.includes("SL01")) {
     next();
   } else {
