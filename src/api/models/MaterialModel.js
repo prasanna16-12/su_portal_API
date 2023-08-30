@@ -15,7 +15,6 @@ module.exports = {
             data.conversion_factor,
             data.warehouse_location,
             data.rate,
-            data.batch,
             data.ERP_no,
             data.manufacturer_no,
             data.HSN_code,
@@ -26,6 +25,7 @@ module.exports = {
             data.batch_managed,
             data.currency,
             data.serialised,
+            false, // is bulk upload is set to false when uploaded through UI
             data.conversion_factor_to,
             data.conversion_factor_from_value,
             data.conversion_factor_to_value,
