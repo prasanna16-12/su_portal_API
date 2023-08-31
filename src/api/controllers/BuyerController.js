@@ -365,4 +365,19 @@ module.exports = {
       });
     }
   },
+
+  materialDataByID: async (req, res) => {
+    try {
+      const data = await BuyerModel.materialDataByID(req.params.id);
+      //console.log(data);
+      return res.status(200).json({
+        result: data,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
 };

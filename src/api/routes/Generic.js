@@ -39,6 +39,10 @@ GenericRouter
   .get("/managermetadata/:id", GenericController.ManagerInfoByID)
 
   /* get company details by ID*/
-  .get("/suppliermetadata/:id", GenericController.SupplierInfoByID);
+  .get("/suppliermetadata/:id", GenericController.SupplierInfoByID)
+
+  /* get material meta data*/
+  .get("/materialmetadata/", GenericController.materialMetadata)
+
 
 module.exports = GenericRouter;

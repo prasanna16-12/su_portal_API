@@ -73,10 +73,10 @@ BuyerRouter
     BuyerController.addMaterialMasterData
   )
 
-  .get(
-    "/material",
-    BuyerController.getAllMaterialMasterDetails
-  )
+  .get("/material", BuyerController.getAllMaterialMasterDetails)
+
+  /* get material details by ID*/
+  .get("/material/:id", BuyerController.materialDataByID)
 
   /* upload material validation before upload*/
   .post(

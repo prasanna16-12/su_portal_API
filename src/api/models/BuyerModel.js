@@ -443,4 +443,18 @@ module.exports = {
       });
     });
   },
+  materialDataByID: (id) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query("CALL usp_get_material_data_by_ID(?);",[id] ,(error, result) => {
+          if (error) return reject(error);
+
+          conn.destroy();
+          //console.log(result);
+          return resolve(result[0]);
+        });
+      });
+    });
+  },
 };
