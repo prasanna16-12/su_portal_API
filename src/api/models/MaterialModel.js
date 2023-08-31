@@ -6,13 +6,12 @@ module.exports = {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "CALL usp_insert_material_master_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "CALL usp_insert_material_master_data( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             data.description,
             data.unit_of_measure,
             data.material_group,
             data.material_type,
-            data.conversion_factor,
             data.warehouse_location,
             data.rate,
             data.ERP_no,
@@ -29,6 +28,7 @@ module.exports = {
             data.conversion_factor_to,
             data.conversion_factor_from_value,
             data.conversion_factor_to_value,
+            true, // is active to true
           ],
           (error, result) => {
             if (error) {

@@ -31,15 +31,14 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
         "Service Material",
         "Finished Material"
       ),
-    conversion_factor: Joi.string().max(100).required(),
-    warehouse_location: Joi.string().max(100).required(),
+    warehouse_location: Joi.string().max(100).required().allow(null),
     rate: Joi.number().required(),
     ERP_no: Joi.string().max(100).required().allow(null),
-    manufacturer_no: Joi.string().max(100).required(),
+    manufacturer_no: Joi.string().max(100).required().allow(null),
     HSN_code: Joi.string().max(100).required(),
-    specification: Joi.string().max(1000).required(),
+    specification: Joi.string().max(1000).required().allow(null),
     assembly: Joi.string().length(1).required().valid(true, false),
-    batch_managed: Joi.string().length(1).required().valid(true, false),
+    batch_managed: Joi.string().length(1).required().valid(true, false).allow(null),
     base_material: Joi.string()
       .max(100)
       .required()
@@ -52,15 +51,15 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
         "Gold",
         "Silver",
         "Platinum"
-      ),
+      ).allow(null),
     currency: Joi.string().max(100).required(),
-    serialised: Joi.string().length(1).required().valid(true, false),
+    serialised: Joi.string().length(1).required().valid(true, false).allow(null),
     conversion_factor_to: Joi.string()
       .max(100)
       .required()
-      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
-    conversion_factor_from_value: Joi.number().max(99).precision(2).required(),
-    conversion_factor_to_value: Joi.number().max(99).precision(2).required(),
+      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE").allow(null),
+    conversion_factor_from_value: Joi.number().max(99).precision(2).required().allow(null),
+    conversion_factor_to_value: Joi.number().max(99).precision(2).required().allow(null),
   });
 
   const { error, value } = schema.validate(req.body, { convert: false }); // Validate request data
