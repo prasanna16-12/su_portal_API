@@ -100,7 +100,7 @@ module.exports = {
             data.manager_ID,
             data.is_active,
             data.is_deleted,
-            JSON.stringify(data.permission),
+            JSON.stringify(data.Permission_ID),
           ],
           (error, results) => {
             if (error) return reject(error);
