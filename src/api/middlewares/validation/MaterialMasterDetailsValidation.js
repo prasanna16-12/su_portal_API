@@ -37,8 +37,8 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
     manufacturer_no: Joi.string().max(100).required().allow(null),
     HSN_code: Joi.string().max(100).required(),
     specification: Joi.string().max(1000).required().allow(null),
-    assembly: Joi.string().length(1).required().valid(true, false),
-    batch_managed: Joi.string().length(1).required().valid(true, false).allow(null),
+    assembly: Joi.string().length(1).required().valid(1, 0),
+    batch_managed: Joi.string().length(1).required().valid(1, 0).allow(null),
     base_material: Joi.string()
       .max(100)
       .required()
@@ -53,7 +53,7 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
         "Platinum"
       ).allow(null),
     currency: Joi.string().max(100).required(),
-    serialised: Joi.string().length(1).required().valid(true, false).allow(null),
+    serialised: Joi.string().length(1).required().valid(1, 0).allow(null),
     conversion_factor_to: Joi.string()
       .max(100)
       .required()
