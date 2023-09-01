@@ -14,7 +14,7 @@ const validateToken = (req, res, next) => {
         });
       } else {
         //console.log(decoded.result);
-        if (decoded.result.user_role === "SUPPLIER") {
+        if (decoded.result.user_role === "SUPPLIER" || decoded.result.user_role === "ADMIN") {
           req.user_info = decoded.result;
           next();
         } else {

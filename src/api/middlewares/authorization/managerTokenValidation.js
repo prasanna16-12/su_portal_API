@@ -13,7 +13,7 @@ const validateToken = (req, res, next) => {
           message: error,
         });
       } else {
-        if (decoded.result.user_role === "MANAGER") {
+        if (decoded.result.user_role === "MANAGER" || decoded.result.user_role === "ADMIN") {
           req.user_info = decoded.result;
           next();
         } else {
