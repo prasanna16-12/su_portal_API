@@ -380,4 +380,19 @@ module.exports = {
       });
     }
   },
+
+  updateMaterialMaster: async (req, res) => {
+    try {
+      const data = await BuyerModel.updateMaterialMaster(req.body);
+      //console.log(data);
+      return res.status(200).json({
+        //result: data,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
 };

@@ -447,13 +447,36 @@ module.exports = {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
-        conn.query("CALL usp_get_material_data_by_ID(?);",[id] ,(error, result) => {
-          if (error) return reject(error);
+        conn.query(
+          "CALL usp_get_material_data_by_ID(?);",
+          [id],
+          (error, result) => {
+            if (error) return reject(error);
 
-          conn.destroy();
-          //console.log(result);
-          return resolve(result[0]);
-        });
+            conn.destroy();
+            //console.log(result);
+            return resolve(result[0]);
+          }
+        );
+      });
+    });
+  },
+
+  updateMaterialMaster: (data) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "CALL usp_material_master_details_direct_update(?,?,?,?,?,?);",
+          [data.modifiedByID, data.materialID, data.field_name, data.field_value, data.field_old_value, 'Material master'],
+          (error, result) => {
+            if (error) return reject(error);
+
+            conn.destroy();
+            //console.log(result);
+            return resolve(result[0]);
+          }
+        );
       });
     });
   },
