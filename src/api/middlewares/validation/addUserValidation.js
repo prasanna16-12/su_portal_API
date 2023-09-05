@@ -14,7 +14,7 @@ const validateNewUserBasicData = (req, res, next) => {
     user_last_name: Joi.string().max(50).required(),
     vendor_reg_code: Joi.number(),
     manager_ID: Joi.number(),
-    Permission_ID: Joi.array().items(Joi.string().max(10)).min(1).required(),
+    permission: Joi.array().items(Joi.string().max(10)).min(1).required(),
   });
 
   const { error } = schema.validate(req.body); // Validate request data

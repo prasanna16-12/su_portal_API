@@ -1,18 +1,72 @@
 const Joi = require("joi");
 
 // Define middleware for validation
-const vendorUpdateDetails = (req, res, next) => {
+const MaterialMasterDetailsValidation = (req, res, next) => {
   const schema = Joi.object({
     // Define validation schema for request data
-    modifiedByID: Joi.number().required(),
-    materialID: Joi.number().required(),
-    field_name: Joi.string().max(200).required().valid('description','unit_of_measure','material_group','material_type','warehouse_location','rate','ERP_no','manufacturer_no','HSN_code','specification','assembly','base_material','is_active','batch_managed','currency','serialised','conversion_factor_to','conversion_factor_from_value','conversion_factor_to_value'),
-    field_value: Joi.string().max(200).required(),
-    field_old_value: Joi.string().max(200).required().allow(null),
-    //tab_name: Joi.string().max(200).required(),
+
+    // to disable link get contact person id also TODO
+    description: Joi.string().max(1000).required(),
+    unit_of_measure: Joi.string()
+      .max(100)
+      .required()
+      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
+    material_group: Joi.string()
+      .max(100)
+      .required()
+      .valid(
+        "Machined Components",
+        "Stationary",
+        "Office Furniture",
+        "Maintenance",
+        "Fastener"
+      ),
+    material_type: Joi.string()
+      .max(100)
+      .required()
+      .valid(
+        "Raw Material",
+        "Spares & Consumables",
+        "Semifirnished Material",
+        "Service Material",
+        "Finished Material"
+      ),
+    warehouse_location: Joi.string().max(100).required().allow(null),
+    rate: Joi.number().required(),
+    ERP_no: Joi.string().max(100).required().allow(null),
+    manufacturer_no: Joi.string().max(100).required().allow(null),
+    HSN_code: Joi.string().max(100).required(),
+    specification: Joi.string().max(1000).required().allow(null),
+    assembly: Joi.string().length(1).required().valid(1, 0),
+    batch_managed: Joi.string().length(1).required().valid(1, 0).allow(null),
+    base_material: Joi.string()
+      .max(100)
+      .required()
+      .valid(
+        "Steel",
+        "Cast Iron",
+        "Copper",
+        "Alluminiumn",
+        "Brass",
+        "Gold",
+        "Silver",
+        "Platinum"
+      ).allow(null),
+    currency: Joi.string().max(100).required(),
+    serialised: Joi.string().length(1).required().valid(1, 0).allow(null),
+    conversion_factor_to: Joi.string()
+      .max(100)
+      .required()
+      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE").allow(null),
+    conversion_factor_from_value: Joi.number().max(99).precision(2).required().allow(null),
+    conversion_factor_to_value: Joi.number().max(99).precision(2).required().allow(null),
+    rate_uom: Joi.string().max(100).required().allow(null),
+    is_active:Joi.string().length(1).required().valid(1, 0),
   });
 
-  const { error } = schema.validate(req.body); // Validate request data
+  const { error, value } = schema.validate(req.body, { convert: false }); // Validate request data
+
+  //console.log(value);
 
   if (error) {
     // If validation fails, send an error response
@@ -25,4 +79,4 @@ const vendorUpdateDetails = (req, res, next) => {
   next();
 };
 
-module.exports = vendorUpdateDetails;
+module.exports = MaterialMasterDetailsValidation;

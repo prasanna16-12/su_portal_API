@@ -383,7 +383,10 @@ module.exports = {
 
   updateMaterialMaster: async (req, res) => {
     try {
-      const data = await BuyerModel.updateMaterialMaster(req.body);
+      if (!req.params.id) {
+        throw new Error("Material ID missing");
+      }
+      const data = await MaterialModel.updateMatrialMasterData(req.params.id, req.body, req.user_info.user_ID);
       //console.log(data);
       return res.status(200).json({
         //result: data,

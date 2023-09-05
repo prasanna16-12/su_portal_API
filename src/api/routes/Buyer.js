@@ -75,9 +75,9 @@ BuyerRouter
 
   .get("/material", BuyerController.getAllMaterialMasterDetails)
 
-  /* add material master data */
+  /* update material master data */
   .put(
-    "/material",
+    "/material/:id",
     materialUpdateDetailsValidation,
     BuyerController.updateMaterialMaster
   )
