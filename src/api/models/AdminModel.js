@@ -22,7 +22,7 @@ module.exports = {
             req.user_last_name,
             req.vendor_reg_code,
             req.manager_ID,
-            JSON.stringify(req.Permission_ID),
+            JSON.stringify(req.permission),
           ],
           (error, results) => {
             if (error) return reject(error);
