@@ -10,7 +10,7 @@ const StatusChangeValidation = require("../middlewares/validation/StatusChangeVa
 const SupplierInternalDataValidation = require("../middlewares/validation/SupplierInternalDataValidation");
 const MaterialMasterDetailsValidation = require("../middlewares/validation/MaterialMasterDetailsValidation");
 const supplierUpdatedDetailsValidation = require("../middlewares/validation/UpdateDetailsValidation");
-const materialUpdateDetailsValidation = require("../middlewares/validation/materialUpdateDetailsValidation")
+const materialUpdateDetailsValidation = require("../middlewares/validation/materialUpdateDetailsValidation");
 // permission
 const sendRegLink = require("../middlewares/permission/sendRegLink");
 

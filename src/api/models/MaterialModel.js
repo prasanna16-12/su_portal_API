@@ -29,7 +29,7 @@ module.exports = {
             data.conversion_factor_from_value,
             data.conversion_factor_to_value,
             true, // is active to true,
-            data.rate_uom,
+            data.rate_UOM,
           ],
           (error, result) => {
             if (error) {
@@ -47,7 +47,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
-        console.log(materialID, data,modifiedBy);
+        console.log(materialID, data, modifiedBy);
         conn.query(
           "CALL usp_material_master_details_direct_update(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
@@ -71,8 +71,8 @@ module.exports = {
             data.conversion_factor_to,
             data.conversion_factor_from_value,
             data.conversion_factor_to_value,
-            data.is_active, 
-            data.rate_uom,
+            data.is_active,
+            data.rate_UOM,
           ],
           (error, result) => {
             if (error) {

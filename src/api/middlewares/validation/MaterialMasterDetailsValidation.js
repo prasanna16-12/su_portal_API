@@ -60,7 +60,7 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
       .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE").allow(null),
     conversion_factor_from_value: Joi.number().max(99).precision(2).required().allow(null),
     conversion_factor_to_value: Joi.number().max(99).precision(2).required().allow(null),
-    rate_uom: Joi.string().max(100).required().allow(null),
+    rate_UOM: Joi.string().max(100).required().allow(null),
   });
 
   const { error, value } = schema.validate(req.body, { convert: false }); // Validate request data
