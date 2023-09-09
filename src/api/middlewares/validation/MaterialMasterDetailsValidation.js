@@ -51,16 +51,27 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
         "Gold",
         "Silver",
         "Platinum"
-      ).allow(null),
+      )
+      .allow(null),
     currency: Joi.string().max(100).required(),
     serialised: Joi.string().length(1).required().valid(1, 0).allow(null),
     conversion_factor_to: Joi.string()
       .max(100)
       .required()
-      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE").allow(null),
-    conversion_factor_from_value: Joi.number().max(99).precision(2).required().allow(null),
-    conversion_factor_to_value: Joi.number().max(99).precision(2).required().allow(null),
+      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE")
+      .allow(null),
+    conversion_factor_from_value: Joi.number()
+      .max(1000)
+      .precision(2)
+      .required()
+      .allow(null),
+    conversion_factor_to_value: Joi.number()
+      .max(1000)
+      .precision(2)
+      .required()
+      .allow(null),
     rate_UOM: Joi.string().max(100).required().allow(null),
+    dtp_buy: Joi.string().length(1).required().valid(1, 0).allow(null),
   });
 
   const { error, value } = schema.validate(req.body, { convert: false }); // Validate request data
