@@ -11,6 +11,8 @@ const SupplierInternalDataValidation = require("../middlewares/validation/Suppli
 const MaterialMasterDetailsValidation = require("../middlewares/validation/MaterialMasterDetailsValidation");
 const supplierUpdatedDetailsValidation = require("../middlewares/validation/UpdateDetailsValidation");
 const materialUpdateDetailsValidation = require("../middlewares/validation/materialUpdateDetailsValidation");
+const createRFQvalidation = require('../middlewares/validation/RfqMasterDetailsValidation')
+
 // permission
 const sendRegLink = require("../middlewares/permission/sendRegLink");
 
@@ -97,5 +99,13 @@ BuyerRouter
     "/material/bulk/upload",
     Material_Master_bulk_Upload.single("uploadedFile"),
     BuyerController.fileUpload_Bulk_Material_Master
+  )
+
+  /* create RFQ */
+  .post(
+    "/rfq",
+    createRFQvalidation,
+    BuyerController.createRFQ
   );
+
 module.exports = BuyerRouter;

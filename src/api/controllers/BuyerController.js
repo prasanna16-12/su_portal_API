@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const BuyerModel = require("../models/BuyerModel");
 const MaterialModel = require("../models/MaterialModel");
+const RFQ = require('../models/RFQ')
 const XLSX = require("xlsx");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
@@ -390,6 +391,25 @@ module.exports = {
       //console.log(data);
       return res.status(200).json({
         //result: data,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+
+  createRFQ: async (req, res) => {
+    try {
+      const data = await RFQ.createRFQHeader(req.body, req.user_info.user_ID);
+      console.log(data[0]);
+      await RFQ.addRFQLineItems(req.body.line_items, data[0].rfq_header_ID)
+      await RFQ.addRFQVendors(req.body.vendors, data[0].rfq_header_ID)
+      
+      return res.status(200).json({
+        result: data[0],
         message: "Success",
       });
     } catch (error) {
