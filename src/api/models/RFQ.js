@@ -6,7 +6,7 @@ module.exports = {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "CALL usp_create_RFQ_header( ?,?,?,?,?,?,?,?)",
+          "CALL usp_create_RFQ_header( ?,?,?,?,?,?,?,?,?)",
           [
             data.indent_ID,
             data.status,
@@ -16,6 +16,7 @@ module.exports = {
             data.inco_terms,
             data.quote_deadline,
             data.site,
+            data.terms_and_condition,
           ],
           (error, result) => {
             if (error) {
@@ -37,7 +38,7 @@ module.exports = {
           pool.getConnection((error, conn) => {
             if (error) return reject(error);
             conn.query(
-              "call usp_add_lineItem(?, ?, ?, ?, ?, ?, ?);",
+              "call usp_add_lineItem(?, ?, ?, ?, ?, ?, ?,?);",
               [
                 _data.material_code,
                 _data.quantity,
@@ -46,6 +47,7 @@ module.exports = {
                 _data.is_service,
                 _data.service_description,
                 RFQHeaderID,
+                _data.is_GST,
               ],
               (error, results) => {
                 if (error) return reject(error);
