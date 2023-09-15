@@ -16,7 +16,7 @@ const validation = (req, res, next) => {
 
     line_items: Joi.array()
       .items({
-        material_code: Joi.number().max(999999).required(),
+        material_ID: Joi.number().max(999999).required(),
         quantity: Joi.string().max(100).required(),
         delivery_date: Joi.date().format("YYYY-MM-DD").iso().required(),
         material_specification: Joi.string().max(1000).required(),

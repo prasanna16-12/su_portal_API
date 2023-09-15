@@ -40,7 +40,7 @@ module.exports = {
             conn.query(
               "call usp_add_lineItem(?, ?, ?, ?, ?, ?, ?,?);",
               [
-                _data.material_code,
+                _data.material_ID,
                 _data.quantity,
                 _data.delivery_date,
                 _data.material_specification,
