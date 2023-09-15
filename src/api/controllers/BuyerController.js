@@ -418,4 +418,23 @@ module.exports = {
       });
     }
   },
+
+  listViewRFQ: async (req, res) => {
+    try {
+      const data = await RFQ.getlistViewRFQ(req.body, req.user_info.user_ID);
+      //console.log(data[0]);
+      const _result = await RFQ.getlistViewRFQDetails(data[0])
+      //await RFQ.addRFQVendors(req.body.vendors, data[0].rfq_header_ID)
+      //console.log(_result);
+      return res.status(200).json({
+        result: _result,
+        count: _result.length,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
 };

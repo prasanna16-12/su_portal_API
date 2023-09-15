@@ -79,10 +79,7 @@ module.exports = {
             if (error) return reject(error);
             conn.query(
               "call usp_add_vendors(?, ?);",
-              [
-                vendor,
-                RFQHeaderID
-              ],
+              [vendor, RFQHeaderID],
               (error, results) => {
                 if (error) return reject(error);
 
@@ -98,6 +95,69 @@ module.exports = {
             return reject(err);
           } else {
             return resolve(vendors);
+          }
+        }
+      );
+    });
+  },
+
+  getlistViewRFQ: (data, buyer_ID) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "call usp_get_RFQ_header_ID_List_view(?, ?, ?, ?, ?, ?, ?);",
+          [
+            data.vendor_reg_code, 
+            buyer_ID,
+            data.status,
+            data.from_date,
+            data.material_ID,
+            data.rfq_from,
+            data.rfq_to
+          ],
+          (error, results) => {
+            if (error) return reject(error);
+
+            conn.destroy();
+            //console.log(results);
+            return resolve(results);
+          }
+        );
+      });
+    });
+  },
+
+
+
+  getlistViewRFQDetails: (RFQList) => {
+    return new Promise((resolve, reject) => {
+      async.forEachOf(
+        RFQList,
+        function (RFQ, i, inner_callback) {
+          pool.getConnection((error, conn) => {
+            if (error) return reject(error);
+            conn.query(
+              "call usp_get_RFQ_details_List_view(?);",
+              [RFQ.rfq_header_ID],
+              (error, results) => {
+                if (error) return reject(error);
+
+                conn.destroy();
+                
+                RFQList[i]["line_items"] = results[0]
+                RFQList[i]["vendors"] = results[1]
+                //console.log(RFQList);
+                inner_callback(null);
+              }
+            );
+          });
+        },
+        function (err) {
+          if (err) {
+            return reject(err);
+          } else {
+            return resolve(RFQList);
           }
         }
       );

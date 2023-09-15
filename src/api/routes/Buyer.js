@@ -11,7 +11,8 @@ const SupplierInternalDataValidation = require("../middlewares/validation/Suppli
 const MaterialMasterDetailsValidation = require("../middlewares/validation/MaterialMasterDetailsValidation");
 const supplierUpdatedDetailsValidation = require("../middlewares/validation/UpdateDetailsValidation");
 const materialUpdateDetailsValidation = require("../middlewares/validation/materialUpdateDetailsValidation");
-const createRFQvalidation = require('../middlewares/validation/RfqMasterDetailsValidation')
+const createRFQvalidation = require("../middlewares/validation/RfqMasterDetailsValidation");
+const listViewRFQvalidation = require("../middlewares/validation/RfqListViewValidation");
 
 // permission
 const sendRegLink = require("../middlewares/permission/sendRegLink");
@@ -102,10 +103,9 @@ BuyerRouter
   )
 
   /* create RFQ */
-  .post(
-    "/rfq",
-    createRFQvalidation,
-    BuyerController.createRFQ
-  );
+  .post("/rfq", createRFQvalidation, BuyerController.createRFQ)
+
+  /* create RFQ */
+  .post("/rfq/listView", listViewRFQvalidation, BuyerController.listViewRFQ);
 
 module.exports = BuyerRouter;
