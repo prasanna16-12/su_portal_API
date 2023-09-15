@@ -1,7 +1,0 @@
-description,unit_of_measure,material_group,material_type,conversion_factor,warehouse_location,rate,batch,ERP_no,manufacturer_no,HSN_code,specification,assembly,base_material,batch_managed,currency,serialised,conversion_factor_to,conversion_factor_from_value,conversion_factor_to_value
-Description-1,KG,Stationary,Spares & Consumables,conversionFactor-1,Pune,10,100,ERP-7,MF-NO-1244,HSN-345322,specification - 1,Y,Steel,Y,USD,Y,GM,1.5,10
-Description0,KG,Stationary,Spares & Consumables,conversionFactor0,Pune,10,100,ERP0,MF-NO-1243,HSN-345321,specification - 2,Y,Steel,Y,USD,Y,GM,1.5,10
-Description1,KG,Stationary,Spares & Consumables,conversionFactor1,Pune,10,100,ERP1,MF-NO-1242,HSN-345320,specification - 3,Y,Steel,Y,USD,Y,GM,1.5,10
-Description2,KG,Stationary,Spares & Consumables,conversionFactor2,Pune,10,100,ERP2,MF-NO-1241,HSN-345319,specification - 4,Y,Steel,Y,USD,Y,GM,1.5,10
-Description3,KG,Stationary,Spares & Consumables,conversionFactor3,Pune,10,100,ERP3,MF-NO-1240,HSN-345318,specification - 5,Y,Steel,Y,USD,Y,GM,1.5,10
-Description4,KG,Stationary,Spares & Consumables,conversionFactor4,Pune,10,100,ERP4,MF-NO-1239,HSN-345317,specification - 6,Y,Steel,Y,USD,Y,GM,1.5,10
