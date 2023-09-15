@@ -12,17 +12,17 @@ const validation = (req, res, next) => {
     inco_terms: Joi.string().max(100).required(),
     quote_deadline: Joi.date().format("YYYY-MM-DD").iso().required(),
     site: Joi.string().max(100).required(),
-    terms_and_condition:Joi.string().max(1000).required().allow(null),
+    terms_and_condition: Joi.string().max(1000).required().allow(null),
 
     line_items: Joi.array()
       .items({
         material_ID: Joi.number().max(999999).required(),
         quantity: Joi.string().max(100).required(),
         delivery_date: Joi.date().format("YYYY-MM-DD").iso().required(),
-        material_specification: Joi.string().max(1000).required(),
+        material_specification: Joi.string().max(1000).required().allow(null),
         is_service: Joi.valid(1, 0).required(),
         service_description: Joi.string().max(1000).required().allow(null),
-        is_GST:Joi.valid(1, 0).required().allow(null),
+        is_GST: Joi.valid(1, 0).required().allow(null),
       })
       .required(),
 
