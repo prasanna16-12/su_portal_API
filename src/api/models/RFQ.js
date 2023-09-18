@@ -108,13 +108,13 @@ module.exports = {
         conn.query(
           "call usp_get_RFQ_header_ID_List_view(?, ?, ?, ?, ?, ?, ?);",
           [
-            data.vendor_reg_code, 
+            data.vendor_reg_code,
             buyer_ID,
             data.status,
             data.from_date,
             data.material_ID,
             data.rfq_from,
-            data.rfq_to
+            data.rfq_to,
           ],
           (error, results) => {
             if (error) return reject(error);
@@ -127,8 +127,6 @@ module.exports = {
       });
     });
   },
-
-
 
   getlistViewRFQDetails: (RFQList) => {
     return new Promise((resolve, reject) => {
@@ -144,9 +142,9 @@ module.exports = {
                 if (error) return reject(error);
 
                 conn.destroy();
-                
-                RFQList[i]["line_items"] = results[0]
-                RFQList[i]["vendors"] = results[1]
+
+                RFQList[i]["line_items"] = results[1];
+                RFQList[i]["vendors"] = results[2];
                 //console.log(RFQList);
                 inner_callback(null);
               }
@@ -161,6 +159,61 @@ module.exports = {
           }
         }
       );
+    });
+  },
+
+  getRFQDetailsByID: (rfq_header_ID) => {
+    return new Promise((resolve, reject) => {
+      let data = {};
+
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "call usp_get_RFQ_details_List_view(?);",
+          [rfq_header_ID],
+          (error, results) => {
+            if (error) return reject(error);
+
+            conn.destroy();
+
+            //console.log(results[0]);
+            data = results[0][0];
+            data["line_items"] = results[1];
+            data["vendors"] = results[2];
+            //console.log(RFQList);
+            resolve(data);
+          }
+        );
+      });
+    });
+  },
+
+  modifyDraftRFQ: (data, RFQ_ID) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "CALL modify_draft_RFQ(?,?,?,?,?,?,?,?,?)",
+          [
+            RFQ_ID,
+            data.indent_ID,
+            data.status,
+            data.indent_name,
+            data.payment_terms,
+            data.inco_terms,
+            data.quote_deadline,
+            data.site,
+            data.terms_and_condition,
+          ],
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            conn.destroy();
+            return resolve(result);
+          }
+        );
+      });
     });
   },
 };

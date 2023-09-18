@@ -44,5 +44,10 @@ GenericRouter
   /* get material meta data*/
   .get("/materialmetadata/", GenericController.materialMetadata)
 
+  /* get RFQ meta data*/
+  .get("/RFQmetadata/", GenericController.RFQMetadata)
+
+  /* get RFQ data by ID */
+  .get("/RFQ/:id", GenericController.RFQByID);
 
 module.exports = GenericRouter;

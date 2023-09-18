@@ -4,7 +4,6 @@ const BuyerModel = require("../models/BuyerModel");
 const MaterialModel = require("../models/MaterialModel");
 const RFQ = require('../models/RFQ')
 const XLSX = require("xlsx");
-const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
 const validateMaterialMaster = require("../middlewares/validation/BulkMaterialMasterDataValidation");
 
@@ -293,6 +292,7 @@ module.exports = {
 
       // upload in mysql
       const header = Object.keys(xlData[0]);
+      
       // Set up CSV writer
       const csvWriter = createCsvWriter({
         path: path.join(
@@ -404,7 +404,7 @@ module.exports = {
   createRFQ: async (req, res) => {
     try {
       const data = await RFQ.createRFQHeader(req.body, req.user_info.user_ID);
-      console.log(data[0]);
+      //console.log(data[0]);
       await RFQ.addRFQLineItems(req.body.line_items, data[0].rfq_header_ID)
       await RFQ.addRFQVendors(req.body.vendors, data[0].rfq_header_ID)
       
@@ -423,12 +423,29 @@ module.exports = {
     try {
       const data = await RFQ.getlistViewRFQ(req.body, req.user_info.user_ID);
       //console.log(data[0]);
-      const _result = await RFQ.getlistViewRFQDetails(data[0])
+      //const _result = await RFQ.getlistViewRFQDetails(data[0])
       //await RFQ.addRFQVendors(req.body.vendors, data[0].rfq_header_ID)
       //console.log(_result);
       return res.status(200).json({
-        result: _result,
-        count: _result.length,
+        result: data[0],
+        count: data[0].length,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  modifyDraftRFQ: async (req, res) => {
+    try {
+      await RFQ.modifyDraftRFQ(req.body, req.params.id);
+      await RFQ.addRFQLineItems(req.body.line_items, req.params.id)
+      await RFQ.addRFQVendors(req.body.vendors, req.params.id)
+      
+      return res.status(200).json({
+        result: req.params.id,
         message: "Success",
       });
     } catch (error) {

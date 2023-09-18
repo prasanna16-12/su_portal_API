@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const multerFilter = (req, file, cb) => {
   // The function should call `cb` with a boolean
   // to indicate if the file should be accepted
-  let fileTypes = [".xlsx", ".numbers"];
+  let fileTypes = [".xlsx"];
   let fileExt = path.extname(file.originalname);
   //console.log(fileExt, fileTypes);
 

@@ -166,4 +166,20 @@ module.exports = {
   },
 
 
+  RFQMetadata: () => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query("CALL usp_get_RFQ_metadata;", (error, result) => {
+          if (error) return reject(error);
+
+          conn.destroy();
+          //console.log(result);
+          return resolve(result[0]);
+        });
+      });
+    });
+  },
+
+
 };

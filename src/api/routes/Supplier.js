@@ -12,8 +12,10 @@ SupplierRouter
     "/Update",
     supplierUpdatedDetailsValidation,
     SupplierController.addUpdateDetails
-  );
+  )
 
+  /* create RFQ */
+  //.post("/rfq/listView", listViewRFQvalidation, BuyerController.listViewRFQ);
 
   
 

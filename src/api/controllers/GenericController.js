@@ -1,5 +1,6 @@
 const AdminModel = require("../models/AdminModel");
 const GenericModel = require("../models/GenericModel");
+const RFQModel = require("../models/RFQ")
 
 module.exports = {
   VendorInfo: async (req, res) => {
@@ -125,5 +126,34 @@ module.exports = {
     }
   },
 
-  
+
+  RFQMetadata: async (req, res) => {
+    try {
+      const data = await GenericModel.RFQMetadata();
+      //console.log(data);
+      return res.status(200).json({
+        result: data,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  RFQByID: async (req, res) => {
+    try {
+      const data = await RFQModel.getRFQDetailsByID(req.params.id);
+      //console.log(data);
+      return res.status(200).json({
+        result: data,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
 };

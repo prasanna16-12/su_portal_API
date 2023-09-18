@@ -4,7 +4,7 @@ const Joi = require("joi").extend(require("@joi/date"));
 const validation = (req, res, next) => {
   const schema = Joi.object({
     // Define validation schema for request data
-    vendor_reg_code: Joi.number().max(999999).required(),
+    vendor_reg_code: Joi.number().max(999999).required().allow(null),
     material_ID: Joi.number().max(999999).required().allow(null),
     from_date: Joi.date().format("YYYY-MM-DD").iso().required().allow(null),
     status: Joi.valid("PUBLISHED", "DRAFT", "AWARDED").required().allow(null),

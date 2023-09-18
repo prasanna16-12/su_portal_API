@@ -29,16 +29,14 @@ const materialMasterDataValidation = async (obj) => {
         "Service Material",
         "Finished Material"
       ),
-    conversion_factor: Joi.string().max(100).required(),
-    warehouse_location: Joi.string().max(100).required(),
+    warehouse_location: Joi.string().max(100).required().allow(null),
     rate: Joi.number().required(),
-    batch: Joi.number().required(),
-    ERP_no: Joi.string().max(100).required().allow(null),
-    manufacturer_no: Joi.string().max(100).required(),
+    ERP_no: Joi.string().max(100).required(),
+    manufacturer_no: Joi.string().max(100).required().allow(null),
     HSN_code: Joi.string().max(100).required(),
-    specification: Joi.string().max(1000).required(),
-    assembly: Joi.string().length(1).required().valid("Y", "N"),
-    batch_managed: Joi.string().length(1).required().valid("Y", "N"),
+    specification: Joi.string().max(1000).required().allow(null),
+    assembly: Joi.string().length(1).required().valid(1, 0),
+    batch_managed: Joi.string().length(1).required().valid(1, 0).allow(null),
     base_material: Joi.string()
       .max(100)
       .required()
@@ -51,15 +49,27 @@ const materialMasterDataValidation = async (obj) => {
         "Gold",
         "Silver",
         "Platinum"
-      ),
+      )
+      .allow(null),
     currency: Joi.string().max(100).required(),
-    serialised: Joi.string().length(1).required().valid("Y", "N"),
+    serialised: Joi.string().length(1).required().valid(1, 0).allow(null),
     conversion_factor_to: Joi.string()
       .max(100)
       .required()
-      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
-    conversion_factor_from_value: Joi.number().max(99).precision(2).required(),
-    conversion_factor_to_value: Joi.number().max(99).precision(2).required(),
+      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE")
+      .allow(null),
+    conversion_factor_from_value: Joi.number()
+      .max(1000)
+      .precision(2)
+      .required()
+      .allow(null),
+    conversion_factor_to_value: Joi.number()
+      .max(1000)
+      .precision(2)
+      .required()
+      .allow(null),
+    rate_UOM: Joi.string().max(100).required().allow(null),
+    dtp_buy: Joi.string().length(1).required().valid(1, 0).allow(null),
   });
 
   const { error } = schema.validate(obj); // Validate request data

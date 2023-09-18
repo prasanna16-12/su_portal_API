@@ -4,9 +4,7 @@ const Joi = require("joi");
 const MaterialMasterDetailsValidation = (req, res, next) => {
   const schema = Joi.object({
     // Define validation schema for request data
-
-    // to disable link get contact person id also TODO
-    description: Joi.string().max(1000).required(),
+description: Joi.string().max(1000).required(),
     unit_of_measure: Joi.string()
       .max(100)
       .required()

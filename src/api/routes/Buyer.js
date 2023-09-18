@@ -102,8 +102,12 @@ BuyerRouter
     BuyerController.fileUpload_Bulk_Material_Master
   )
 
-  /* create RFQ */
+  /* create RFQ 
+     buyer can create RFQ in DRAFT as well as in PUBLISH staus
+  */
   .post("/rfq", createRFQvalidation, BuyerController.createRFQ)
+  
+  .post("/rfq/draft/:id", createRFQvalidation, BuyerController.modifyDraftRFQ)
 
   /* create RFQ */
   .post("/rfq/listView", listViewRFQvalidation, BuyerController.listViewRFQ);

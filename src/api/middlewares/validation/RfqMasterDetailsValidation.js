@@ -26,7 +26,7 @@ const validation = (req, res, next) => {
       })
       .required(),
 
-    vendors: Joi.array().items(Joi.number().max(999999).required()).required(),
+    vendors: Joi.array().items(Joi.number().max(999999)).required(),
   });
 
   const { error, value } = schema.validate(req.body, { convert: true }); // Validate request data
