@@ -128,6 +128,32 @@ module.exports = {
     });
   },
 
+  getlistViewSupplierRFQ: (data, SupplierID) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "call usp_get_RFQ_header_ID_List_view_supplier( ?, ?, ?, ?, ?, ?);",
+          [
+            SupplierID,
+            data.status,
+            data.from_date,
+            data.material_ID,
+            data.rfq_from,
+            data.rfq_to,
+          ],
+          (error, results) => {
+            if (error) return reject(error);
+
+            conn.destroy();
+            //console.log(results);
+            return resolve(results);
+          }
+        );
+      });
+    });
+  },
+
   getlistViewRFQDetails: (RFQList) => {
     return new Promise((resolve, reject) => {
       async.forEachOf(
@@ -216,4 +242,71 @@ module.exports = {
       });
     });
   },
+
+
+  updateRFQ: (data, createdBy ,RFQ_ID) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "CALL update_RFQ_header(?,?,?)",
+          [
+            RFQ_ID,
+            data.quote_deadline,
+            createdBy
+          ],
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            conn.destroy();
+            //console.log(result);
+            return resolve(result[0][0]);
+          }
+        );
+      });
+    });
+
+  },
+
+
+  updateRFQLineItems: (data, updatedRFQ) => {
+    return new Promise((resolve, reject) => {
+      updatedRFQ["UpdatedLineItems"] = []
+      async.forEachOf(
+        data,
+        function (_data, i, inner_callback) {
+          pool.getConnection((error, conn) => {
+            if (error) return reject(error);
+            conn.query(
+              "call update_RFQ_LineItem(?, ?, ?);",
+              [
+                _data.rfq_line_item_ID,    
+                _data.delivery_date,
+                _data.is_delete,
+              ],
+              (error, results) => {
+                if (error) return reject(error);
+
+                conn.destroy();
+                console.log(results[0][0]);
+                updatedRFQ["UpdatedLineItems"].push(results[0][0])
+                inner_callback(null);
+              }
+            );
+          });
+        },
+        function (err) {
+          if (err) {
+            return reject(err);
+          } else {
+            return resolve(updatedRFQ);
+          }
+        }
+      );
+    });
+  },
+
+
+
 };

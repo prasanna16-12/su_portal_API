@@ -13,7 +13,7 @@ const supplierUpdatedDetailsValidation = require("../middlewares/validation/Upda
 const materialUpdateDetailsValidation = require("../middlewares/validation/materialUpdateDetailsValidation");
 const createRFQvalidation = require("../middlewares/validation/RfqMasterDetailsValidation");
 const listViewRFQvalidation = require("../middlewares/validation/RfqListViewValidation");
-
+const updateRFQValidation = require("../middlewares/validation/RfqUpDateDetailsValidation")
 // permission
 const sendRegLink = require("../middlewares/permission/sendRegLink");
 
@@ -108,6 +108,8 @@ BuyerRouter
   .post("/rfq", createRFQvalidation, BuyerController.createRFQ)
   
   .post("/rfq/draft/:id", createRFQvalidation, BuyerController.modifyDraftRFQ)
+
+  .post("/rfq/update/:id", updateRFQValidation, BuyerController.updateRFQ)
 
   /* create RFQ */
   .post("/rfq/listView", listViewRFQvalidation, BuyerController.listViewRFQ);

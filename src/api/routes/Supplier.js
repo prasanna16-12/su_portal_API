@@ -4,6 +4,7 @@ const SupplierController = require("../controllers/SupplierController");
 
 /* validation */
 const supplierUpdatedDetailsValidation = require("../middlewares/validation/UpdateDetailsValidation");
+const listViewRFQvalidation = require("../middlewares/validation/RfqListViewValidationSupplier");
 
 SupplierRouter
 
@@ -15,7 +16,7 @@ SupplierRouter
   )
 
   /* create RFQ */
-  //.post("/rfq/listView", listViewRFQvalidation, BuyerController.listViewRFQ);
+  .post("/rfq/listView", listViewRFQvalidation, SupplierController.listViewRFQ);
 
   
 
