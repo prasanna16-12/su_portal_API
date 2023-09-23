@@ -2,11 +2,12 @@ const fs = require("fs");
 const path = require("path");
 const BuyerModel = require("../models/BuyerModel");
 const MaterialModel = require("../models/MaterialModel");
-const RFQ = require('../models/RFQ')
 const XLSX = require("xlsx");
+const RFQ = require('../models/RFQ')
+
 
 const validateMaterialMaster = require("../middlewares/validation/BulkMaterialMasterDataValidation");
-
+const bulkUpload = require("../models/BulkUpload")
 module.exports = {
   getUpdateDetails: async (req, res) => {
     try {
@@ -222,37 +223,38 @@ module.exports = {
       if (req.file === undefined)
         throw new Error("Error While processing file");
 
-      let sheetProcessingLog = [];
-      let workbook = XLSX.readFile(req.file.path);
-      let sheet_name_list = workbook.SheetNames;
+      const data = await bulkUpload.validateMaterialMasterFile(req.file)
+      // let sheetProcessingLog = [];
+      // let workbook = XLSX.readFile(req.file.path);
+      // let sheet_name_list = workbook.SheetNames;
 
-      let xlData = XLSX.utils.sheet_to_json(
-        workbook.Sheets[sheet_name_list[0]]
-      );
+      // let xlData = XLSX.utils.sheet_to_json(
+      //   workbook.Sheets[sheet_name_list[0]]
+      // );
 
       //console.log(xlData);
-      for (let index = 0; index < xlData.length; index++) {
-        const row = xlData[index];
-        let validation = await validateMaterialMaster(row);
-        sheetProcessingLog.push({
-          row,
-          processingStatus: validation,
-        });
-      }
+      // for (let index = 0; index < xlData.length; index++) {
+      //   const row = xlData[index];
+      //   let validation = await validateMaterialMaster(row);
+      //   sheetProcessingLog.push({
+      //     row,
+      //     processingStatus: validation,
+      //   });
+      // }
 
       //console.log(sheetProcessingLog);
       //delete file
 
-      fs.unlink(req.file.path, function (err) {
-        if (err) {
-          //console.error(err);
-          throw new err();
-        }
-        console.log("File has been Deleted");
-      });
+      // fs.unlink(req.file.path, function (err) {
+      //   if (err) {
+      //     //console.error(err);
+      //     throw new err();
+      //   }
+      //   console.log("File has been Deleted");
+      // });
 
       return res.status(200).json({
-        result: sheetProcessingLog,
+        result: data,
         message: "Success",
       });
     } catch (error) {
@@ -464,6 +466,54 @@ module.exports = {
       console.log(updatedRFQ);
       //await RFQ.addRFQVendors(req.body.vendors, req.params.id)
       
+      return res.status(200).json({
+        result: updatedRFQ,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  close: async (req, res) => {
+    try {
+      let updatedRFQ = await RFQ.changeStatusRFQ(req.params.id, "CLOSE");
+      console.log(updatedRFQ);
+
+      return res.status(200).json({
+        result: updatedRFQ,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  hold: async (req, res) => {
+    try {
+      let updatedRFQ = await RFQ.changeStatusRFQ(req.params.id, "HOLD");
+      console.log(updatedRFQ);
+
+      return res.status(200).json({
+        result: updatedRFQ,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  unhold: async (req, res) => {
+    try {
+      let updatedRFQ = await RFQ.changeStatusRFQ(req.params.id, "UNHOLD");
+      console.log(updatedRFQ);
+
       return res.status(200).json({
         result: updatedRFQ,
         message: "Success",

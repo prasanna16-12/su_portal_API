@@ -243,18 +243,13 @@ module.exports = {
     });
   },
 
-
-  updateRFQ: (data, createdBy ,RFQ_ID) => {
+  updateRFQ: (data, createdBy, RFQ_ID) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
           "CALL update_RFQ_header(?,?,?)",
-          [
-            RFQ_ID,
-            data.quote_deadline,
-            createdBy
-          ],
+          [RFQ_ID, data.quote_deadline, createdBy],
           (error, result) => {
             if (error) {
               return reject(error);
@@ -266,13 +261,11 @@ module.exports = {
         );
       });
     });
-
   },
-
 
   updateRFQLineItems: (data, updatedRFQ) => {
     return new Promise((resolve, reject) => {
-      updatedRFQ["UpdatedLineItems"] = []
+      updatedRFQ["UpdatedLineItems"] = [];
       async.forEachOf(
         data,
         function (_data, i, inner_callback) {
@@ -280,17 +273,13 @@ module.exports = {
             if (error) return reject(error);
             conn.query(
               "call update_RFQ_LineItem(?, ?, ?);",
-              [
-                _data.rfq_line_item_ID,    
-                _data.delivery_date,
-                _data.is_delete,
-              ],
+              [_data.rfq_line_item_ID, _data.delivery_date, _data.is_delete],
               (error, results) => {
                 if (error) return reject(error);
 
                 conn.destroy();
                 console.log(results[0][0]);
-                updatedRFQ["UpdatedLineItems"].push(results[0][0])
+                updatedRFQ["UpdatedLineItems"].push(results[0][0]);
                 inner_callback(null);
               }
             );
@@ -307,6 +296,23 @@ module.exports = {
     });
   },
 
-
-
+  changeStatusRFQ: (RFQ_ID, action) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) reject(error);
+        conn.query(
+          "CALL update_RFQ_status(?,?)",
+          [RFQ_ID, action],
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            conn.destroy();
+            //console.log(result);
+            return resolve(result[0][0]);
+          }
+        );
+      });
+    });
+  },
 };

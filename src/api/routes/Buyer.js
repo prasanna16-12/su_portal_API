@@ -13,7 +13,7 @@ const supplierUpdatedDetailsValidation = require("../middlewares/validation/Upda
 const materialUpdateDetailsValidation = require("../middlewares/validation/materialUpdateDetailsValidation");
 const createRFQvalidation = require("../middlewares/validation/RfqMasterDetailsValidation");
 const listViewRFQvalidation = require("../middlewares/validation/RfqListViewValidation");
-const updateRFQValidation = require("../middlewares/validation/RfqUpDateDetailsValidation")
+const updateRFQValidation = require("../middlewares/validation/RfqUpDateDetailsValidation");
 // permission
 const sendRegLink = require("../middlewares/permission/sendRegLink");
 
@@ -89,29 +89,32 @@ BuyerRouter
   .get("/material/:id", BuyerController.materialDataByID)
 
   /* upload material validation before upload*/
-  .post(
-    "/material/bulk/validate",
-    Material_Master_bulk_Upload.single("uploadedFile"),
-    BuyerController.validate_FileUpload_Bulk_Material_Master
-  )
+  // .post(
+  //   "/material/bulk/validate",
+  //   Material_Master_bulk_Upload.single("uploadedFile"),
+  //   BuyerController.validate_FileUpload_Bulk_Material_Master
+  // )
 
-  /* upload material */
-  .post(
-    "/material/bulk/upload",
-    Material_Master_bulk_Upload.single("uploadedFile"),
-    BuyerController.fileUpload_Bulk_Material_Master
-  )
+  // /* upload material */
+  // .post(
+  //   "/material/bulk/upload",
+  //   Material_Master_bulk_Upload.single("uploadedFile"),
+  //   BuyerController.fileUpload_Bulk_Material_Master
+  // )
 
   /* create RFQ 
      buyer can create RFQ in DRAFT as well as in PUBLISH staus
   */
   .post("/rfq", createRFQvalidation, BuyerController.createRFQ)
-  
+
   .post("/rfq/draft/:id", createRFQvalidation, BuyerController.modifyDraftRFQ)
 
   .post("/rfq/update/:id", updateRFQValidation, BuyerController.updateRFQ)
-
   /* create RFQ */
-  .post("/rfq/listView", listViewRFQvalidation, BuyerController.listViewRFQ);
+  .post("/rfq/listView", listViewRFQvalidation, BuyerController.listViewRFQ)
+
+  .post("/rfq/:id/close", BuyerController.close)
+  .post("/rfq/:id/unhold", BuyerController.unhold)
+  .post("/rfq/:id/hold", BuyerController.hold);
 
 module.exports = BuyerRouter;

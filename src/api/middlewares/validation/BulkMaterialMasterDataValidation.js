@@ -1,5 +1,6 @@
 const Joi = require("joi");
-const buyerModel = require("../../models/BuyerModel");
+//const buyerModel = require("../../models/BuyerModel");
+const BulkUpload = require("../../models/BulkUpload")
 
 const materialMasterDataValidation = async (obj) => {
   const schema = Joi.object({
@@ -83,7 +84,7 @@ const materialMasterDataValidation = async (obj) => {
 
   if (obj.ERP_no !== null) {
     // check if already present or not
-    let { is_exist } = await buyerModel.MaterialMasterBulkDataDuplicateCheck(
+    let { is_exist } = await BulkUpload.MaterialMasterBulkDataDuplicateCheck(
       obj
     );
     //console.log(is_exist);
