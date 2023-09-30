@@ -50,7 +50,8 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
         "Brass",
         "Gold",
         "Silver",
-        "Platinum"
+        "Platinum",
+        "NA"
       )
       .allow(null),
     currency: Joi.string().max(100).required(),

@@ -48,7 +48,8 @@ description: Joi.string().max(1000).required(),
         "Brass",
         "Gold",
         "Silver",
-        "Platinum"
+        "Platinum",
+        "NA"
       )
       .allow(null),
     currency: Joi.string().max(100).required(),
