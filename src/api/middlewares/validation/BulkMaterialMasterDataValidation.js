@@ -5,7 +5,7 @@ const BulkUpload = require("../../models/BulkUpload")
 const materialMasterDataValidation = async (obj) => {
   const schema = Joi.object({
     // Define validation schema for request data
-    description: Joi.string().max(1000).required(),
+    description: Joi.string().max(2000).required(),
     unit_of_measure: Joi.string()
       .max(100)
       .required()
@@ -35,7 +35,7 @@ const materialMasterDataValidation = async (obj) => {
     ERP_no: Joi.string().max(100).required(),
     manufacturer_no: Joi.string().max(100).required().allow(null),
     HSN_code: Joi.string().max(100).required(),
-    specification: Joi.string().max(1000).required().allow(null),
+    specification: Joi.string().max(2000).required().allow(null),
     assembly: Joi.string().length(1).required().valid(1, 0),
     batch_managed: Joi.string().length(1).required().valid(1, 0).allow(null),
     base_material: Joi.string()
