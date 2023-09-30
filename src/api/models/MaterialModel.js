@@ -48,9 +48,9 @@ module.exports = {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
-        console.log(materialID, data, modifiedBy);
+        //console.log(materialID, data, modifiedBy);
         conn.query(
-          "CALL usp_material_master_details_direct_update(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "CALL usp_material_master_details_direct_update(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             materialID,
             data.description,
