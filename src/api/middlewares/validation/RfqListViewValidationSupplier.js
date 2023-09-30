@@ -7,7 +7,7 @@ const validation = (req, res, next) => {
     //vendor_reg_code: Joi.number().max(999999).required().allow(null),
     material_ID: Joi.number().max(999999).required().allow(null),
     from_date: Joi.date().format("YYYY-MM-DD").iso().required().allow(null),
-    status: Joi.valid("PUBLISHED", "DRAFT", "AWARDED", "HOLD", "CLOSED", "CANCELLED").required().allow(null),
+    status: Joi.valid("PUBLISHED", "AWARDED", "HOLD", "CLOSED", "CANCELLED", "EXPIRED").required().allow(null),
     rfq_from:Joi.number().max(999999).required().allow(null),
     rfq_to: Joi.number().max(999999).required().allow(null),
   });

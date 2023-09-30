@@ -460,10 +460,10 @@ module.exports = {
 
   updateRFQ: async (req, res) => {
     try {
-      let updatedRFQ = await RFQ.updateRFQ(req.body, req.user_info.user_ID,req.params.id);
-      console.log(updatedRFQ);
+      let updatedRFQ = await RFQ.updateRFQ(req.body,req.params.id);
+      //console.log(updatedRFQ);
       updatedRFQ = await RFQ.updateRFQLineItems(req.body.line_items, updatedRFQ)
-      console.log(updatedRFQ);
+      //console.log(updatedRFQ);
       //await RFQ.addRFQVendors(req.body.vendors, req.params.id)
       
       return res.status(200).json({

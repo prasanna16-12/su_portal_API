@@ -243,13 +243,13 @@ module.exports = {
     });
   },
 
-  updateRFQ: (data, createdBy, RFQ_ID) => {
+  updateRFQ: (data, RFQ_ID) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "CALL update_RFQ_header(?,?,?)",
-          [RFQ_ID, data.quote_deadline, createdBy],
+          "CALL update_RFQ_header(?,?)",
+          [RFQ_ID, data.quote_deadline],
           (error, result) => {
             if (error) {
               return reject(error);
