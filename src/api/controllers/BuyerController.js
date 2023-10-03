@@ -4,6 +4,7 @@ const BuyerModel = require("../models/BuyerModel");
 const MaterialModel = require("../models/MaterialModel");
 const XLSX = require("xlsx");
 const RFQ = require('../models/RFQ')
+const excelToXML = require("../helpers/ExcelTOXML")
 
 
 const validateMaterialMaster = require("../middlewares/validation/BulkMaterialMasterDataValidation");
@@ -270,7 +271,6 @@ module.exports = {
       if (req.file === undefined)
         throw new Error("Error While processing file");
 
-      let validSheetCount = 0;
       let workbook = XLSX.readFile(req.file.path);
       let sheet_name_list = workbook.SheetNames;
 
@@ -278,58 +278,21 @@ module.exports = {
         workbook.Sheets[sheet_name_list[0]]
       );
 
-      for (let index = 0; index < xlData.length; index++) {
-        const row = xlData[index];
-        let validation = await validateMaterialMaster(row);
-        console.log(validation);
-        validation.status ? (validSheetCount = validSheetCount + 1) : null;
-      }
-
-      let currentDate = new Date();
-      console.log(currentDate);
-
-      if (xlData.length !== validSheetCount) {
-        throw new Error("File containing invalid data");
-      }
-
-      // upload in mysql
-      const header = Object.keys(xlData[0]);
+      //console.log(xlData);
+      // create xml from excel
+      //let materialMasterXML = excelToXML.excelTOXML(xlData)
       
-      // Set up CSV writer
-      const csvWriter = createCsvWriter({
-        path: path.join(
-          process.cwd(),
-          "/UploadedFiles/" + req.file.filename.split(".")[0] + ".csv"
-        ), // Change this to your desired output file path
-        header: header.map((field) => ({ id: field, title: field })), // Define field IDs
-      });
-
-      // Write data to CSV
-      csvWriter
-        .writeRecords(xlData)
-        .then(() => {
-          console.log("CSV file written successfully");
-        })
-        .catch((error) => {
-          console.error("Error writing CSV file:", error);
-        });
-      //console.log(sheetProcessingLog);
-
-      // BuyerModel.MaterialMasterBulkDataInsert(
-      //   path.join(
-      //     process.cwd(),
-      //     "/UploadedFiles/" + req.file.filename.split(".")[0] + ".csv"
-      //   )
-      // );
+      //upload to to DB
+      let data = await MaterialModel.insertMatrialMasterDataBUKL(JSON.stringify(xlData), req.user_info.user_ID);
 
       return res.status(200).json({
-        result: validSheetCount,
+        result: data,
         message: "Success",
       });
     } catch (error) {
       return res.status(500).json({
         result: -1,
-        message: error.message,
+        message: error,
       });
     } finally {
       if (req.file !== undefined) {

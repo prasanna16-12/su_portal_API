@@ -1,6 +1,7 @@
 const Joi = require("joi");
 //const buyerModel = require("../../models/BuyerModel");
 const BulkUpload = require("../../models/BulkUpload")
+const UOM_LOV = require("../../ListOfValues/UOM_LOV");
 
 const materialMasterDataValidation = async (obj) => {
   const schema = Joi.object({
@@ -9,7 +10,7 @@ const materialMasterDataValidation = async (obj) => {
     unit_of_measure: Joi.string()
       .max(100)
       .required()
-      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
+      .valid(...UOM_LOV.values),//"GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
     material_group: Joi.string()
       .max(100)
       .required()

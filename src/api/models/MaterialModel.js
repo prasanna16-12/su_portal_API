@@ -87,4 +87,28 @@ module.exports = {
       });
     });
   },
+
+
+  insertMatrialMasterDataBULK: (data, userID) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        //console.log(materialID, data, modifiedBy);
+        conn.query(
+          "CALL usp_BULK_insert_material_master(?,?)",
+          [
+            data,
+            userID
+          ],
+          (error, result) => {
+            if (error) {
+              return reject(error);
+            }
+            conn.destroy();
+            return resolve(result[0]);
+          }
+        );
+      });
+    });
+  },
 };

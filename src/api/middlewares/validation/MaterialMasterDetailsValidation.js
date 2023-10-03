@@ -1,14 +1,15 @@
 const Joi = require("joi");
+const UOM_LOV = require("../../ListOfValues/UOM_LOV");
 
 // Define middleware for validation
 const MaterialMasterDetailsValidation = (req, res, next) => {
   const schema = Joi.object({
     // Define validation schema for request data
-description: Joi.string().max(2000).required(),
+    description: Joi.string().max(2000).required(),
     unit_of_measure: Joi.string()
       .max(100)
       .required()
-      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
+      .valid(...UOM_LOV.values),//"GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
     material_group: Joi.string()
       .max(100)
       .required()
@@ -72,6 +73,7 @@ description: Joi.string().max(2000).required(),
     rate_UOM: Joi.string().max(100).required().allow(null),
     dtp_buy: Joi.string().length(1).required().valid(1, 0).allow(null),
   });
+  //console.log(UOM_LOV);
 
   const { error, value } = schema.validate(req.body, { convert: false }); // Validate request data
 

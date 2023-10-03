@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const UOM_LOV = require("../../ListOfValues/UOM_LOV");
 
 // Define middleware for validation
 const MaterialMasterDetailsValidation = (req, res, next) => {
@@ -10,7 +11,7 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
     unit_of_measure: Joi.string()
       .max(100)
       .required()
-      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
+      .valid(...UOM_LOV.values),//"GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
     material_group: Joi.string()
       .max(100)
       .required()
