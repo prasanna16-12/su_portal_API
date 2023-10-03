@@ -106,7 +106,7 @@ module.exports = {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "call usp_get_RFQ_header_ID_List_view(?, ?, ?, ?, ?, ?, ?);",
+          "call usp_get_RFQ_header_ID_List_view_buyer(?, ?, ?, ?, ?, ?, ?);",
           [
             data.vendor_reg_code,
             buyer_ID,

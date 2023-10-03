@@ -110,7 +110,7 @@ BuyerRouter
   .post("/rfq/draft/:id", createRFQvalidation, BuyerController.modifyDraftRFQ)
 
   .post("/rfq/update/:id", updateRFQValidation, BuyerController.updateRFQ)
-  /* create RFQ */
+  /* List view RFQ */
   .post("/rfq/listView", listViewRFQvalidation, BuyerController.listViewRFQ)
 
   .post("/rfq/:id/close", BuyerController.close)
