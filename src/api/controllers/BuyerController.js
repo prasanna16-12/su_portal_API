@@ -3,12 +3,11 @@ const path = require("path");
 const BuyerModel = require("../models/BuyerModel");
 const MaterialModel = require("../models/MaterialModel");
 const XLSX = require("xlsx");
-const RFQ = require('../models/RFQ')
-const excelToXML = require("../helpers/ExcelTOXML")
-
+const RFQ = require("../models/RFQ");
+const excelToXML = require("../helpers/ExcelTOXML");
 
 const validateMaterialMaster = require("../middlewares/validation/BulkMaterialMasterDataValidation");
-const bulkUpload = require("../models/BulkUpload")
+const bulkUpload = require("../models/BulkUpload");
 module.exports = {
   getUpdateDetails: async (req, res) => {
     try {
@@ -224,7 +223,7 @@ module.exports = {
       if (req.file === undefined)
         throw new Error("Error While processing file");
 
-      const data = await bulkUpload.validateMaterialMasterFile(req.file)
+      const data = await bulkUpload.validateMaterialMasterFile(req.file);
       // let sheetProcessingLog = [];
       // let workbook = XLSX.readFile(req.file.path);
       // let sheet_name_list = workbook.SheetNames;
@@ -281,9 +280,12 @@ module.exports = {
       //console.log(xlData);
       // create xml from excel
       //let materialMasterXML = excelToXML.excelTOXML(xlData)
-      
+
       //upload to to DB
-      let data = await MaterialModel.insertMatrialMasterDataBUKL(JSON.stringify(xlData), req.user_info.user_ID);
+      let data = await MaterialModel.insertMatrialMasterDataBUKL(
+        JSON.stringify(xlData),
+        req.user_info.user_ID
+      );
 
       return res.status(200).json({
         result: data,
@@ -352,7 +354,11 @@ module.exports = {
       if (!req.params.id) {
         throw new Error("Material ID missing");
       }
-      const data = await MaterialModel.updateMatrialMasterData(req.params.id, req.body, req.user_info.user_ID);
+      const data = await MaterialModel.updateMatrialMasterData(
+        req.params.id,
+        req.body,
+        req.user_info.user_ID
+      );
       //console.log(data);
       return res.status(200).json({
         //result: data,
@@ -365,14 +371,13 @@ module.exports = {
     }
   },
 
-
   createRFQ: async (req, res) => {
     try {
       const data = await RFQ.createRFQHeader(req.body, req.user_info.user_ID);
       //console.log(data[0]);
-      await RFQ.addRFQLineItems(req.body.line_items, data[0].rfq_header_ID)
-      await RFQ.addRFQVendors(req.body.vendors, data[0].rfq_header_ID)
-      
+      await RFQ.addRFQLineItems(req.body.line_items, data[0].rfq_header_ID);
+      await RFQ.addRFQVendors(req.body.vendors, data[0].rfq_header_ID);
+
       return res.status(200).json({
         result: data[0],
         message: "Success",
@@ -386,14 +391,22 @@ module.exports = {
 
   listViewRFQ: async (req, res) => {
     try {
-      const data = await RFQ.getlistViewRFQ(req.body, req.user_info.user_ID);
-      //console.log(data[0]);
-      //const _result = await RFQ.getlistViewRFQDetails(data[0])
-      //await RFQ.addRFQVendors(req.body.vendors, data[0].rfq_header_ID)
-      //console.log(_result);
+      let page = req.query.page && req.query.page > 0 ? req.query.page : 1;
+      let limit = req.query.limit && req.query.limit > 0 ? req.query.limit : 10;
+
+      //console.log(page, limit);
+      const data = await RFQ.getlistViewRFQ(
+        req.body,
+        req.user_info.user_ID,
+        page,
+        limit
+      );
+
       return res.status(200).json({
         result: data[0],
-        count: data[0].length,
+        total_records: data[1][0].total_records,
+        current_page_size : data[0].length,
+        current_page: parseInt(page),
         message: "Success",
       });
     } catch (error) {
@@ -406,9 +419,9 @@ module.exports = {
   modifyDraftRFQ: async (req, res) => {
     try {
       await RFQ.modifyDraftRFQ(req.body, req.params.id);
-      await RFQ.addRFQLineItems(req.body.line_items, req.params.id)
-      await RFQ.addRFQVendors(req.body.vendors, req.params.id)
-      
+      await RFQ.addRFQLineItems(req.body.line_items, req.params.id);
+      await RFQ.addRFQVendors(req.body.vendors, req.params.id);
+
       return res.status(200).json({
         result: req.params.id,
         message: "Success",
@@ -420,15 +433,17 @@ module.exports = {
     }
   },
 
-
   updateRFQ: async (req, res) => {
     try {
-      let updatedRFQ = await RFQ.updateRFQ(req.body,req.params.id);
+      let updatedRFQ = await RFQ.updateRFQ(req.body, req.params.id);
       //console.log(updatedRFQ);
-      updatedRFQ = await RFQ.updateRFQLineItems(req.body.line_items, updatedRFQ)
+      updatedRFQ = await RFQ.updateRFQLineItems(
+        req.body.line_items,
+        updatedRFQ
+      );
       //console.log(updatedRFQ);
       //await RFQ.addRFQVendors(req.body.vendors, req.params.id)
-      
+
       return res.status(200).json({
         result: updatedRFQ,
         message: "Success",

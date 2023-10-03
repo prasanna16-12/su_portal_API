@@ -101,12 +101,15 @@ module.exports = {
     });
   },
 
-  getlistViewRFQ: (data, buyer_ID) => {
+  getlistViewRFQ: (data, buyer_ID, page, limit) => {
     return new Promise((resolve, reject) => {
+
+      let offset = limit * (page - 1)
+
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "call usp_get_RFQ_header_ID_List_view_buyer(?, ?, ?, ?, ?, ?, ?);",
+          "call usp_get_RFQ_header_ID_List_view_buyer(?, ?, ?, ?, ?, ?, ?, ?, ?);",
           [
             data.vendor_reg_code,
             buyer_ID,
@@ -115,6 +118,8 @@ module.exports = {
             data.material_ID,
             data.rfq_from,
             data.rfq_to,
+            offset,
+            limit,
           ],
           (error, results) => {
             if (error) return reject(error);
