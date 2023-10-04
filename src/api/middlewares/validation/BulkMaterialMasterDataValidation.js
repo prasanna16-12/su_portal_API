@@ -58,7 +58,7 @@ const materialMasterDataValidation = async (obj) => {
     conversion_factor_to: Joi.string()
       .max(100)
       .required()
-      .valid("GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE")
+      .valid(...UOM_LOV.values)
       .allow(null),
     conversion_factor_from_value: Joi.number()
       .max(1000)
