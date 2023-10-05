@@ -125,7 +125,7 @@ module.exports = {
             if (error) return reject(error);
 
             conn.destroy();
-            //console.log(results);
+            console.log(results);
             return resolve(results);
           }
         );

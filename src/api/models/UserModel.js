@@ -26,6 +26,15 @@ module.exports = {
               });
             }
             //console.log(results[0], req);
+            // if user is supplier and its vendor is blocked 
+            if (results[0][0].vendor_is_blocked !== null && results[0][0].vendor_is_blocked === 'BLOCKED') {
+              
+              return resolve({
+                data: -1,
+                message: "The vendor "+ "XXX" + results[0][0].supp_vendor_reg_code.toString().slice(-3)+" is blocked. Please contact Administrator",
+              });
+            }
+            
             const isPassWordCorrect = passwordUtils.comparePassword(
               req.password,
               results[0][0].user_password
