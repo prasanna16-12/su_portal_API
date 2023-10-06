@@ -261,7 +261,7 @@ module.exports = {
             }
             conn.destroy();
             //console.log(result);
-            return resolve(result[0][0]);
+            return resolve(result);
           }
         );
       });

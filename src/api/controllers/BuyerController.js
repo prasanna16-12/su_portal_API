@@ -436,17 +436,23 @@ module.exports = {
   updateRFQ: async (req, res) => {
     try {
       let updatedRFQ = await RFQ.updateRFQ(req.body, req.params.id);
-      //console.log(updatedRFQ);
+      let msg = updatedRFQ[1][0].MESSAGE
+      //console.log(msg);
+      if (msg === 'UPDATE NOT POSSIBLE') {
+        return res.status(200).json({
+          message: msg,
+        });
+      }
       updatedRFQ = await RFQ.updateRFQLineItems(
         req.body.line_items,
-        updatedRFQ
+        updatedRFQ[0][0]
       );
-      //console.log(updatedRFQ);
+      //console.log(updatedRFQ[]);
       //await RFQ.addRFQVendors(req.body.vendors, req.params.id)
 
       return res.status(200).json({
         result: updatedRFQ,
-        message: "Success",
+        message: msg,
       });
     } catch (error) {
       return res.status(500).json({
