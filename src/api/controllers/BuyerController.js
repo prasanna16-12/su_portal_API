@@ -8,6 +8,7 @@ const excelToXML = require("../helpers/ExcelTOXML");
 
 const validateMaterialMaster = require("../middlewares/validation/BulkMaterialMasterDataValidation");
 const bulkUpload = require("../models/BulkUpload");
+const { log } = require("async");
 module.exports = {
   getUpdateDetails: async (req, res) => {
     try {
@@ -508,4 +509,39 @@ module.exports = {
       });
     }
   },
+
+
+  compareRFQQuote: async (req, res) => {
+    try {
+
+      if (!req.params.id) {
+        throw new Error("Material ID missing");
+      }
+
+      let RFQ_ID = req.params.id
+      let data = await RFQ.compareRFQQuote(RFQ_ID);
+      let msg = data[0][0].MSG
+      //console.log(msg);
+      if (msg === 'VENDORS ARE YET TO SUBMIT QUOTE') {
+        return res.status(200).json({
+          message: msg,
+        });
+      }
+      
+      return res.status(200).json({
+        RFQ: 
+        {
+          header:data[0],
+          line_item:data[1],
+          quote:data[2]
+        }
+      });
+
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
 };

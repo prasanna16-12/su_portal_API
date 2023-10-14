@@ -115,6 +115,9 @@ BuyerRouter
 
   .post("/rfq/:id/close", BuyerController.close)
   .post("/rfq/:id/unhold", BuyerController.unhold)
-  .post("/rfq/:id/hold", BuyerController.hold);
+  .post("/rfq/:id/hold", BuyerController.hold)
+
+
+  .get("/rfq/quote/:id/compare", BuyerController.compareRFQQuote)
 
 module.exports = BuyerRouter;

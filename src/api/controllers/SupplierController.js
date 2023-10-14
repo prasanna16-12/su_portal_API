@@ -35,4 +35,46 @@ module.exports = {
       });
     }
   },
+
+  quoteRFQ: async (req, res) => {
+    try {
+      const data = await RFQ.quoteRFQ(req.body, req.user_info.user_ID);
+
+      return res.status(200).json({
+        result: data
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  submitQuote: async (req, res) => {
+    try {
+      const data = await RFQ.changeQuoteStatus(req.body, 'SUBMIT');
+
+      return res.status(200).json({
+        result: data
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  noBidQuote: async (req, res) => {
+    try {
+      const data = await RFQ.changeQuoteStatus(req.body, 'NO BID');
+
+      return res.status(200).json({
+        result: data
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
 };
