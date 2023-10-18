@@ -118,6 +118,6 @@ BuyerRouter
   .post("/rfq/:id/hold", BuyerController.hold)
 
 
-  .get("/rfq/quote/:id/compare", BuyerController.compareRFQQuote)
+  .get("/rfq/:id/comparequotation", BuyerController.compareRFQQuote)
 
 module.exports = BuyerRouter;

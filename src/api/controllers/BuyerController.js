@@ -520,9 +520,9 @@ module.exports = {
 
       let RFQ_ID = req.params.id
       let data = await RFQ.compareRFQQuote(RFQ_ID);
-      let msg = data[0][0].MSG
-      //console.log(msg);
-      if (msg === 'VENDORS ARE YET TO SUBMIT QUOTE') {
+      //console.log(data);
+      let msg = data[0].length !== 0 ? data[0][0].MSG : "Incorrect RFQ ID"
+      if (data[0].length == 0 || msg === 'VENDORS ARE YET TO SUBMIT QUOTE') {
         return res.status(200).json({
           message: msg,
         });
