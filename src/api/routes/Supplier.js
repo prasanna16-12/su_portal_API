@@ -22,6 +22,8 @@ SupplierRouter
 
   .post("/rfq/quote/", rfqQuoteValidation, SupplierController.quoteRFQ)
 
+  .post("/rfq/quote/:id/update", rfqQuoteValidation, SupplierController.updateRfqQuote)
+
   .post("/rfq/quote/submit", rfqQuoteSubmitValidation, SupplierController.submitQuote)
   .post("/rfq/quote/nobid", rfqQuoteSubmitValidation, SupplierController.noBidQuote)
   

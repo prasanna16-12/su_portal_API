@@ -52,6 +52,20 @@ module.exports = {
     }
   },
 
+  updateRfqQuote: async (req, res) => {
+    try {
+      const data = await RFQ.updateRfqQuote(req.body, req.params.id, req.user_info.user_ID);
+
+      return res.status(200).json({
+        result: data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
   submitQuote: async (req, res) => {
     try {
       const data = await RFQ.changeQuoteStatus(req.body, "SUBMIT");
