@@ -1,7 +1,6 @@
-const { string } = require("joi");
 const path = require("path");
 const SupplierModel = require("../models/SupplierModel");
-const RFQ = require('../models/RFQ')
+const RFQ = require("../models/RFQ");
 
 module.exports = {
   addUpdateDetails: async (req, res) => {
@@ -19,7 +18,10 @@ module.exports = {
 
   listViewRFQ: async (req, res) => {
     try {
-      const data = await RFQ.getlistViewSupplierRFQ(req.body, req.user_info.user_ID);
+      const data = await RFQ.getlistViewSupplierRFQ(
+        req.body,
+        req.user_info.user_ID
+      );
       //console.log(data[0]);
       //const _result = await RFQ.getlistViewRFQDetails(data[0])
       //await RFQ.addRFQVendors(req.body.vendors, data[0].rfq_header_ID)
@@ -41,7 +43,7 @@ module.exports = {
       const data = await RFQ.quoteRFQ(req.body, req.user_info.user_ID);
 
       return res.status(200).json({
-        result: data
+        result: data,
       });
     } catch (error) {
       return res.status(500).json({
@@ -52,10 +54,10 @@ module.exports = {
 
   submitQuote: async (req, res) => {
     try {
-      const data = await RFQ.changeQuoteStatus(req.body, 'SUBMIT');
+      const data = await RFQ.changeQuoteStatus(req.body, "SUBMIT");
 
       return res.status(200).json({
-        result: data
+        result: data,
       });
     } catch (error) {
       return res.status(500).json({
@@ -66,10 +68,28 @@ module.exports = {
 
   noBidQuote: async (req, res) => {
     try {
-      const data = await RFQ.changeQuoteStatus(req.body, 'NO BID');
+      const data = await RFQ.changeQuoteStatus(req.body, "NO BID");
 
       return res.status(200).json({
-        result: data
+        result: data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  RfqDetailsForSupplier: async (req, res) => {
+    try {
+      const data = await RFQ.getRFQDetailsByIDForSupplier(
+        req.params.id,
+        req.user_info.user_ID
+      );
+      
+      //console.log(data);
+      return res.status(200).json({
+        result: data,
       });
     } catch (error) {
       return res.status(500).json({

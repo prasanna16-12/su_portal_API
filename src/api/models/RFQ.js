@@ -218,6 +218,33 @@ module.exports = {
     });
   },
 
+  getRFQDetailsByIDForSupplier: (rfq_header_ID, supplier_ID) => {
+    return new Promise((resolve, reject) => {
+      let data = {};
+
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "call usp_get_RFQ_details_List_view_supplier(?, ?);",
+          [rfq_header_ID, supplier_ID],
+          (error, results) => {
+            if (error) return reject(error);
+
+            conn.destroy();
+
+            //console.log(results[0]);
+            data = results[0][0];
+            data["line_items"] = results[1];
+            data["vendors"] = results[2];
+            data["Quotations"] = results[3];
+            //console.log(RFQList);
+            resolve(data);
+          }
+        );
+      });
+    });
+  },
+
   modifyDraftRFQ: (data, RFQ_ID) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
@@ -347,7 +374,7 @@ module.exports = {
             data.SGST,
             data.CGST,
             data.IGST,
-            user_ID
+            user_ID,
           ],
           (error, result) => {
             if (error) {
@@ -362,39 +389,29 @@ module.exports = {
     });
   },
 
-  compareRFQQuote:(RFQ_ID) => {
+  compareRFQQuote: (RFQ_ID) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) reject(error);
-        conn.query(
-          "CALL usp_get_quote(?)",
-          [
-            RFQ_ID
-          ],
-          (error, result) => {
-            if (error) {
-              return reject(error);
-            }
-            conn.destroy();
-            //console.log(result);
-            return resolve(result);
+        conn.query("CALL usp_get_quote(?)", [RFQ_ID], (error, result) => {
+          if (error) {
+            return reject(error);
           }
-        );
+          conn.destroy();
+          //console.log(result);
+          return resolve(result);
+        });
       });
     });
   },
-  
-  changeQuoteStatus:(data,status) => {
+
+  changeQuoteStatus: (data, status) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) reject(error);
         conn.query(
           "CALL usp_change_RFQ_vendor_status(?,?,?)",
-          [
-            data.vendor_reg_code,
-            data.rfq_header_ID,
-            status
-          ],
+          [data.vendor_reg_code, data.rfq_header_ID, status],
           (error, result) => {
             if (error) {
               return reject(error);
@@ -407,6 +424,4 @@ module.exports = {
       });
     });
   },
-  
-  
 };

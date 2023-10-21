@@ -24,5 +24,8 @@ SupplierRouter
 
   .post("/rfq/quote/submit", rfqQuoteSubmitValidation, SupplierController.submitQuote)
   .post("/rfq/quote/nobid", rfqQuoteSubmitValidation, SupplierController.noBidQuote)
+  
+  /* get RFQ data by ID */
+  .get("/rfq/:id", SupplierController.RfqDetailsForSupplier);
 
 module.exports = SupplierRouter;
