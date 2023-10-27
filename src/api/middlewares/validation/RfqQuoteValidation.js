@@ -4,9 +4,9 @@ const Joi = require("joi").extend(require("@joi/date"));
 const validation = (req, res, next) => {
   const schema = Joi.object({
     // Define validation schema for request data
-    vendor_reg_code: Joi.number(),
-    rfq_header_ID: Joi.number(),
-    rfq_line_item_ID: Joi.number(),
+    vendor_reg_code: Joi.number().required(),
+    rfq_header_ID: Joi.number().required(),
+    rfq_line_item_ID: Joi.number().required(),
     unit_price: Joi.string().max(100).required(),
     line_total: Joi.string().max(100).required(),
     freight_charge: Joi.string().max(100).required(),
