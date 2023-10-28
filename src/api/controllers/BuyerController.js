@@ -4,11 +4,7 @@ const BuyerModel = require("../models/BuyerModel");
 const MaterialModel = require("../models/MaterialModel");
 const XLSX = require("xlsx");
 const RFQ = require("../models/RFQ");
-const excelToXML = require("../helpers/ExcelTOXML");
-
-const validateMaterialMaster = require("../middlewares/validation/BulkMaterialMasterDataValidation");
 const bulkUpload = require("../models/BulkUpload");
-const { log } = require("async");
 module.exports = {
   getUpdateDetails: async (req, res) => {
     try {
@@ -537,6 +533,21 @@ module.exports = {
         }
       });
 
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  RFQByID: async (req, res) => {
+    try {
+      const data = await RFQ.getRFQDetailsByIDForBuyer(req.params.id);
+      //console.log(data);
+      return res.status(200).json({
+        result: data,
+        message: "Success",
+      });
     } catch (error) {
       return res.status(500).json({
         message: error.message,

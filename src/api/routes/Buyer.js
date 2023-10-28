@@ -119,5 +119,7 @@ BuyerRouter
 
 
   .get("/rfq/:id/comparequotation", BuyerController.compareRFQQuote)
+  /* get RFQ data by ID */
+  .get("/RFQ/:id", BuyerController.RFQByID);
 
 module.exports = BuyerRouter;

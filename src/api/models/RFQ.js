@@ -209,7 +209,7 @@ module.exports = {
             //console.log(results[0]);
             data = results[0][0];
             data["line_items"] = results[1];
-            data["vendors"] = results[2];
+            //data["vendors"] = results[2];
             //console.log(RFQList);
             resolve(data);
           }
@@ -462,6 +462,32 @@ module.exports = {
             conn.destroy();
             //console.log(result);
             return resolve(result[0]);
+          }
+        );
+      });
+    });
+  },
+
+  getRFQDetailsByIDForBuyer: (rfq_header_ID) => {
+    return new Promise((resolve, reject) => {
+      let data = {};
+
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "call usp_get_RFQ_details_List_view(?);",
+          [rfq_header_ID],
+          (error, results) => {
+            if (error) return reject(error);
+
+            conn.destroy();
+
+            //console.log(results[0]);
+            data = results[0][0];
+            data["line_items"] = results[1];
+            data["vendors"] = results[2];
+            //console.log(RFQList);
+            resolve(data);
           }
         );
       });
