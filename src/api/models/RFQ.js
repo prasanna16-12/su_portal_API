@@ -235,14 +235,14 @@ module.exports = {
             //console.log(results);
             data = results[0][0];
             if (data !== undefined) {
-              console.log(data);
+              //console.log(data);
               data["line_items"] = results[1] === undefined ? null : results[1];
               //data["vendors"] = results[2]=== undefined ? null : results[2];
               data["Quotations"] = results[3] === undefined ? null : results[3];
               //console.log(RFQList);
               resolve(data);
             }
-            resolve("Invalid RFQ");
+            reject("This RFQ does not exist");
           }
         );
       });
