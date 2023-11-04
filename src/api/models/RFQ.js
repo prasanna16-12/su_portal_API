@@ -242,7 +242,7 @@ module.exports = {
               //console.log(RFQList);
               resolve(data);
             }
-            reject("This RFQ does not exist");
+            reject({ message: "This RFQ does not exist", status: 404 });
           }
         );
       });
