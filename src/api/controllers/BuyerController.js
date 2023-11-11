@@ -402,7 +402,7 @@ module.exports = {
       return res.status(200).json({
         result: data[0],
         total_records: data[1][0].total_records,
-        current_page_size : data[0].length,
+        current_page_size: data[0].length,
         current_page: parseInt(page),
         message: "Success",
       });
@@ -433,9 +433,9 @@ module.exports = {
   updateRFQ: async (req, res) => {
     try {
       let updatedRFQ = await RFQ.updateRFQ(req.body, req.params.id);
-      let msg = updatedRFQ[1][0].MESSAGE
+      let msg = updatedRFQ[1][0].MESSAGE;
       //console.log(msg);
-      if (msg === 'UPDATE NOT POSSIBLE') {
+      if (msg.startsWith("UPDATE NOT POSSIBLE")) {
         return res.status(200).json({
           message: msg,
         });
@@ -506,33 +506,29 @@ module.exports = {
     }
   },
 
-
   compareRFQQuote: async (req, res) => {
     try {
-
       if (!req.params.id) {
         throw new Error("Material ID missing");
       }
 
-      let RFQ_ID = req.params.id
+      let RFQ_ID = req.params.id;
       let data = await RFQ.compareRFQQuote(RFQ_ID);
       //console.log(data);
-      let msg = data[0].length !== 0 ? data[0][0].MSG : "Incorrect RFQ ID"
-      if (data[0].length == 0 || msg === 'VENDORS ARE YET TO SUBMIT QUOTE') {
+      let msg = data[0].length !== 0 ? data[0][0].MSG : "Incorrect RFQ ID";
+      if (data[0].length == 0 || msg === "VENDORS ARE YET TO SUBMIT QUOTE") {
         return res.status(200).json({
           message: msg,
         });
       }
-      
-      return res.status(200).json({
-        RFQ: 
-        {
-          header:data[0],
-          line_item:data[1],
-          quote:data[2]
-        }
-      });
 
+      return res.status(200).json({
+        RFQ: {
+          header: data[0],
+          line_item: data[1],
+          quote: data[2],
+        },
+      });
     } catch (error) {
       return res.status(500).json({
         message: error.message,
@@ -554,5 +550,4 @@ module.exports = {
       });
     }
   },
-
 };
