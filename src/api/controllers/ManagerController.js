@@ -4,7 +4,7 @@ module.exports = {
   changeStatus_AP2: async (req, res) => {
     try {
       let action = "AP2";
-      console.log(action);
+      //console.log(action);
       const data = await ManagerModel.changeStatus(req, action);
       return res.status(200).json({
         result: data[0],
@@ -20,7 +20,7 @@ module.exports = {
   changeStatus_AP3: async (req, res) => {
     try {
       let action = "AP3";
-      console.log(action);
+      //console.log(action);
       const data = await ManagerModel.changeStatus(req, action);
       return res.status(200).json({
         result: data[0],

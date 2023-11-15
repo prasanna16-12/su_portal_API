@@ -13,7 +13,7 @@ module.exports = {
 
     let xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
-    console.log(xlData);
+    //console.log(xlData);
     for (let index = 0; index < xlData.length; index++) {
       const row = xlData[index];
       let validation = await validateMaterialMaster(row);
@@ -31,7 +31,7 @@ module.exports = {
         //console.error(err);
         throw new err();
       }
-      console.log("File has been Deleted");
+      //console.log("File has been Deleted");
     });
 
     return sheetProcessingLog;

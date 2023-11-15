@@ -5,12 +5,14 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const morgan = require('./src/config/Logger')
 const PORT = process.env.PORT || 5000;
 
 // middleware
 app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan)
 
 const verifyBuyerToken = require("./src/api/middlewares/authorization/buyerTokenValidation");
 const verifyAdminToken = require("./src/api/middlewares/authorization/adminTokenValidation");
@@ -73,6 +75,9 @@ app.all("*", (req, res) => {
     message: err.message,
   });
 });
+
+
+
 
 //staring server
 app.listen(PORT, () => {

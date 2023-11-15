@@ -34,7 +34,7 @@ module.exports = {
             if (error) return reject(error);
 
             conn.destroy();
-            console.log(results);
+            //console.log(results);
             return resolve(results[0]);
           }
         );
@@ -293,7 +293,7 @@ module.exports = {
                 if (error) return reject(error);
 
                 conn.destroy();
-                console.log(results[0]);
+                //console.log(results[0]);
                 data[i].previous_status = results[0];
                 inner_callback(null);
               }

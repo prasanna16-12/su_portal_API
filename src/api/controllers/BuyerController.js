@@ -110,7 +110,7 @@ module.exports = {
   allPendingApproval: async (req, res) => {
     try {
       const supplierList = await BuyerModel.allPendingApproval();
-      console.log(supplierList);
+      //console.log(supplierList);
       const data = await BuyerModel.allPendingApprovalWithPrevStatus(
         supplierList
       );
@@ -129,7 +129,7 @@ module.exports = {
   changeStatus: async (req, res) => {
     try {
       let action = "AP1";
-      console.log(action);
+      //console.log(action);
       const data = await BuyerModel.changeStatus(req, action);
       return res.status(200).json({
         result: data[0],
@@ -161,8 +161,8 @@ module.exports = {
     try {
       //store file path in database
       const filePath = path.resolve(__dirname, "../../../", req.file.path);
-      console.log(filePath);
-      console.log(req.file);
+      //console.log(filePath);
+      //console.log(req.file);
       await BuyerModel.addNDAfile(req.params.id, filePath, req.file);
 
       return res.status(200).json({
@@ -189,11 +189,11 @@ module.exports = {
         },
       };
       const file = await BuyerModel.getNDAfile(req.params.id);
-      console.log(file);
+      //console.log(file);
       const filePath = file[0].file_path;
       if (file.length > 0) {
         res.sendFile(file[0].file_path, options, function (err) {
-          console.log(err);
+          //console.log(err);
           if (err) {
             res.status(err.statusCode).json({
               result: -1,
@@ -301,7 +301,7 @@ module.exports = {
             //console.error(err);
             throw new err();
           }
-          console.log("File has been Deleted");
+          //console.log("File has been Deleted");
         });
 
         //delete csv file
@@ -461,7 +461,7 @@ module.exports = {
   close: async (req, res) => {
     try {
       let updatedRFQ = await RFQ.changeStatusRFQ(req.params.id, "CLOSE");
-      console.log(updatedRFQ);
+      //console.log(updatedRFQ);
 
       return res.status(200).json({
         result: updatedRFQ,
@@ -477,7 +477,7 @@ module.exports = {
   hold: async (req, res) => {
     try {
       let updatedRFQ = await RFQ.changeStatusRFQ(req.params.id, "HOLD");
-      console.log(updatedRFQ);
+      //console.log(updatedRFQ);
 
       return res.status(200).json({
         result: updatedRFQ,
@@ -493,7 +493,7 @@ module.exports = {
   unhold: async (req, res) => {
     try {
       let updatedRFQ = await RFQ.changeStatusRFQ(req.params.id, "UNHOLD");
-      console.log(updatedRFQ);
+      //console.log(updatedRFQ);
 
       return res.status(200).json({
         result: updatedRFQ,

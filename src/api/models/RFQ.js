@@ -53,7 +53,7 @@ module.exports = {
                 if (error) return reject(error);
 
                 conn.destroy();
-                console.log(results[0]);
+                //console.log(results[0]);
                 inner_callback(null);
               }
             );
@@ -84,7 +84,7 @@ module.exports = {
                 if (error) return reject(error);
 
                 conn.destroy();
-                console.log(results[0]);
+                //console.log(results[0]);
                 inner_callback(null);
               }
             );
@@ -124,7 +124,7 @@ module.exports = {
             if (error) return reject(error);
 
             conn.destroy();
-            console.log(results);
+            //console.log(results);
             return resolve(results);
           }
         );
@@ -313,7 +313,7 @@ module.exports = {
                 if (error) return reject(error);
 
                 conn.destroy();
-                console.log(results[0][0]);
+                //console.log(results[0][0]);
                 updatedRFQ["UpdatedLineItems"].push(results[0][0]);
                 inner_callback(null);
               }
@@ -428,7 +428,7 @@ module.exports = {
               return reject(error);
             }
             conn.destroy();
-            console.log(result);
+            //console.log(result);
             return resolve(result[0][0]);
           }
         );

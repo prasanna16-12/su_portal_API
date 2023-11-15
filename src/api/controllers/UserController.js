@@ -18,6 +18,7 @@ module.exports = {
 
   loginUser: async (req, res) => {
     try {
+      //console.log(JSON.stringify(req.body));
       const data = await UserModel.loginUser(req.body);
       return res.status(200).json({
         result: data.result,
@@ -80,7 +81,7 @@ module.exports = {
       let new_pwd = req.body.new_password;
 
       const data = await UserModel.getDataFromToken(token);
-      console.log(data);
+      //console.log(data);
       if (data.result === -1) {
         return res.status(200).json({
           message: data.message,
@@ -88,7 +89,7 @@ module.exports = {
       }
       //user exist
       let obj = data.result;
-      console.log(obj);
+      //console.log(obj);
       let result = await UserModel.forgotPassword(new_pwd, obj.user_ID);
       return res.status(200).json({
         message: result.message,
