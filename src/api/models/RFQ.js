@@ -137,7 +137,7 @@ module.exports = {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "call usp_get_RFQ_header_ID_List_view_supplier( ?, ?, ?, ?, ?, ?);",
+          "call usp_get_RFQ_header_ID_List_view_supplier( ?, ?, ?, ?, ?, ? , ?);",
           [
             SupplierID,
             data.status,
@@ -145,6 +145,7 @@ module.exports = {
             data.material_ID,
             data.rfq_from,
             data.rfq_to,
+            data.bid_status
           ],
           (error, results) => {
             if (error) return reject(error);

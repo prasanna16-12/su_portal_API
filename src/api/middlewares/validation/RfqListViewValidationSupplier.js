@@ -10,6 +10,7 @@ const validation = (req, res, next) => {
     status: Joi.valid("PUBLISHED", "AWARDED", "HOLD", "CLOSED", "EXPIRED").required().allow(null),
     rfq_from:Joi.number().max(999999).required().allow(null),
     rfq_to: Joi.number().max(999999).required().allow(null),
+    bid_status: Joi.valid("NO BID", "SUBMIT").required().allow(null),
   });
 
   const { error, value } = schema.validate(req.body, { convert: true }); // Validate request data
