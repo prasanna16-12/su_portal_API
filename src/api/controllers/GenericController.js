@@ -50,7 +50,26 @@ module.exports = {
 
   BuyerVendorInfoByID: async (req, res) => {
     try {
+
       const data = await GenericModel.BuyerVendorDataByID(req.params.id);
+
+      //console.log(data);
+      return res.status(200).json({
+        result: data,
+        count: data["Vendor"].length,
+        message: "Success",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  },
+
+  BuyerAllVendorInfoByID: async (req, res) => {
+    try {
+
+      const data = await GenericModel.BuyerAllVendorDataByID(req.params.id);
 
       //console.log(data);
       return res.status(200).json({

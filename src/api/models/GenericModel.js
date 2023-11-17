@@ -83,6 +83,27 @@ module.exports = {
     });
   },
 
+  BuyerAllVendorDataByID: (id) => {
+    return new Promise((resolve, reject) => {
+      pool.getConnection((error, conn) => {
+        if (error) return reject(error);
+        conn.query(
+          "CALL usp_get_buyer_allvendors_data_by_buyer_id(?);",
+          [id],
+          (error, result) => {
+            if (error) return reject(error);
+
+            conn.destroy();
+            //console.log(result);
+            let obj = result[0][0] ? result[0][0] : {};
+            obj["Vendor"] = result[1];
+            //console.log(obj);
+            return resolve(obj);
+          }
+        );
+      });
+    });
+  },
   ManagerMetaDataByID: (id) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
