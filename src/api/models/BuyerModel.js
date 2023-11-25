@@ -355,13 +355,13 @@ module.exports = {
     });
   },
 
-  addNDAfile: (suppRegCode, filePath, fileObj) => {
+  addNDAfile: (req) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
           "call usp_file_Upload(?, ?, ?, ?);",
-          [suppRegCode, "NDA", filePath, fileObj.mimetype],
+          [req.user_info.user_ID, "NDA", req.file.path, req.file.mimetype],
           (error, results) => {
             if (error) return reject(error);
             conn.destroy();
@@ -372,13 +372,13 @@ module.exports = {
     });
   },
 
-  getNDAfile: (suppRegCode) => {
+  getNDAfile: (req) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
           "call usp_get_file(?,?);",
-          [suppRegCode, "NDA"],
+          [req.user_info.user_ID, "NDA"],
           (error, results) => {
             if (error) return reject(error);
             conn.destroy();

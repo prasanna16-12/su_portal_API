@@ -159,15 +159,26 @@ module.exports = {
 
   fileUpload_NDA: async (req, res) => {
     try {
-      //store file path in database
-      const filePath = path.resolve(__dirname, "../../../", req.file.path);
-      //console.log(filePath);
-      //console.log(req.file);
-      await BuyerModel.addNDAfile(req.params.id, filePath, req.file);
+      if (req.file === undefined)
+        throw new Error("Error While processing file");
+
+      let data = await BuyerModel.addNDAfile(req);
+
+      data = data[0];
+      if (data.Message === "FILE UPDATED" && data.FilePath) {
+        //delete existing file
+        fs.unlink(data.FilePath, function (err) {
+          if (err) {
+            //console.error(err);
+            throw new err();
+          }
+          //console.log("File has been Deleted");
+        });
+      }
 
       return res.status(200).json({
         //result: filePath,
-        message: "Success",
+        message: data.Message,
       });
     } catch (error) {
       return res.status(500).json({
@@ -179,7 +190,6 @@ module.exports = {
 
   fileDownload_NDA: async (req, res) => {
     try {
-      //path.resolve(__dirname, '..', '..', '..', 'NDA_Uploads', "")
       let options = {
         root: "",
         dotfiles: "deny",
@@ -188,11 +198,10 @@ module.exports = {
           "x-sent": true,
         },
       };
-      const file = await BuyerModel.getNDAfile(req.params.id);
-      //console.log(file);
-      const filePath = file[0].file_path;
+      const file = await BuyerModel.getNDAfile(req);
+
       if (file.length > 0) {
-        res.sendFile(file[0].file_path, options, function (err) {
+        res.sendFile(file[0].path, options, function (err) {
           //console.log(err);
           if (err) {
             res.status(err.statusCode).json({
@@ -514,20 +523,27 @@ module.exports = {
 
       let RFQ_ID = req.params.id;
       let data = await RFQ.compareRFQQuote(RFQ_ID);
-      //console.log(data);
-      let msg = data[0].length !== 0 ? data[0][0].MSG : "Incorrect RFQ ID";
-      if (data[0].length == 0 || msg === "VENDORS ARE YET TO SUBMIT QUOTE") {
+      console.log(data);
+      //let msg = data[0].length !== 0 ? data[0][0].MESSAGE : "Incorrect RFQ ID";
+
+      if (data[0][0]?.MESSAGE === "VENDOR(S) HAVE NOT RESPONDED") {
         return res.status(200).json({
-          message: msg,
+          result: { message: data[0][0].MESSAGE, vendors: data[1], deadline: data[2][0].DEADLINE ,rfq: {
+            header: data[3],
+            line_item: data[4],
+            quote: data[5],
+          } },
         });
       }
 
       return res.status(200).json({
-        RFQ: {
+        result:{
+        message: data[3][0].MESSAGE,
+        rfq: {
           header: data[0],
           line_item: data[1],
           quote: data[2],
-        },
+        }}
       });
     } catch (error) {
       return res.status(500).json({

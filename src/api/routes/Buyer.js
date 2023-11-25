@@ -54,13 +54,13 @@ BuyerRouter
 
   /* upload NDA */
   .post(
-    "/NDA_document/:id",
+    "/NDA_document",
     NDA_Upload.single("uploadedFile"),
     BuyerController.fileUpload_NDA
   )
 
   /* download NDA */
-  .get("/NDA_document/:id", BuyerController.fileDownload_NDA)
+  .get("/NDA_document", BuyerController.fileDownload_NDA)
 
   /* updated and insert details into -> tbl_supplier_details_update (Buyers internal data)  */
   .put(
