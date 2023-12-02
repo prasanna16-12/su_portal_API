@@ -9,7 +9,7 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
     unit_of_measure: Joi.string()
       .max(100)
       .required()
-      .valid(...UOM_LOV.values),//"GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
+      .valid(...UOM_LOV.values), //"GM", "KG", "EA", "LTR", "MTR", "BAG", "BOTTLE"),
     material_group: Joi.string()
       .max(100)
       .required()
@@ -30,17 +30,20 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
         "Service Material",
         "Finished Material"
       ),
-    warehouse_location: Joi.string().max(100).required().allow(null),
+    warehouse_location: Joi.string().max(100).empty("").default(null),
     rate: Joi.number().required(),
-    ERP_no: Joi.string().max(100).required().allow(null),
-    manufacturer_no: Joi.string().max(100).required().allow(null),
+    ERP_no: Joi.string().max(100).empty("").default(null),
+    manufacturer_no: Joi.string().max(100).empty("").default(null),
     HSN_code: Joi.string().max(100).required(),
-    specification: Joi.string().max(2000).required().allow(null),
-    assembly: Joi.string().length(1).required().valid(1, 0),
-    batch_managed: Joi.string().length(1).required().valid(1, 0).allow(null),
+    specification: Joi.string().max(2000).empty("").default(null),
+    assembly: Joi.string().length(1).valid("1", "0").required(),
+    batch_managed: Joi.string()
+      .length(1)
+      .valid("1", "0")
+      .empty("")
+      .default(null),
     base_material: Joi.string()
       .max(100)
-      .required()
       .valid(
         "Steel",
         "Cast Iron",
@@ -52,32 +55,38 @@ const MaterialMasterDetailsValidation = (req, res, next) => {
         "Platinum",
         "NA"
       )
-      .allow(null),
-    currency: Joi.string().max(100).required(),
-    serialised: Joi.string().length(1).required().valid(1, 0).allow(null),
+      .empty("")
+      .default(null),
+    currency: Joi.string()
+      .max(100)
+      .valid("INR", "USD", "GBP", "EUR")
+      .required(),
+    serialised: Joi.string().length(1).valid("1", "0").empty("").default(null),
     conversion_factor_to: Joi.string()
       .max(100)
-      .required()
       .valid(...UOM_LOV.values)
-      .allow(null),
+      .empty("")
+      .default(null),
     conversion_factor_from_value: Joi.number()
       .max(1000)
       .precision(2)
-      .required()
-      .allow(null),
+      .empty("")
+      .default(null),
     conversion_factor_to_value: Joi.number()
       .max(1000)
       .precision(2)
+      .empty("")
+      .default(null),
+    rate_UOM: Joi.string()
+      .max(100)
       .required()
-      .allow(null),
-    rate_UOM: Joi.string().max(100).required().allow(null),
-    dtp_buy: Joi.string().length(1).required().valid(1, 0).allow(null),
+      .valid(...UOM_LOV.values),
+    dtp_buy: Joi.string().length(1).valid("1", "0").empty("").default(null),
   });
-  //console.log(UOM_LOV);
 
-  const { error, value } = schema.validate(req.body, { convert: false }); // Validate request data
+  const { error, value } = schema.validate(req.body, { convert: true }); // Validate request data
 
-  //console.log(value);
+  req.body = value;
 
   if (error) {
     // If validation fails, send an error response

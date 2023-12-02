@@ -19,6 +19,7 @@ const sendRegLink = require("../middlewares/permission/sendRegLink");
 
 // file upload
 const NDA_Upload = require("../middlewares/fileUpload/NDA_Upload");
+const Matrial_Upload = require("../middlewares/fileUpload/Material_Upload");
 const Material_Master_bulk_Upload = require("../middlewares/fileUpload/Material_Master_Bulk_Upload");
 
 BuyerRouter
@@ -45,6 +46,7 @@ BuyerRouter
   /* approve status to ID1 */
   .put(
     "/Approve/ID1",
+    NDA_Upload.single("uploadedFile"),
     SupplierInternalDataValidation,
     BuyerController.changeStatusID1
   )
@@ -65,6 +67,7 @@ BuyerRouter
   /* updated and insert details into -> tbl_supplier_details_update (Buyers internal data)  */
   .put(
     "/Update",
+    NDA_Upload.single("uploadedFile"),
     supplierUpdatedDetailsValidation,
     SupplierController.addUpdateDetails
   )
@@ -72,6 +75,10 @@ BuyerRouter
   /* add material master data */
   .post(
     "/material",
+    Matrial_Upload.fields([
+      { name: 'catalogue', maxCount: 1 },
+      { name: 'product_image', maxCount: 1 }
+    ]),
     MaterialMasterDetailsValidation,
     BuyerController.addMaterialMasterData
   )
@@ -89,11 +96,11 @@ BuyerRouter
   .get("/material/:id", BuyerController.materialDataByID)
 
   /* upload material validation before upload*/
-  // .post(
-  //   "/material/bulk/validate",
-  //   Material_Master_bulk_Upload.single("uploadedFile"),
-  //   BuyerController.validate_FileUpload_Bulk_Material_Master
-  // )
+  .post(
+    "/material/bulk/validate",
+    Material_Master_bulk_Upload.single("uploadedFile"),
+    BuyerController.validate_FileUpload_Bulk_Material_Master
+  )
 
   /* upload material */
    .post(

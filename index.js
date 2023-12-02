@@ -77,8 +77,6 @@ app.all("*", (req, res) => {
 });
 
 
-
-
 //staring server
 app.listen(PORT, () => {
   console.log(`App is running ${PORT}`);

@@ -1,5 +1,4 @@
 const Joi = require("joi");
-//const buyerModel = require("../../models/BuyerModel");
 const BulkUpload = require("../../models/BulkUpload")
 const UOM_LOV = require("../../ListOfValues/UOM_LOV");
 
@@ -70,13 +69,15 @@ const materialMasterDataValidation = async (obj) => {
       .precision(2)
       .required()
       .allow(null),
-    rate_UOM: Joi.string().max(100).required().allow(null),
+    rate_UOM: Joi.string()
+    .max(100)
+    .required()
+    .valid(...UOM_LOV.values),
     dtp_buy: Joi.string().length(1).required().valid(1, 0).allow(null),
   });
 
-  const { error } = schema.validate(obj); // Validate request data
+  const { error } = schema.validate(obj,{ convert: true }); // Validate request data
 
-  //console.log(req.body);
 
   if (error) {
     // If validation fails, send an error response

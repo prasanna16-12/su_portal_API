@@ -5,6 +5,7 @@ const MaterialModel = require("../models/MaterialModel");
 const XLSX = require("xlsx");
 const RFQ = require("../models/RFQ");
 const bulkUpload = require("../models/BulkUpload");
+
 module.exports = {
   getUpdateDetails: async (req, res) => {
     try {
@@ -75,7 +76,8 @@ module.exports = {
     try {
       const data = await MaterialModel.insertMatrialMasterData(
         req.body,
-        req.user_info.user_ID
+        req.user_info.user_ID,
+        req.files
       );
       return res.status(201).json({
         result: data[0],
@@ -170,7 +172,7 @@ module.exports = {
         fs.unlink(data.FilePath, function (err) {
           if (err) {
             //console.error(err);
-            throw new err();
+            //throw new err();
           }
           //console.log("File has been Deleted");
         });
@@ -224,41 +226,12 @@ module.exports = {
     }
   },
 
-  validate_FileUpload_Bulk_Material_Master: async (req, res) => {
+  validate_FileUpload_Bulk_Material_Master: async (req, res, err) => {
+    console.log(err);
     try {
       if (req.file === undefined)
         throw new Error("Error While processing file");
-
       const data = await bulkUpload.validateMaterialMasterFile(req.file);
-      // let sheetProcessingLog = [];
-      // let workbook = XLSX.readFile(req.file.path);
-      // let sheet_name_list = workbook.SheetNames;
-
-      // let xlData = XLSX.utils.sheet_to_json(
-      //   workbook.Sheets[sheet_name_list[0]]
-      // );
-
-      //console.log(xlData);
-      // for (let index = 0; index < xlData.length; index++) {
-      //   const row = xlData[index];
-      //   let validation = await validateMaterialMaster(row);
-      //   sheetProcessingLog.push({
-      //     row,
-      //     processingStatus: validation,
-      //   });
-      // }
-
-      //console.log(sheetProcessingLog);
-      //delete file
-
-      // fs.unlink(req.file.path, function (err) {
-      //   if (err) {
-      //     //console.error(err);
-      //     throw new err();
-      //   }
-      //   console.log("File has been Deleted");
-      // });
-
       return res.status(200).json({
         result: data,
         message: "Success",
@@ -268,6 +241,14 @@ module.exports = {
         result: -1,
         message: error.message,
       });
+    } finally {
+      fs.unlink(req.file.path, function (err) {
+        if (err) {
+          //console.error(err);
+          throw new err();
+        }
+        //console.log("File has been Deleted");
+      });
     }
   },
 
@@ -275,6 +256,26 @@ module.exports = {
     try {
       if (req.file === undefined)
         throw new Error("Error While processing file");
+
+      const dataValidation = await bulkUpload.validateMaterialMasterFile(
+        req.file
+      );
+      const invalidRows = dataValidation
+        .filter((row) => {
+          return row.processingStatus.status === false;
+        })
+        .map((row) => {
+          return row.processingStatus.status;
+        });
+
+      //console.log(invalidRows);
+      if (invalidRows.length > 0) {
+        return res.status(500).json({
+          result: -1,
+          message: 'file contains invalid data',
+        });
+      }
+      //(dataValidation)
 
       let workbook = XLSX.readFile(req.file.path);
       let sheet_name_list = workbook.SheetNames;
@@ -288,7 +289,7 @@ module.exports = {
       //let materialMasterXML = excelToXML.excelTOXML(xlData)
 
       //upload to to DB
-      let data = await MaterialModel.insertMatrialMasterDataBUKL(
+      let data = await MaterialModel.insertMatrialMasterDataBULK(
         JSON.stringify(xlData),
         req.user_info.user_ID
       );
@@ -312,15 +313,6 @@ module.exports = {
           }
           //console.log("File has been Deleted");
         });
-
-        //delete csv file
-        // fs.unlink(req.file.path.split(".")[0] + ".csv", function (err) {
-        //   if (err) {
-        //     //console.error(err);
-        //     throw new err();
-        //   }
-        //   console.log("File has been Deleted");
-        // });
       }
     }
   },
@@ -528,22 +520,28 @@ module.exports = {
 
       if (data[0][0]?.MESSAGE === "VENDOR(S) HAVE NOT RESPONDED") {
         return res.status(200).json({
-          result: { message: data[0][0].MESSAGE, vendors: data[1], deadline: data[2][0].DEADLINE ,rfq: {
-            header: data[3],
-            line_item: data[4],
-            quote: data[5],
-          } },
+          result: {
+            message: data[0][0].MESSAGE,
+            vendors: data[1],
+            deadline: data[2][0].DEADLINE,
+            rfq: {
+              header: data[3],
+              line_item: data[4],
+              quote: data[5],
+            },
+          },
         });
       }
 
       return res.status(200).json({
-        result:{
-        message: data[3][0].MESSAGE,
-        rfq: {
-          header: data[0],
-          line_item: data[1],
-          quote: data[2],
-        }}
+        result: {
+          message: data[3][0].MESSAGE,
+          rfq: {
+            header: data[0],
+            line_item: data[1],
+            quote: data[2],
+          },
+        },
       });
     } catch (error) {
       return res.status(500).json({

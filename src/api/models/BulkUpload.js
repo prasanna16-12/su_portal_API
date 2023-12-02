@@ -25,15 +25,6 @@ module.exports = {
 
     //console.log(sheetProcessingLog);
     //delete file
-
-    fs.unlink(file.path, function (err) {
-      if (err) {
-        //console.error(err);
-        throw new err();
-      }
-      //console.log("File has been Deleted");
-    });
-
     return sheetProcessingLog;
   },
 

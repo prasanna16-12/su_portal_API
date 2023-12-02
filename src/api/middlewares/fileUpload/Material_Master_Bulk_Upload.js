@@ -3,7 +3,7 @@ const path = require("path");
 // Define middleware for file upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(path.join(process.cwd(), "/UploadedFiles/"));
+    //console.log(path.join(process.cwd(), "/UploadedFiles/"));
     cb(null, path.join(process.cwd(), "/UploadedFiles/"));
   },
   filename: function (req, file, cb) {
@@ -31,7 +31,9 @@ const multerFilter = (req, file, cb) => {
     cb(null, true);
   }
   cb(null, false);
-  //cb(new Error('I don\'t have a clue!'));
+  //cb(new Error('I don\'t have a clue!'), false);
+  //throw new Error('I don\'t have a clue!')
+  
 };
 
 const upload = multer({

@@ -1,12 +1,18 @@
 const pool = require("./DataBase");
 
 module.exports = {
-  insertMatrialMasterData: (data, createdBy) => {
+  insertMatrialMasterData: (data, createdBy, files) => {
+    const cataloguePath =
+      files?.catalogue !== undefined ? files?.catalogue[0].path : null;
+    const productImagePath =
+      files?.product_image !== undefined ? files?.catalogue[0].path : null;
+
+    //console.log(data, cataloguePath, productImagePath);
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
         if (error) return reject(error);
         conn.query(
-          "CALL usp_insert_material_master_data( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)",
+          "CALL usp_insert_material_master_data( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)",
           [
             data.description,
             data.unit_of_measure,
@@ -31,6 +37,8 @@ module.exports = {
             true, // is active to true,
             data.rate_UOM,
             data.dtp_buy,
+            cataloguePath,
+            productImagePath,
           ],
           (error, result) => {
             if (error) {
@@ -88,7 +96,6 @@ module.exports = {
     });
   },
 
-
   insertMatrialMasterDataBULK: (data, userID) => {
     return new Promise((resolve, reject) => {
       pool.getConnection((error, conn) => {
@@ -96,10 +103,7 @@ module.exports = {
         //console.log(materialID, data, modifiedBy);
         conn.query(
           "CALL usp_BULK_insert_material_master(?,?)",
-          [
-            data,
-            userID
-          ],
+          [data, userID],
           (error, result) => {
             if (error) {
               return reject(error);
