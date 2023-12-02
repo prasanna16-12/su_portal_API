@@ -1,7 +1,7 @@
-.env
+# .env
 node_modules
 UploadedFiles/
-.dockerignore
-Dockerfile
+# .dockerignore
+# Dockerfile
 
 
